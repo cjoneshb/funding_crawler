@@ -1,200 +1,199 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CPD Funding Radar</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#F5F5F7;color:#1d1d1f;font-size:15px;line-height:1.5}
-  .sticky-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid #d2d2d7;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
-  .sticky-header h1{font-size:20px;font-weight:700;color:#1d1d1f;letter-spacing:-0.3px}
-  .sticky-header .updated{font-size:13px;color:#86868b}
-  .summary-bar{display:flex;gap:16px;padding:20px 24px 0;flex-wrap:wrap}
-  .stat-card{background:#fff;border-radius:12px;padding:16px 20px;flex:1;min-width:140px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-  .stat-card .label{font-size:12px;color:#86868b;font-weight:500;text-transform:uppercase;letter-spacing:.5px}
-  .stat-card .value{font-size:28px;font-weight:700;color:#1d1d1f;margin-top:2px}
-  .filter-bar{padding:16px 24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .filter-bar input{flex:1;min-width:200px;padding:8px 14px;border:1px solid #d2d2d7;border-radius:8px;font-size:14px;outline:none;background:#fff}
-  .filter-bar input:focus{border-color:#0071E3;box-shadow:0 0 0 3px rgba(0,113,227,.15)}
-  .filter-bar select{padding:8px 12px;border:1px solid #d2d2d7;border-radius:8px;font-size:14px;background:#fff;outline:none;cursor:pointer}
-  .filter-bar select:focus{border-color:#0071E3}
-  .filter-label{font-size:13px;color:#86868b;white-space:nowrap}
-  .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:8px 24px 24px}
-  .card{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .2s;display:flex;flex-direction:column;gap:10px}
-  .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
-  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-  .card-title{font-size:15px;font-weight:600;color:#1d1d1f;line-height:1.3}
-  .rank-badge{background:#F5F5F7;color:#86868b;font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px;white-space:nowrap;flex-shrink:0}
-  .funder-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .funder-badge{background:#E8F0FE;color:#1a73e8;font-size:12px;font-weight:500;padding:3px 9px;border-radius:6px}
-  .ftype-badge{background:#F5F5F7;color:#6e6e73;font-size:11px;padding:3px 8px;border-radius:6px}
-  .deadline-row{display:flex;align-items:center;gap:8px;font-size:13px;color:#6e6e73}
-  .urgency-dot{font-size:16px;line-height:1}
-  .deadline-text{font-weight:500}
-  .volume-text{font-size:13px;color:#6e6e73}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#F5F5F7;color:#1d1d1f;font-size:14px}
+  .sticky-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid #d2d2d7;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+  .header-title{font-size:18px;font-weight:700;color:#1d1d1f;letter-spacing:-.3px}
+  .header-sub{font-size:12px;color:#86868b;margin-top:2px}
+  .summary-row{display:flex;gap:12px;padding:20px 24px 8px;flex-wrap:wrap}
+  .stat-card{background:#fff;border-radius:12px;padding:14px 18px;flex:1;min-width:130px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .stat-num{font-size:28px;font-weight:700;color:#0071E3}
+  .stat-label{font-size:11px;color:#86868b;margin-top:2px;text-transform:uppercase;letter-spacing:.4px}
+  .filter-bar{display:flex;gap:10px;padding:12px 24px;flex-wrap:wrap;align-items:center}
+  .filter-bar select,.filter-bar input{padding:7px 12px;border:1px solid #d2d2d7;border-radius:8px;font-size:13px;background:#fff;color:#1d1d1f;outline:none}
+  .filter-bar select:focus,.filter-bar input:focus{border-color:#0071E3}
+  .cards-container{padding:8px 24px 32px;display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px}
+  .call-card{background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.08);display:flex;flex-direction:column;gap:8px;transition:box-shadow .15s}
+  .call-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12)}
+  .card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+  .card-title{font-size:13px;font-weight:600;color:#1d1d1f;line-height:1.4;flex:1}
+  .urgency-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:3px}
+  .urg-red{background:#FF3B30}.urg-yellow{background:#FF9500}.urg-green{background:#34C759}.urg-white{background:#C7C7CC}
+  .funder-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .funder-badge{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;background:#e8f0fe;color:#1a73e8}
+  .type-badge{font-size:11px;padding:2px 7px;border-radius:20px}
+  .type-EU{background:#fff0f0;color:#c0392b}.type-National{background:#f0fff0;color:#27ae60}.type-Foundation{background:#fffaed;color:#b7770d}.type-Other{background:#f5f5f7;color:#555}
+  .deadline-row{font-size:12px;color:#555}.deadline-row .dl-val{font-weight:600;color:#1d1d1f}
+  .volume-row{font-size:12px;color:#555}.volume-row span{font-weight:600;color:#1d1d1f}
   .topics-row{display:flex;flex-wrap:wrap;gap:5px}
-  .topic-pill{background:#F2F2F7;color:#3a3a3c;font-size:11px;padding:3px 9px;border-radius:20px}
-  .action-row{display:flex;justify-content:space-between;align-items:center;margin-top:4px}
-  .action-badge{font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px}
-  .action-badge.prepare{background:#fff3cd;color:#856404}
-  .action-badge.rolling{background:#d1ecf1;color:#0c5460}
-  .action-badge.monitor{background:#d4edda;color:#155724}
-  .action-badge.invited{background:#f8d7da;color:#721c24}
-  .link-btn{background:#0071E3;color:#fff;border:none;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:background .15s}
+  .topic-pill{font-size:10px;padding:2px 8px;border-radius:20px;background:#F5F5F7;color:#555;border:1px solid #e0e0e0}
+  .action-row{display:flex;gap:7px;align-items:center}
+  .action-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+  .act-now{background:#fff0f0;color:#c0392b}.act-monitor{background:#fffaed;color:#b7770d}.act-rolling{background:#f0fff0;color:#27ae60}.act-invited{background:#f0f0ff;color:#2c3e95}
+  .link-btn{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:6px 14px;background:#0071E3;color:#fff;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600;align-self:flex-start;transition:background .12s}
   .link-btn:hover{background:#0077ED}
-  .card-desc{font-size:13px;color:#6e6e73;line-height:1.4}
-  .no-results{text-align:center;padding:48px;color:#86868b;font-size:16px}
-  .footer{background:#fff;border-top:1px solid #d2d2d7;padding:20px 24px;margin-top:8px}
-  .footer h3{font-size:14px;font-weight:600;margin-bottom:10px;color:#1d1d1f}
-  .sources-list{display:flex;flex-wrap:wrap;gap:6px}
-  .source-chip{background:#F5F5F7;font-size:12px;padding:4px 10px;border-radius:20px;color:#6e6e73}
-  .hidden{display:none!important}
-  @media(max-width:600px){.summary-bar{gap:10px}.cards-grid{grid-template-columns:1fr;padding:8px 12px 24px}.filter-bar{padding:12px}.sticky-header{padding:12px 16px}}
+  .no-results{grid-column:1/-1;text-align:center;padding:40px;color:#86868b;font-size:15px}
+  footer{background:#fff;border-top:1px solid #d2d2d7;padding:24px;margin-top:8px}
+  footer h3{font-size:13px;font-weight:700;color:#1d1d1f;margin-bottom:10px}
+  .sources-list{display:flex;flex-wrap:wrap;gap:8px}
+  .source-chip{font-size:11px;padding:4px 10px;background:#F5F5F7;border-radius:20px;color:#555;text-decoration:none}
+  .source-chip:hover{background:#e8e8e8}
+  .reset-btn{padding:7px 14px;border:1px solid #d2d2d7;border-radius:8px;background:#fff;font-size:12px;cursor:pointer;color:#555}
 </style>
 </head>
 <body>
-
 <div class="sticky-header">
-  <h1>🎯 CPD Funding Radar</h1>
-  <span class="updated">Updated: 2026-06-01</span>
+  <div>
+    <div class="header-title">CPD Funding Radar</div>
+    <div class="header-sub">Last updated: 2026-06-08 &nbsp;&middot;&nbsp; 19 active calls &nbsp;&middot;&nbsp; 12 on Watch</div>
+  </div>
 </div>
-
-<div class="summary-bar" id="summary-bar">
-  <div class="stat-card"><div class="label">Active Calls</div><div class="value" id="stat-total">—</div></div>
-  <div class="stat-card"><div class="label">🔴 Urgent (&lt;28 d)</div><div class="value" id="stat-urgent">—</div></div>
-  <div class="stat-card"><div class="label">⚪ Rolling</div><div class="value" id="stat-rolling">—</div></div>
-  <div class="stat-card"><div class="label">Topics Covered</div><div class="value" id="stat-topics">—</div></div>
+<div class="summary-row">
+  <div class="stat-card"><div class="stat-num">19</div><div class="stat-label">Active Calls</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#FF3B30">8</div><div class="stat-label">Urgent &lt;28 d</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#34C759">3</div><div class="stat-label">Rolling</div></div>
+  <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">On Watch</div></div>
+  <div class="stat-card"><div class="stat-num" style="color:#9B59B6">15</div><div class="stat-label">Topics Covered</div></div>
 </div>
-
 <div class="filter-bar">
-  <span class="filter-label">Filter:</span>
-  <input type="text" id="search" placeholder="Search titles, funders, topics…" oninput="applyFilters()">
   <select id="filter-topic" onchange="applyFilters()">
     <option value="">All Topics</option>
+    <option value="prevention">prevention</option>
+    <option value="behavioral-science">behavioral-science</option>
+    <option value="implementation">implementation</option>
+    <option value="translational">translational</option>
+    <option value="behavioral-medicine">behavioral-medicine</option>
+    <option value="public-health">public-health</option>
+    <option value="digital-health">digital-health</option>
+    <option value="health-communication">health-communication</option>
+    <option value="primary-care">primary-care</option>
+    <option value="early-childhood">early-childhood</option>
+    <option value="preparedness">preparedness</option>
+    <option value="health-equity">health-equity</option>
+    <option value="epidemiology">epidemiology</option>
   </select>
   <select id="filter-urgency" onchange="applyFilters()">
     <option value="">All Urgency</option>
-    <option value="🔴">🔴 Urgent (&lt;28d)</option>
-    <option value="🟡">🟡 Soon (28-90d)</option>
-    <option value="🟢">🟢 Later (&gt;90d)</option>
-    <option value="⚪">⚪ Rolling</option>
+    <option value="red">Urgent (&lt;28 d)</option>
+    <option value="yellow">Soon (28-90 d)</option>
+    <option value="green">Later (&gt;90 d)</option>
+    <option value="white">Rolling</option>
   </select>
-  <select id="filter-ftype" onchange="applyFilters()">
+  <select id="filter-type" onchange="applyFilters()">
     <option value="">All Funder Types</option>
     <option value="EU">EU</option>
     <option value="National-DE">National-DE</option>
     <option value="Foundation">Foundation</option>
   </select>
+  <select id="filter-fit" onchange="applyFilters()">
+    <option value="">All CPD Fit</option>
+    <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; Excellent</option>
+    <option value="4">&#9733;&#9733;&#9733;&#9733;&#9734; Strong</option>
+    <option value="3">&#9733;&#9733;&#9733;&#9734;&#9734; Good</option>
+    <option value="2">&#9733;&#9733;&#9734;&#9734;&#9734; Peripheral</option>
+  </select>
+  <input type="text" id="filter-search" placeholder="Search title / funder..." oninput="applyFilters()">
+  <button class="reset-btn" onclick="resetFilters()">Reset</button>
 </div>
-
-<div class="cards-grid" id="cards-grid"></div>
-<div class="no-results hidden" id="no-results">No calls match your filters.</div>
-
-<div class="footer">
-  <h3>Sources swept this run (2026-06-01)</h3>
+<div class="cards-container" id="cards-container"></div>
+<footer>
+  <h3>Sources swept — 2026-06-08</h3>
   <div class="sources-list">
-    <span class="source-chip">EU Funding &amp; Tenders Portal</span>
-    <span class="source-chip">EU4Health / HaDEA</span>
-    <span class="source-chip">HERA</span>
-    <span class="source-chip">IHI</span>
-    <span class="source-chip">Horizon Europe CL1 &amp; CL2</span>
-    <span class="source-chip">ERC</span>
-    <span class="source-chip">ERA4Health</span>
-    <span class="source-chip">EP PerMed</span>
-    <span class="source-chip">ERDERA</span>
-    <span class="source-chip">EP BrainHealth</span>
-    <span class="source-chip">BE READY</span>
-    <span class="source-chip">BMFTR</span>
-    <span class="source-chip">BMG</span>
-    <span class="source-chip">G-BA Innovationsfonds</span>
-    <span class="source-chip">DFG</span>
-    <span class="source-chip">GLOHRA</span>
-    <span class="source-chip">Else Kröner-Fresenius-Stiftung</span>
-    <span class="source-chip">VolkswagenStiftung</span>
-    <span class="source-chip">Fritz Thyssen Stiftung</span>
-    <span class="source-chip">Jacobs Foundation</span>
-    <span class="source-chip">Wellcome Trust</span>
-    <span class="source-chip">Robert Bosch Stiftung</span>
-    <span class="source-chip">BW Stiftung</span>
-    <span class="source-chip">Präventionsstiftung BW</span>
+    <a class="source-chip" href="https://ec.europa.eu/info/funding-tenders/opportunities/portal/" target="_blank">EU Funding &amp; Tenders Portal</a>
+    <a class="source-chip" href="https://hadea.ec.europa.eu/programmes/eu4health_en" target="_blank">EU4Health / HaDEA</a>
+    <a class="source-chip" href="https://erc.europa.eu/apply-grant/advanced-grant" target="_blank">ERC Advanced Grant</a>
+    <a class="source-chip" href="https://era4health.eu/calls/" target="_blank">ERA4Health</a>
+    <a class="source-chip" href="https://www.eppermed.eu/funding-projects/calls/" target="_blank">EP PerMed</a>
+    <a class="source-chip" href="https://erdera.org/calls/" target="_blank">ERDERA</a>
+    <a class="source-chip" href="https://www.brainhealth-partnership.eu/calls/" target="_blank">EP BrainHealth</a>
+    <a class="source-chip" href="https://beready4pandemics.eu/joint-transnational-calls/" target="_blank">BE READY Partnership</a>
+    <a class="source-chip" href="https://www.ihi.europa.eu/apply-funding/future-opportunities" target="_blank">IHI (Call 13 watch)</a>
+    <a class="source-chip" href="https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe/" target="_blank">Horizon Europe CL1/CL2</a>
+    <a class="source-chip" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/" target="_blank">G-BA Innovationsfonds</a>
+    <a class="source-chip" href="https://www.dfg.de/de/foerderung/foerdermoeglichkeiten" target="_blank">DFG</a>
+    <a class="source-chip" href="https://www.gesundheitsforschung-bmftr.de/de/bekanntmachungen-5786.php" target="_blank">BMFTR Gesundheitsforschung</a>
+    <a class="source-chip" href="https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen" target="_blank">BMG Ressortforschung</a>
+    <a class="source-chip" href="https://ekfs.de/aktuelles/ausschreibungen" target="_blank">EKFS</a>
+    <a class="source-chip" href="https://www.volkswagenstiftung.de/de/foerderung/was-wir-foerdern" target="_blank">VolkswagenStiftung</a>
+    <a class="source-chip" href="https://www.fritz-thyssen-stiftung.de/foerderung/foerderarten/" target="_blank">Fritz Thyssen Stiftung</a>
+    <a class="source-chip" href="https://jacobsfoundation.org/grant/" target="_blank">Jacobs Foundation</a>
+    <a class="source-chip" href="https://wellcome.org/grant-funding/schemes" target="_blank">Wellcome Trust</a>
+    <a class="source-chip" href="https://www.bwstiftung.de/de/programme" target="_blank">BW Stiftung</a>
+    <a class="source-chip" href="https://www.globalhealth.de/foerderung" target="_blank">GLOHRA</a>
+    <a class="source-chip" href="https://deutschezentren.de/en/dzg-innovation-fund-dzgif/" target="_blank">DZGIF</a>
+    <a class="source-chip" href="https://www.carl-zeiss-stiftung.de/foerderung/uebersicht-foerdermoeglichkeiten/" target="_blank">Carl-Zeiss-Stiftung</a>
+    <a class="source-chip" href="https://www.bosch-stiftung.de/en/news/open-calls" target="_blank">Robert Bosch Stiftung</a>
   </div>
-</div>
-
+</footer>
 <script>
-const CALLS = [{"rank": 1, "fit": "\u2605\u2605\u2605\u2605\u2605", "topics": ["prevention", "behavioral-science", "epidemiology", "health-equity"], "funder": "ERA4Health", "ftype": "EU", "title": "ERA4Health JTC8 PREVENT-OO 2026", "desc": "Multinationaler JTC f\u00fcr Prim\u00e4r- u. Sekund\u00e4rpr\u00e4vention von \u00dcbergewicht/Adipositas. Vollantrag nur f\u00fcr Eingeladene; Konsortium \u22654 L\u00e4nder.", "volume": "unconfirmed \u2014 see link", "deadline": "2026-06-11", "urgency": "\ud83d\udd34", "status": "Open (invited only)", "action": "Monitor", "link": "https://era4health.eu/calls/preventoo2026.php"}, {"rank": 2, "fit": "\u2605\u2605\u2605\u2605\u2605", "topics": ["primary-care", "implementation", "prevention", "public-health"], "funder": "Else Kr\u00f6ner-Fresenius-Stiftung", "ftype": "Foundation", "title": "EKFS Forschungskollegs Allgemeinmedizin 2026", "desc": "Zwei Forschungskollegs \u00e0 \u20ac750k f\u00fcr Prim\u00e4rversorgungsforschung. Skizze bis 18.06.2026.", "volume": "\u20ac750,000 per Kolleg (3 Jahre)", "deadline": "2026-06-18", "urgency": "\ud83d\udd34", "status": "Open (pre-prop)", "action": "Prepare now", "link": "https://ekfs.de/aktuelles/ausschreibungen/else-kroener-forschungskollegs-der-allgemeinmedizin-2026"}, {"rank": 3, "fit": "\u2605\u2605\u2605\u2605\u2605", "topics": ["all CPD topics"], "funder": "European Research Council", "ftype": "EU", "title": "ERC Advanced Grant 2026", "desc": "Bis \u20ac2,5 Mio. \u00fcber 5 Jahre f\u00fcr etablierte PIs (>10 J. post-PhD). Topic-unabh\u00e4ngig. Ge\u00f6ffnet 28 Mai 2026.", "volume": "up to \u20ac2,500,000 (5 Jahre)", "deadline": "2026-08-27", "urgency": "\ud83d\udfe1", "status": "Open", "action": "Prepare now", "link": "https://erc.europa.eu/apply-grant/advanced-grant"}, {"rank": 4, "fit": "\u2605\u2605\u2605\u2605\u2605", "topics": ["primary-care", "implementation", "prevention", "public-health"], "funder": "G-BA Innovationsfonds", "ftype": "National-DE", "title": "NVF themenoffen einstufig kurz (laufend 2026)", "desc": "Rollierende NVF-F\u00f6rderung f\u00fcr neue Versorgungsformen; einstufig kurz. Einreichung laufend bis 31.12.2026.", "volume": "unconfirmed per project (\u20ac10M total)", "deadline": "rolling", "urgency": "\u26aa", "status": "Open", "action": "Rolling", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-neue-versorgungsformen-zum-themenoffenen-bereich-einstufig-kurz-einreichung-laufend-im-jahr-moeglich.66"}, {"rank": 5, "fit": "\u2605\u2605\u2605\u2605\u2605", "topics": ["behavioral-science", "prevention", "epidemiology", "implementation", "primary-care"], "funder": "DFG", "ftype": "National-DE", "title": "DFG Sachbeihilfe (laufend)", "desc": "Rollierende Einzelprojektf\u00f6rderung; kein Thema ausgeschlossen. Einreichung jederzeit \u00fcber elan-Portal.", "volume": "unconfirmed \u2014 see link", "deadline": "rolling", "urgency": "\u26aa", "status": "Open", "action": "Rolling", "link": "https://www.dfg.de/de/foerderung/foerdermoeglichkeiten/programme/einzelfoerderung/sachbeihilfe"}, {"rank": 6, "fit": "\u2605\u2605\u2605\u2605\u2606", "topics": ["preparedness", "public-health", "translational"], "funder": "BE READY Partnership / BMFTR", "ftype": "EU", "title": "BE READY JTC 2026 \u2013 Pandemic Preparedness", "desc": "Erster transnationaler Call f\u00fcr Pandemieforschung. Vollantrag f\u00fcr Eingeladene bis 20.08.2026.", "volume": "unconfirmed \u2014 see link", "deadline": "2026-08-20", "urgency": "\ud83d\udfe1", "status": "Open (invited only)", "action": "Monitor", "link": "https://beready4pandemics.eu/joint-transnational-calls/"}, {"rank": 7, "fit": "\u2605\u2605\u2605\u2605\u2606", "topics": ["behavioral-science", "prevention", "implementation", "digital-health"], "funder": "VolkswagenStiftung", "ftype": "Foundation", "title": "Pioneering Research \u2013 Exploring the Unknown Unknown (VW 2026)", "desc": "F\u00f6rderung bahnbrechender, risikoreicher Forschung; bis \u20ac1,3 Mio. \u00fcber 3\u20135 Jahre. Kurzantrag bis 27.08.2026.", "volume": "up to \u20ac1,300,000 (3\u20135 Jahre)", "deadline": "2026-08-27", "urgency": "\ud83d\udfe1", "status": "Open", "action": "Monitor", "link": "https://www.volkswagenstiftung.de/en/funding/funding-offer/pioneering-research-exploring-unknown-unknown"}, {"rank": 8, "fit": "\u2605\u2605\u2605\u2605\u2606", "topics": ["behavioral-science", "behavioral-medicine", "prevention", "digital-health"], "funder": "Wellcome Trust", "ftype": "Foundation", "title": "Wellcome Prize for Mental Health Science 2026", "desc": "Preis USD 1 Mio. (Gewinner) + 3\u00d7 USD 250k f\u00fcr neue Interventionen bei Depression/Angst/Psychose. Frist 18 Sep 2026.", "volume": "USD 1,000,000 (winner)", "deadline": "2026-09-18", "urgency": "\ud83d\udfe2", "status": "Open", "action": "Monitor", "link": "https://wellcome.org/insights/articles/wellcome-launches-worlds-largest-global-prize-mental-health-science"}, {"rank": 9, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["behavioral-medicine", "translational", "epidemiology"], "funder": "EP PerMed", "ftype": "EU", "title": "EP PerMed CARMEN2026 \u2013 CVD/Metabolic/Kidney", "desc": "Transnationaler Call f\u00fcr personalisierte Medizin; Vollantrag nur f\u00fcr Eingeladene. \u20ac38 Mio. Gesamtbudget.", "volume": "\u20ac38M total", "deadline": "2026-06-09", "urgency": "\ud83d\udd34", "status": "Open (invited only)", "action": "Monitor", "link": "https://www.eppermed.eu/funding-projects/calls/jtc2026/"}, {"rank": 10, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["early-childhood", "behavioral-science", "epidemiology"], "funder": "Jacobs Foundation", "ftype": "Foundation", "title": "LEVANTE 2026 \u2013 Learning Variability Network Exchange", "desc": "L\u00e4ngsschnittforschung zur Lern-/Entwicklungsvariabilit\u00e4t bei Kindern 3\u201312 J. Stage 1 bis 10 Jun 2026.", "volume": "up to USD 1,000,000", "deadline": "2026-06-10", "urgency": "\ud83d\udd34", "status": "Open", "action": "Prepare now", "link": "https://jacobsfoundation.org/levante-opens-2026-call-for-proposals/"}, {"rank": 11, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["behavioral-medicine", "translational", "epidemiology"], "funder": "ERA4Health", "ftype": "EU", "title": "ERA4Health Trials4Health 2026 (JTC7)", "desc": "Multi-country clinical trials; comparative-effectiveness. Vollantrag f\u00fcr Eingeladene bis 17.06.2026.", "volume": "\u20ac32M total", "deadline": "2026-06-17", "urgency": "\ud83d\udd34", "status": "Open (invited only)", "action": "Monitor", "link": "https://era4health.eu/calls/trials4health2026.php"}, {"rank": 12, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["translational", "implementation", "behavioral-medicine"], "funder": "Else Kr\u00f6ner-Fresenius-Stiftung", "ftype": "Foundation", "title": "EKFS Wiedereinstiegsf\u00f6rderung 2026", "desc": "Bis zu 3 Stipendien f\u00fcr \u00c4rzt:innen nach Familien-/Pflegezeit. Antragstellung bis 22.06.2026.", "volume": "unconfirmed \u2014 see link", "deadline": "2026-06-22", "urgency": "\ud83d\udd34", "status": "Open", "action": "Monitor", "link": "https://ekfs.de/en/current-topics/call-for-proposals/else-kroener-wiedereinstiegsfoerderung-2026"}, {"rank": 13, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["behavioral-medicine", "prevention"], "funder": "EP BrainHealth / BMFTR", "ftype": "EU", "title": "EP BrainHealth 2026 \u2013 BMFTR-Richtlinie", "desc": "Europ\u00e4ische Partnerschaft Hirngesundheit; Vollantrag nur f\u00fcr Eingeladene bis 30.06.2026.", "volume": "unconfirmed \u2014 see link", "deadline": "2026-06-30", "urgency": "\ud83d\udfe1", "status": "Open (invited only)", "action": "Monitor", "link": "https://www.brainhealth-partnership.eu/calls/"}, {"rank": 14, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["behavioral-science", "prevention", "epidemiology", "public-health"], "funder": "Fritz Thyssen Stiftung", "ftype": "Foundation", "title": "Fritz Thyssen Stiftung \u2013 Projektf\u00f6rderung Sep 2026", "desc": "Projektf\u00f6rderung Sozial-/Verhaltens-/Biowissenschaften. N\u00e4chste Frist: 01.09.2026.", "volume": "unconfirmed \u2014 see link", "deadline": "2026-09-01", "urgency": "\ud83d\udfe2", "status": "Open", "action": "Monitor", "link": "https://www.fritz-thyssen-stiftung.de/en/funding/types-of-support/support-of-projects/"}, {"rank": 15, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["digital-health", "behavioral-science", "epidemiology"], "funder": "DFG", "ftype": "National-DE", "title": "DFG SPP 2431 \u2013 New Data Spaces (2. Phase)", "desc": "DFG-SPP 2431 zweite Phase: Infrastruktur f\u00fcr neue Datenr\u00e4ume. Registrierung 09.09.2026.", "volume": "unconfirmed \u2014 see link", "deadline": "2026-09-09", "urgency": "\ud83d\udfe2", "status": "Open", "action": "Monitor", "link": "https://www.dfg.de/en/news/news-topics/announcements-proposals/2026/ifr-26-17"}, {"rank": 16, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["health-communication", "behavioral-science"], "funder": "European Commission / REA", "ftype": "EU", "title": "HORIZON-CL2-2026-01-DEMOCRACY-10 \u2013 Digital & Media Literacy", "desc": "Forschung zu digitaler Medienkompetenz als Treiber demokratischer Resilienz. Frist 23 Sep 2026.", "volume": "unconfirmed \u2014 see link", "deadline": "2026-09-23", "urgency": "\ud83d\udfe2", "status": "Open", "action": "Monitor", "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/horizon-cl2-2026-01-democracy-10"}, {"rank": 17, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["digital-health", "translational", "implementation"], "funder": "BMFTR", "ftype": "National-DE", "title": "BMFTR KMU-innovativ: Medizintechnik 2026", "desc": "Verbundprojekte Medizintechnik inkl. Pr\u00e4vention/Nachsorge; Konsortium KMU + Forschung. N\u00e4chste Frist 15. Okt. 2026.", "volume": "~\u20ac1,000,000 per project", "deadline": "2026-10-15", "urgency": "\ud83d\udfe2", "status": "Open", "action": "Monitor", "link": "https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/02/2026-02-06-bekanntmachung-medizintechnik.html"}, {"rank": 18, "fit": "\u2605\u2605\u2605\u2606\u2606", "topics": ["public-health", "primary-care"], "funder": "BMG", "ftype": "National-DE", "title": "BMG \u00d6GD-Strukturst\u00e4rkung (laufend 2026)", "desc": "Rollierende F\u00f6rderung zur St\u00e4rkung des \u00d6ffentlichen Gesundheitsdienstes.", "volume": "unconfirmed \u2014 see link", "deadline": "rolling", "urgency": "\u26aa", "status": "Open", "action": "Rolling", "link": "https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen"}, {"rank": 19, "fit": "\u2605\u2605\u2606\u2606\u2606", "topics": ["epidemiology", "translational"], "funder": "ERDERA", "ftype": "EU", "title": "ERDERA JTC 2026 \u2013 Rare Disease Cases", "desc": "Transnationaler Call f\u00fcr ungel\u00f6ste seltene Erkrankungen; Vollantrag f\u00fcr Eingeladene bis 08.07.2026.", "volume": "unconfirmed \u2014 see link", "deadline": "2026-07-08", "urgency": "\ud83d\udfe1", "status": "Open (invited only)", "action": "Monitor", "link": "https://erdera.org/funding/"}];
-
-function actionClass(a){
-  if(a==='Prepare now') return 'prepare';
-  if(a==='Rolling') return 'rolling';
-  if(a==='Invited only'||a==='Monitor'&&false) return 'invited';
-  return 'monitor';
+const CALLS=[
+{rank:1,fit:5,fitLabel:"★★★★★",topics:"prevention, behavioral-science, epidemiology, health-equity",funder:"ERA4Health",type:"EU",title:"ERA4Health JTC8 PREVENT-OO 2026",desc:"Multinationaler JTC für Primär- u. Sekundärprävention von Übergewicht/Adipositas. Vollantrag nur für Eingeladene (Skizze Jan 2026 abgeschlossen); Konsortium ≥4 Länder.",volume:"unconfirmed — see link",deadline:"2026-06-11",urgency:"red",status:"Open (invited only)",action:"Monitor",link:"https://era4health.eu/calls/preventoo2026.php"},
+{rank:2,fit:5,fitLabel:"★★★★★",topics:"primary-care, implementation, prevention, public-health",funder:"Else Kröner-Fresenius-Stiftung",type:"Foundation",title:"EKFS Forschungskollegs Allgemeinmedizin 2026",desc:"Zwei Forschungskollegs à €750k für Primärversorgungsforschung. Skizze bis 18.06.2026; zweistufig.",volume:"€750,000 per Kolleg (3 Jahre)",deadline:"2026-06-18",urgency:"red",status:"Open (pre-prop)",action:"Prepare now",link:"https://ekfs.de/aktuelles/ausschreibungen/else-kroener-forschungskollegs-der-allgemeinmedizin-2026"},
+{rank:3,fit:5,fitLabel:"★★★★★",topics:"all CPD topics",funder:"European Research Council",type:"EU",title:"ERC Advanced Grant 2026",desc:"Bis €2,5 Mio. über 5 Jahre für etablierte PIs (>10 J. post-PhD). Fachlich offen. Neues Format: Part I (5 S.) + Part II (7 S.).",volume:"up to €2,500,000 (5 Jahre)",deadline:"2026-08-27",urgency:"yellow",status:"Open",action:"Prepare now",link:"https://erc.europa.eu/apply-grant/advanced-grant"},
+{rank:4,fit:5,fitLabel:"★★★★★",topics:"primary-care, implementation, prevention, public-health",funder:"G-BA Innovationsfonds",type:"National-DE",title:"NVF themenoffen einstufig kurz (laufend 2026) — G-BA IF",desc:"Rollierende NVF-Förderung für neue Versorgungsformen in der GKV; einstufig kurz. Einreichung per E-Mail laufend bis 31.12.2026.",volume:"unconfirmed per project (€10M Gesamtbudget)",deadline:"rolling",urgency:"white",status:"Open",action:"Rolling",link:"https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-neue-versorgungsformen-zum-themenoffenen-bereich-einstufig-kurz-einreichung-laufend-im-jahr-moeglich.66"},
+{rank:5,fit:5,fitLabel:"★★★★★",topics:"behavioral-science, prevention, epidemiology, implementation, primary-care",funder:"DFG",type:"National-DE",title:"DFG Sachbeihilfe (laufend)",desc:"Rollierende Einzelprojektförderung der DFG; kein Thema ausgeschlossen. Einreichung jederzeit über elan-Portal.",volume:"unconfirmed — see link",deadline:"rolling",urgency:"white",status:"Open",action:"Rolling",link:"https://www.dfg.de/de/foerderung/foerdermoeglichkeiten/programme/einzelfoerderung/sachbeihilfe"},
+{rank:6,fit:4,fitLabel:"★★★★☆",topics:"preparedness, public-health, translational",funder:"BE READY Partnership / BMFTR",type:"EU",title:"BE READY JTC 2026 – European Partnership for Pandemic Preparedness",desc:"Erster transnationaler Call für Pandemieforschung. Vollantrag für Eingeladene bis 20.08.2026. Budget ~€16,4M.",volume:"unconfirmed — see link",deadline:"2026-08-20",urgency:"yellow",status:"Open (invited only)",action:"Monitor",link:"https://beready4pandemics.eu/joint-transnational-calls/"},
+{rank:7,fit:4,fitLabel:"★★★★☆",topics:"behavioral-science, prevention, implementation, digital-health",funder:"VolkswagenStiftung",type:"Foundation",title:"Pioneering Research – Exploring the Unknown Unknown (VW Stiftung 2026)",desc:"Förderung bahnbrechender risikoreicher Forschung; bis €1,3 Mio. über 3–5 J. Q&A: 11 Jun + 16 Jul 2026.",volume:"up to €1,300,000 (3–5 Jahre)",deadline:"2026-08-27",urgency:"yellow",status:"Open",action:"Monitor",link:"https://www.volkswagenstiftung.de/en/funding/funding-offer/pioneering-research-exploring-unknown-unknown"},
+{rank:8,fit:4,fitLabel:"★★★★☆",topics:"behavioral-science, behavioral-medicine, prevention, digital-health",funder:"Wellcome Trust",type:"Foundation",title:"Wellcome Prize for Mental Health Science 2026",desc:"USD 1M Preis + 3x USD 250k für neue Interventionen bei Depression/Angst/Psychose. Offen für Teams weltweit.",volume:"USD 1,000,000 + 3x USD 250,000",deadline:"2026-09-18",urgency:"green",status:"Open",action:"Monitor",link:"https://wellcome.org/insights/articles/wellcome-launches-worlds-largest-global-prize-mental-health-science"},
+{rank:9,fit:3,fitLabel:"★★★☆☆",topics:"behavioral-medicine, translational, epidemiology",funder:"EP PerMed",type:"EU",title:"EP PerMed CARMEN2026 – Personalised Medicine for CVD/Metabolic/Kidney",desc:"Transnationaler EU-Call; Vollantrag für Eingeladene. Frist: 09.06.2026, 14:00 CEST.",volume:"€38M total; unconfirmed per DE partner",deadline:"2026-06-09",urgency:"red",status:"Open (invited only)",action:"Monitor",link:"https://www.eppermed.eu/funding-projects/calls/jtc2026/"},
+{rank:10,fit:3,fitLabel:"★★★☆☆",topics:"early-childhood, behavioral-science, epidemiology",funder:"Jacobs Foundation",type:"Foundation",title:"LEVANTE 2026 – Learning Variability Network Exchange",desc:"Längsschnittforschung zur Lernvariabilität bei Kindern 3–12 J. Stage 1 bis 10 Jun 2026. USD 6M pool.",volume:"up to USD 1,000,000",deadline:"2026-06-10",urgency:"red",status:"Open",action:"Prepare now",link:"https://jacobsfoundation.org/levante-opens-2026-call-for-proposals/"},
+{rank:11,fit:3,fitLabel:"★★★☆☆",topics:"behavioral-medicine, translational, epidemiology",funder:"ERA4Health",type:"EU",title:"ERA4Health Trials4Health 2026 (JTC7) – Multi-country Clinical Trials",desc:"Investigator-initiated clinical trials; Vollantrag für Eingeladene bis 17.06.2026, 16:00 CEST.",volume:"€32M total; unconfirmed per DE partner",deadline:"2026-06-17",urgency:"red",status:"Open (invited only)",action:"Monitor",link:"https://era4health.eu/calls/trials4health2026.php"},
+{rank:12,fit:3,fitLabel:"★★★☆☆",topics:"translational, implementation, behavioral-medicine",funder:"Else Kröner-Fresenius-Stiftung",type:"Foundation",title:"EKFS Wiedereinstiegsförderung für forschende Ärztinnen und Ärzte 2026",desc:"Bis zu 3 Stipendien für Ärzt:innen nach Familien-/Pflegezeit. Frist: 22.06.2026.",volume:"unconfirmed — see link",deadline:"2026-06-22",urgency:"red",status:"Open",action:"Monitor",link:"https://ekfs.de/en/current-topics/call-for-proposals/else-kroener-wiedereinstiegsfoerderung-2026"},
+{rank:13,fit:3,fitLabel:"★★★☆☆",topics:"behavioral-medicine, prevention",funder:"EP BrainHealth / BMFTR",type:"EU",title:"EP BrainHealth 2026 – BMFTR-Richtlinie (neurol./mental./sensor.)",desc:"Europäische Partnerschaft Hirngesundheit; Vollantrag für Eingeladene bis 30.06.2026.",volume:"unconfirmed — see link",deadline:"2026-06-30",urgency:"red",status:"Open (invited only)",action:"Monitor",link:"https://www.brainhealth-partnership.eu/calls/"},
+{rank:14,fit:2,fitLabel:"★★☆☆☆",topics:"epidemiology, translational",funder:"ERDERA",type:"EU",title:"ERDERA JTC 2026 – Resolving Unsolved Rare Disease Cases",desc:"Transnationaler Call; Vollantrag für Eingeladene bis 08.07.2026.",volume:"unconfirmed — see link",deadline:"2026-07-08",urgency:"yellow",status:"Open (invited only)",action:"Monitor",link:"https://erdera.org/funding/"},
+{rank:15,fit:3,fitLabel:"★★★☆☆",topics:"behavioral-science, prevention, epidemiology, public-health",funder:"Fritz Thyssen Stiftung",type:"Foundation",title:"Fritz Thyssen Stiftung – Projektförderung Sep 2026",desc:"Projektförderung für Sozial- und Verhaltenswissenschaften. Nächste Frist: 01.09.2026.",volume:"unconfirmed — see link",deadline:"2026-09-01",urgency:"yellow",status:"Open",action:"Monitor",link:"https://www.fritz-thyssen-stiftung.de/en/funding/types-of-support/support-of-projects/"},
+{rank:16,fit:3,fitLabel:"★★★☆☆",topics:"digital-health, behavioral-science, epidemiology",funder:"DFG",type:"National-DE",title:"DFG SPP 2431 – New Data Spaces for Social Sciences (2. Phase)",desc:"DFG-SPP 2431 zweite Förderphase. Registrierung 09.09.2026, Vollantrag 16.09.2026.",volume:"unconfirmed — see link",deadline:"2026-09-09",urgency:"green",status:"Open",action:"Monitor",link:"https://www.dfg.de/en/news/news-topics/announcements-proposals/2026/ifr-26-17"},
+{rank:17,fit:3,fitLabel:"★★★☆☆",topics:"health-communication, behavioral-science",funder:"European Commission / REA",type:"EU",title:"HORIZON-CL2-2026-01-DEMOCRACY-10 – Digital &amp; Media Literacy",desc:"Forschung zu digitaler und medialer Kompetenz; Gesundheitskommunikation-Winkel. Budget: €12M. Frist: 23.09.2026.",volume:"unconfirmed — see link",deadline:"2026-09-23",urgency:"green",status:"Open",action:"Monitor",link:"https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/horizon-cl2-2026-01-democracy-10"},
+{rank:18,fit:3,fitLabel:"★★★☆☆",topics:"digital-health, translational, implementation",funder:"BMFTR",type:"National-DE",title:"BMFTR KMU-innovativ: Medizintechnik 2026",desc:"Verbundprojekte Medizintechnik; Prävention eingeschlossen. Nächste Frist: 15.10.2026.",volume:"~€1,000,000 per project",deadline:"2026-10-15",urgency:"green",status:"Open",action:"Monitor",link:"https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/02/2026-02-06-bekanntmachung-medizintechnik.html"},
+{rank:19,fit:3,fitLabel:"★★★☆☆",topics:"public-health, primary-care",funder:"BMG",type:"National-DE",title:"BMG ÖGD-Strukturstärkung (laufend 2026)",desc:"Rollierende Förderung zur Stärkung des Öffentlichen Gesundheitsdienstes.",volume:"unconfirmed — see link",deadline:"rolling",urgency:"white",status:"Open",action:"Rolling",link:"https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen"}
+];
+function urgClass(u){return{red:'urg-red',yellow:'urg-yellow',green:'urg-green',white:'urg-white'}[u]||'urg-white';}
+function actClass(a){if(a==='Prepare now')return'act-now';if(a==='Rolling')return'act-rolling';if(a.includes('invited')||a.includes('Monitor'))return'act-monitor';return'act-monitor';}
+function typeClass(t){if(t==='EU')return'type-EU';if(t.startsWith('National'))return'type-National';if(t==='Foundation')return'type-Foundation';return'type-Other';}
+function renderCards(calls){
+  const c=document.getElementById('cards-container');
+  if(!calls.length){c.innerHTML='<div class="no-results">No calls match the current filters.</div>';return;}
+  c.innerHTML=calls.map(cl=>{
+    const topics=cl.topics.split(',').map(t=>t.trim()).filter(Boolean).map(t=>`<span class="topic-pill">${t}</span>`).join('');
+    const dl=cl.deadline==='rolling'?'<em style="color:#86868b">rolling</em>':cl.deadline;
+    const vol=cl.volume&&cl.volume!=='unconfirmed — see link'?`<div class="volume-row">💰 <span>${cl.volume}</span></div>`:'';
+    return`<div class="call-card">
+      <div class="card-header"><div class="card-title">${cl.title}</div><div class="urgency-dot ${urgClass(cl.urgency)}" title="${cl.urgency}"></div></div>
+      <div class="funder-row"><span class="funder-badge">${cl.funder}</span><span class="type-badge ${typeClass(cl.type)}">${cl.type}</span><span style="font-size:12px;color:#86868b">${cl.fitLabel}</span></div>
+      <div class="deadline-row">⏱ Deadline: <span class="dl-val">${dl}</span></div>
+      ${vol}
+      <div class="topics-row">${topics}</div>
+      <div class="action-row"><span class="action-badge ${actClass(cl.action)}">${cl.action}</span><span style="font-size:11px;color:#86868b">${cl.status}</span></div>
+      <a class="link-btn" href="${cl.link}" target="_blank">View Call ↗</a>
+    </div>`;
+  }).join('');
 }
-
-function renderCard(c){
-  const topics = c.topics.map(t=>`<span class="topic-pill">${t}</span>`).join('');
-  const dl = c.deadline==='rolling'?'Rolling':c.deadline;
-  const acCls = c.action==='Prepare now'?'prepare':c.action==='Rolling'?'rolling':'monitor';
-  return `<div class="card" data-topics="${c.topics.join(',')}" data-urgency="${c.urgency}" data-ftype="${c.ftype}" data-title="${c.title.toLowerCase()}" data-funder="${c.funder.toLowerCase()}">
-    <div class="card-top">
-      <div class="card-title">${c.title}</div>
-      <span class="rank-badge">#${c.rank} ${c.fit}</span>
-    </div>
-    <div class="funder-row">
-      <span class="funder-badge">${c.funder}</span>
-      <span class="ftype-badge">${c.ftype}</span>
-    </div>
-    <div class="deadline-row">
-      <span class="urgency-dot">${c.urgency}</span>
-      <span class="deadline-text">${dl}</span>
-      <span style="color:#d2d2d7">·</span>
-      <span class="volume-text">${c.volume}</span>
-    </div>
-    <div class="card-desc">${c.desc}</div>
-    <div class="topics-row">${topics}</div>
-    <div class="action-row">
-      <span class="action-badge ${acCls}">${c.action}</span>
-      <a class="link-btn" href="${c.link}" target="_blank" rel="noopener">Open →</a>
-    </div>
-  </div>`;
-}
-
-function init(){
-  // Populate topic dropdown
-  const allTopics = new Set();
-  CALLS.forEach(c=>c.topics.forEach(t=>allTopics.add(t)));
-  const sel = document.getElementById('filter-topic');
-  [...allTopics].sort().forEach(t=>{
-    const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o);
-  });
-  applyFilters();
-}
-
 function applyFilters(){
-  const q=(document.getElementById('search').value||'').toLowerCase();
-  const topicF=document.getElementById('filter-topic').value;
-  const urgF=document.getElementById('filter-urgency').value;
-  const ftF=document.getElementById('filter-ftype').value;
-  const grid=document.getElementById('cards-grid');
-  grid.innerHTML='';
-  let shown=0;
-  CALLS.forEach(c=>{
-    const matchQ=!q||(c.title.toLowerCase().includes(q)||c.funder.toLowerCase().includes(q)||c.topics.join(' ').includes(q)||c.desc.toLowerCase().includes(q));
-    const matchT=!topicF||c.topics.includes(topicF);
-    const matchU=!urgF||c.urgency===urgF;
-    const matchF=!ftF||c.ftype===ftF;
-    if(matchQ&&matchT&&matchU&&matchF){grid.innerHTML+=renderCard(c);shown++;}
-  });
-  document.getElementById('no-results').classList.toggle('hidden',shown>0);
-  // Update stats
-  document.getElementById('stat-total').textContent=CALLS.length;
-  document.getElementById('stat-urgent').textContent=CALLS.filter(c=>c.urgency==='🔴').length;
-  document.getElementById('stat-rolling').textContent=CALLS.filter(c=>c.urgency==='⚪').length;
-  const allT=new Set();CALLS.forEach(c=>c.topics.forEach(t=>allT.add(t)));
-  document.getElementById('stat-topics').textContent=allT.size;
+  const topic=document.getElementById('filter-topic').value;
+  const urg=document.getElementById('filter-urgency').value;
+  const type=document.getElementById('filter-type').value;
+  const fit=parseInt(document.getElementById('filter-fit').value)||0;
+  const search=document.getElementById('filter-search').value.toLowerCase();
+  renderCards(CALLS.filter(c=>{
+    if(topic&&!c.topics.includes(topic))return false;
+    if(urg&&c.urgency!==urg)return false;
+    if(type&&c.type!==type)return false;
+    if(fit&&c.fit!==fit)return false;
+    if(search&&!c.title.toLowerCase().includes(search)&&!c.funder.toLowerCase().includes(search))return false;
+    return true;
+  }));
 }
-
-init();
+function resetFilters(){
+  ['filter-topic','filter-urgency','filter-type','filter-fit'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('filter-search').value='';
+  renderCards(CALLS);
+}
+renderCards(CALLS);
 </script>
 </body>
 </html>
