@@ -2,92 +2,224 @@
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CPD Funding Radar</title>
 <style>
-:root{--bg:#F5F5F7;--card:#fff;--ink:#1d1d1f;--sub:#6e6e73;--accent:#0071E3;--line:#e5e5ea;}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
-header{position:sticky;top:0;z-index:20;background:rgba(245,245,247,.85);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);padding:18px 24px}
-header h1{font-size:21px;font-weight:600;letter-spacing:-.02em}
-header .upd{font-size:13px;color:var(--sub);margin-top:2px}
-.wrap{max-width:1180px;margin:0 auto;padding:24px}
-.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.stat{background:var(--card);border-radius:18px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.stat .n{font-size:34px;font-weight:600;letter-spacing:-.03em}
-.stat .l{font-size:13px;color:var(--sub);margin-top:4px}
-.stat.urgent .n{color:#FF3B30}
-.filters{background:var(--card);border-radius:18px;padding:16px 20px;margin-bottom:24px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.filters select,.filters input{font:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#F5F5F7;color:#1D1D1F;line-height:1.5}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid #E5E5E7;padding:18px 28px}
+header h1{font-size:22px;font-weight:600;letter-spacing:-.02em}
+header .sub{font-size:13px;color:#86868B;margin-top:2px}
+.wrap{max-width:1240px;margin:0 auto;padding:24px 28px 60px}
+.summary{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.stat{background:#fff;border-radius:16px;padding:18px 22px;flex:1;min-width:150px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.stat .num{font-size:30px;font-weight:600;letter-spacing:-.02em}
+.stat .lbl{font-size:13px;color:#86868B;margin-top:2px}
+.filters{display:flex;gap:12px;flex-wrap:wrap;background:#fff;border-radius:16px;padding:16px;margin-bottom:24px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.filters select,.filters input{font:inherit;font-size:14px;padding:9px 12px;border:1px solid #D2D2D7;border-radius:10px;background:#fff;color:#1D1D1F}
 .filters input{flex:1;min-width:180px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px}
-.card{background:var(--card);border-radius:18px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:10px}
-.card h3{font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.3}
-.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--sub)}
-.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:#f0f0f5;color:#3a3a3c}
-.badge.eu{background:#e8f0fe;color:#1a56db}.badge.nat{background:#fdecec;color:#c0392b}.badge.found{background:#eafbe7;color:#1e7d32}.badge.other{background:#f3eafe;color:#7b1fa2}
-.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
-.fit{color:#FF9F0A;letter-spacing:1px;font-size:14px}
-.pills{display:flex;flex-wrap:wrap;gap:6px}
-.pill{font-size:11px;background:#eef0f3;color:#48484a;padding:3px 9px;border-radius:20px}
-.desc{font-size:13.5px;color:#3a3a3c}
-.vol{font-size:13px;font-weight:500}
-.foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:6px}
-.action{font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;background:#f0f0f5;color:#3a3a3c}
-.action.prep{background:#fdecec;color:#c0392b}
-.btn{font-size:13px;font-weight:500;color:#fff;background:var(--accent);padding:7px 14px;border-radius:10px;text-decoration:none}
-footer{max-width:1180px;margin:0 auto;padding:24px;color:var(--sub);font-size:12.5px;border-top:1px solid var(--line);margin-top:24px}
-footer b{color:#3a3a3c}
-@media(max-width:720px){.summary{grid-template-columns:repeat(2,1fr)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.09)}
+.card-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.rank{font-size:12px;font-weight:600;color:#86868B}
+.fit{color:#FF9F0A;font-size:14px;letter-spacing:1px}
+.badge{margin-left:auto;color:#fff;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+.card h3{font-size:16px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
+.funder{font-size:13px;color:#515154;margin-bottom:10px}
+.meta{display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:10px;flex-wrap:wrap}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dl{font-weight:600}
+.vol{color:#86868B;margin-left:auto;text-align:right}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.pill{background:#F0F0F3;color:#1D1D1F;font-size:11px;padding:3px 9px;border-radius:20px}
+.notes{font-size:12.5px;color:#6E6E73;margin-bottom:14px;flex:1}
+.card-foot{display:flex;align-items:center;gap:10px}
+.action{font-size:12px;font-weight:600;color:#0071E3;background:#E8F1FD;padding:4px 10px;border-radius:8px}
+.btn{margin-left:auto;font-size:13px;font-weight:500;color:#0071E3;text-decoration:none;padding:7px 14px;border:1px solid #0071E3;border-radius:10px}
+.btn:hover{background:#0071E3;color:#fff}
+footer{max-width:1240px;margin:0 auto;padding:24px 28px 50px;font-size:12.5px;color:#86868B}
+footer h4{font-size:13px;color:#515154;margin-bottom:8px}
+footer ul{columns:3;-webkit-columns:3;list-style:none;font-size:12px}
+footer li{margin-bottom:3px}
+.empty{grid-column:1/-1;text-align:center;color:#86868B;padding:40px}
+@media(max-width:640px){footer ul{columns:1}}
 </style></head><body>
-<header><h1>CPD Funding Radar</h1><div class="upd">Zuletzt aktualisiert: 2026-06-29 · 17 aktive Calls</div></header>
+<header><h1>CPD Funding Radar</h1><div class="sub">Aktive Förderaufrufe · Zuletzt aktualisiert 2026-07-13</div></header>
 <div class="wrap">
- <div class="summary">
-  <div class="stat"><div class="n">17</div><div class="l">Aktive Calls</div></div>
-  <div class="stat urgent"><div class="n">2</div><div class="l">Dringend (&lt;28 Tage)</div></div>
-  <div class="stat"><div class="n">3</div><div class="l">Rollierend / laufend</div></div>
-  <div class="stat"><div class="n">12</div><div class="l">CPD-Themen abgedeckt</div></div>
- </div>
- <div class="filters">
-  <select id="fTopic"><option value="">Alle Themen</option></select>
-  <select id="fUrg"><option value="">Alle Dringlichkeiten</option><option value="🔴">🔴 &lt;28 Tage</option><option value="🟡">🟡 28–90 Tage</option><option value="🟢">🟢 &gt;90 Tage</option><option value="⚪">⚪ Rollierend</option></select>
-  <select id="fType"><option value="">Alle Fördertypen</option><option>EU</option><option>National-DE</option><option>Foundation</option></select>
-  <input id="fSearch" placeholder="Suche nach Titel, Funder, Stichwort…">
- </div>
- <div class="grid" id="grid"></div>
+<div class="summary">
+<div class="stat"><div class="num">17</div><div class="lbl">Aktive Calls</div></div>
+<div class="stat"><div class="num">11</div><div class="lbl">Frist ≤ 90 Tage</div></div>
+<div class="stat"><div class="num">3</div><div class="lbl">Rollierend</div></div>
+<div class="stat"><div class="num">13</div><div class="lbl">CPD-Themen abgedeckt</div></div>
+</div>
+<div class="filters">
+<select id="fTopic"><option value="">Alle Themen</option><option value="all CPD topics (discipline-independent)">all CPD topics (discipline-independent)</option><option value="behavioral-medicine">behavioral-medicine</option><option value="behavioral-science">behavioral-science</option><option value="digital-health">digital-health</option><option value="early-childhood">early-childhood</option><option value="epidemiology">epidemiology</option><option value="health-communication">health-communication</option><option value="implementation">implementation</option><option value="preparedness">preparedness</option><option value="prevention">prevention</option><option value="primary-care">primary-care</option><option value="public-health">public-health</option><option value="translational">translational</option></select>
+<select id="fUrg"><option value="">Alle Dringlichkeiten</option><option value="🔴">🔴 &lt; 28 Tage</option><option value="🟡">🟡 28–90 Tage</option><option value="🟢">🟢 &gt; 90 Tage</option><option value="⚪">⚪ Rollierend</option></select>
+<select id="fType"><option value="">Alle Fördertypen</option><option value="EU">EU</option><option value="Foundation">Foundation</option><option value="National-DE">National-DE</option></select>
+<input id="fSearch" type="search" placeholder="Suche nach Titel, Funder, Stichwort…">
+</div>
+<div class="grid" id="grid">
+<div class="card" data-topics="all CPD topics (discipline-independent)" data-urg="🟡" data-ftype="EU" data-text="erc advanced grant 2026 european research council einreichfrist bestätigt: 27 aug 2026, 17:00 cet. budget 2026: €747m, ca. 294 grants. neues format: part i (5 s.) + part ii (7 s.).">
+  <div class="card-top"><span class="rank">#1</span><span class="fit">★★★★★</span><span class="badge" style="background:#0071E3">EU</span></div>
+  <h3>ERC Advanced Grant 2026</h3>
+  <div class="funder">European Research Council</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-08-27</span><span class="vol">up to €2,500,000 (5 Jahre)</span></div>
+  <div class="pills"><span class="pill">all CPD topics (discipline-independent)</span></div>
+  <p class="notes">Einreichfrist bestätigt: 27 Aug 2026, 17:00 CET. Budget 2026: €747M, ca. 294 Grants. Neues Format: Part I (5 S.) + Part II (7 S.).</p>
+  <div class="card-foot"><span class="action">Prepare now</span><a class="btn" href="https://erc.europa.eu/apply-grant/advanced-grant" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="primary-care,implementation,epidemiology,public-health" data-urg="🟢" data-ftype="National-DE" data-text="versorgungsforschung themenoffener bereich (einstufig) 2026 — g-ba if g-ba innovationsfonds watch→active (seit 07-06). info-webseminar 14.07.2026, 11:00. sehr hohe cpd-priorität. beratung dlr-pt: innovationsfonds-versorgungsforschung@dlr.de, 0228 3821 1020.">
+  <div class="card-top"><span class="rank">#2</span><span class="fit">★★★★★</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>Versorgungsforschung themenoffener Bereich (einstufig) 2026 — G-BA IF</h3>
+  <div class="funder">G-BA Innovationsfonds</div>
+  <div class="meta"><span class="dot" style="background:#34C759"></span><span class="dl">2026-10-20</span><span class="vol">unconfirmed per project (€20M VsF-Gesamtbudget 2026)</span></div>
+  <div class="pills"><span class="pill">primary-care</span><span class="pill">implementation</span><span class="pill">epidemiology</span><span class="pill">public-health</span></div>
+  <p class="notes">Watch→Active (seit 07-06). Info-Webseminar 14.07.2026, 11:00. Sehr hohe CPD-Priorität. Beratung DLR-PT: innovationsfonds-versorgungsforschung@dlr.de, 0228 3821 1020.</p>
+  <div class="card-foot"><span class="action">Prepare now</span><a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenoffenen-bereich.55" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="primary-care,implementation,epidemiology,public-health" data-urg="🟢" data-ftype="National-DE" data-text="versorgungsforschung themenspezifischer bereich (einstufig) 2026 — g-ba if g-ba innovationsfonds watch→active (seit 07-06). themenspezifische schwerpunkte beachten (themenliste in der bekanntmachung). info-webseminar 14.07.2026.">
+  <div class="card-top"><span class="rank">#3</span><span class="fit">★★★★★</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>Versorgungsforschung themenspezifischer Bereich (einstufig) 2026 — G-BA IF</h3>
+  <div class="funder">G-BA Innovationsfonds</div>
+  <div class="meta"><span class="dot" style="background:#34C759"></span><span class="dl">2026-10-20</span><span class="vol">unconfirmed per project (€20M VsF-Gesamtbudget 2026)</span></div>
+  <div class="pills"><span class="pill">primary-care</span><span class="pill">implementation</span><span class="pill">epidemiology</span><span class="pill">public-health</span></div>
+  <p class="notes">Watch→Active (seit 07-06). Themenspezifische Schwerpunkte beachten (Themenliste in der Bekanntmachung). Info-Webseminar 14.07.2026.</p>
+  <div class="card-foot"><span class="action">Prepare now</span><a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenspezifischen-bereich.69" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="primary-care,implementation,prevention,public-health" data-urg="⚪" data-ftype="National-DE" data-text="nvf themenoffen einstufig kurz (laufend 2026) — g-ba if g-ba innovationsfonds höchste strategische priorität für cpd. portal-stand: weiterhin aktiv, frist 31.12.2026. einreichung: innovationsfonds-versorgungsformen@dlr.de. beratung dlr-pt: 0228 3821 1020.">
+  <div class="card-top"><span class="rank">#4</span><span class="fit">★★★★★</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>NVF themenoffen einstufig kurz (laufend 2026) — G-BA IF</h3>
+  <div class="funder">G-BA Innovationsfonds</div>
+  <div class="meta"><span class="dot" style="background:#8E8E93"></span><span class="dl">rolling</span><span class="vol">unconfirmed per project (€80M NVF-Budget 2026)</span></div>
+  <div class="pills"><span class="pill">primary-care</span><span class="pill">implementation</span><span class="pill">prevention</span><span class="pill">public-health</span></div>
+  <p class="notes">Höchste strategische Priorität für CPD. Portal-Stand: weiterhin aktiv, Frist 31.12.2026. Einreichung: innovationsfonds-versorgungsformen@dlr.de. Beratung DLR-PT: 0228 3821 1020.</p>
+  <div class="card-foot"><span class="action">Rolling</span><a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-neue-versorgungsformen-zum-themenoffenen-bereich-einstufig-kurz-einreichung-laufend-im-jahr-moeglich.66" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="behavioral-science,prevention,epidemiology,implementation,primary-care" data-urg="⚪" data-ftype="National-DE" data-text="dfg sachbeihilfe (laufend) dfg basisförderinstrument für alle cpd-forschungsgebiete; bedarfsabhängige einreichung. standing rolling instrument, weiterhin offen.">
+  <div class="card-top"><span class="rank">#5</span><span class="fit">★★★★★</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>DFG Sachbeihilfe (laufend)</h3>
+  <div class="funder">DFG</div>
+  <div class="meta"><span class="dot" style="background:#8E8E93"></span><span class="dl">rolling</span><span class="vol">unconfirmed — see link</span></div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">prevention</span><span class="pill">epidemiology</span><span class="pill">implementation</span><span class="pill">primary-care</span></div>
+  <p class="notes">Basisförderinstrument für alle CPD-Forschungsgebiete; bedarfsabhängige Einreichung. Standing rolling instrument, weiterhin offen.</p>
+  <div class="card-foot"><span class="action">Rolling</span><a class="btn" href="https://www.dfg.de/de/foerderung/foerdermoeglichkeiten/programme/einzelfoerderung/sachbeihilfe" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="preparedness,public-health,translational" data-urg="🟡" data-ftype="EU" data-text="be ready jtc 2026 – european partnership for pandemic preparedness be ready partnership / bmftr frist bestätigt: vollantrag 20 aug 2026, 13:00 cet (nur eingeladene). relevant für &#x27;nächste pandemie&#x27;-wg des cpd. 21 förderorg. / 19 länder.">
+  <div class="card-top"><span class="rank">#6</span><span class="fit">★★★★☆</span><span class="badge" style="background:#0071E3">EU</span></div>
+  <h3>BE READY JTC 2026 – European Partnership for Pandemic Preparedness</h3>
+  <div class="funder">BE READY Partnership / BMFTR</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-08-20</span><span class="vol">unconfirmed per DE partner (~€16,4M total)</span></div>
+  <div class="pills"><span class="pill">preparedness</span><span class="pill">public-health</span><span class="pill">translational</span></div>
+  <p class="notes">Frist bestätigt: Vollantrag 20 Aug 2026, 13:00 CET (nur Eingeladene). Relevant für &#x27;Nächste Pandemie&#x27;-WG des CPD. 21 Förderorg. / 19 Länder.</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://beready4pandemics.eu/joint-transnational-calls/" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="behavioral-science,prevention,implementation,digital-health" data-urg="🟡" data-ftype="Foundation" data-text="pioneering research – exploring the unknown unknown (vw stiftung 2026) volkswagenstiftung frist bestätigt: 27 aug 2026, 14:00. exzellent für innovative cpd-ideen in verhaltensänderung, digitalgesundheit, implementierungswissenschaft. online-q&amp;a: 16.07.2026.">
+  <div class="card-top"><span class="rank">#7</span><span class="fit">★★★★☆</span><span class="badge" style="background:#AF52DE">Foundation</span></div>
+  <h3>Pioneering Research – Exploring the Unknown Unknown (VW Stiftung 2026)</h3>
+  <div class="funder">VolkswagenStiftung</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-08-27</span><span class="vol">up to €1,300,000 (3–5 Jahre)</span></div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">prevention</span><span class="pill">implementation</span><span class="pill">digital-health</span></div>
+  <p class="notes">Frist bestätigt: 27 Aug 2026, 14:00. Exzellent für innovative CPD-Ideen in Verhaltensänderung, Digitalgesundheit, Implementierungswissenschaft. Online-Q&amp;A: 16.07.2026.</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://www.volkswagenstiftung.de/en/funding/funding-offer/pioneering-research-exploring-unknown-unknown" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="behavioral-science,behavioral-medicine,prevention,digital-health" data-urg="🟡" data-ftype="Foundation" data-text="wellcome prize for mental health science 2026 wellcome trust deadline bestätigt: 18 sep 2026, 23:59 utc. passgenauigkeit für verhaltens- und digitalbasierte prävention psychischer erkrankungen.">
+  <div class="card-top"><span class="rank">#8</span><span class="fit">★★★★☆</span><span class="badge" style="background:#AF52DE">Foundation</span></div>
+  <h3>Wellcome Prize for Mental Health Science 2026</h3>
+  <div class="funder">Wellcome Trust</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-09-18</span><span class="vol">USD 1,000,000 (winner); USD 250,000 (3 finalists)</span></div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">behavioral-medicine</span><span class="pill">prevention</span><span class="pill">digital-health</span></div>
+  <p class="notes">Deadline bestätigt: 18 Sep 2026, 23:59 UTC. Passgenauigkeit für verhaltens- und digitalbasierte Prävention psychischer Erkrankungen.</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://wellcome.org/insights/articles/wellcome-launches-worlds-largest-global-prize-mental-health-science" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="behavioral-science,prevention,epidemiology,public-health" data-urg="🟡" data-ftype="Foundation" data-text="fritz thyssen stiftung – projektförderung sep 2026 fritz thyssen stiftung gut geeignet für cpd-projekte in verhaltensforschung. frist: 1 sep 2026. folge-frist feb 2027. (diesen lauf nicht neu verifiziert.)">
+  <div class="card-top"><span class="rank">#9</span><span class="fit">★★★☆☆</span><span class="badge" style="background:#AF52DE">Foundation</span></div>
+  <h3>Fritz Thyssen Stiftung – Projektförderung Sep 2026</h3>
+  <div class="funder">Fritz Thyssen Stiftung</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-09-01</span><span class="vol">unconfirmed — see link</span></div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">prevention</span><span class="pill">epidemiology</span><span class="pill">public-health</span></div>
+  <p class="notes">Gut geeignet für CPD-Projekte in Verhaltensforschung. Frist: 1 Sep 2026. Folge-Frist Feb 2027. (Diesen Lauf nicht neu verifiziert.)</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://www.fritz-thyssen-stiftung.de/en/funding/types-of-support/support-of-projects/" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="translational,implementation,behavioral-medicine,public-health" data-urg="🟡" data-ftype="National-DE" data-text="bmftr klinische studien postinfektiöse erkrankungen 2026 — nationale dekade bmftr bekanntmachung veröffentlicht 01.06.2026. skizzenfrist 02.09.2026 (keine ausschlussfrist). cpd-passung über versorgungsrelevanz, implementierung u. verhaltensmedizinische aspekte postinfektiöser erkrankungen.">
+  <div class="card-top"><span class="rank">#10</span><span class="fit">★★★☆☆</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>BMFTR Klinische Studien postinfektiöse Erkrankungen 2026 — Nationale Dekade</h3>
+  <div class="funder">BMFTR</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-09-02</span><span class="vol">unconfirmed per project (Dekade gesamt €500M/10 J.)</span></div>
+  <div class="pills"><span class="pill">translational</span><span class="pill">implementation</span><span class="pill">behavioral-medicine</span><span class="pill">public-health</span></div>
+  <p class="notes">Bekanntmachung veröffentlicht 01.06.2026. Skizzenfrist 02.09.2026 (keine Ausschlussfrist). CPD-Passung über Versorgungsrelevanz, Implementierung u. verhaltensmedizinische Aspekte postinfektiöser Erkrankungen.</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://www.gesundheitsforschung-bmftr.de/de/19701.php" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="digital-health,behavioral-science,epidemiology" data-urg="🟡" data-ftype="National-DE" data-text="dfg spp 2431 – new data spaces for social sciences (2. phase) dfg registrierungsfrist 9 sep; vollantragsfrist 16 sep 2026. cpd-relevanz für digitale gesundheitsdaten. (diesen lauf nicht neu verifiziert.)">
+  <div class="card-top"><span class="rank">#11</span><span class="fit">★★★☆☆</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>DFG SPP 2431 – New Data Spaces for Social Sciences (2. Phase)</h3>
+  <div class="funder">DFG</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-09-09</span><span class="vol">unconfirmed — see link</span></div>
+  <div class="pills"><span class="pill">digital-health</span><span class="pill">behavioral-science</span><span class="pill">epidemiology</span></div>
+  <p class="notes">Registrierungsfrist 9 Sep; Vollantragsfrist 16 Sep 2026. CPD-Relevanz für digitale Gesundheitsdaten. (Diesen Lauf nicht neu verifiziert.)</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://www.dfg.de/en/news/news-topics/announcements-proposals/2026/ifr-26-17" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="implementation,primary-care,public-health" data-urg="🟡" data-ftype="National-DE" data-text="versorgungsforschung – medizinische leitlinien (medll) 2026 — g-ba if g-ba innovationsfonds watch→active (seit 07-06). leitlinien-strang des vsf-programms. periphere, aber relevante cpd-passung (implementierung/leitlinien in der primärversorgung). info-webseminar 14.07.2026.">
+  <div class="card-top"><span class="rank">#12</span><span class="fit">★★★☆☆</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>Versorgungsforschung – Medizinische Leitlinien (MedLL) 2026 — G-BA IF</h3>
+  <div class="funder">G-BA Innovationsfonds</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-09-22</span><span class="vol">unconfirmed per project (≥€2,5M MedLL-Budget 2026)</span></div>
+  <div class="pills"><span class="pill">implementation</span><span class="pill">primary-care</span><span class="pill">public-health</span></div>
+  <p class="notes">Watch→Active (seit 07-06). Leitlinien-Strang des VsF-Programms. Periphere, aber relevante CPD-Passung (Implementierung/Leitlinien in der Primärversorgung). Info-Webseminar 14.07.2026.</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-medizinische-leitlinien-medll.70" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="health-communication,behavioral-science" data-urg="🟡" data-ftype="EU" data-text="horizon-cl2-2026-01-democracy-10 – digital &amp; media literacy european commission / rea geöffnet 12 mai 2026. cpd-relevanz: digitale gesundheitskompetenz, kommunikation. frist bestätigt 23 sep 2026.">
+  <div class="card-top"><span class="rank">#13</span><span class="fit">★★★☆☆</span><span class="badge" style="background:#0071E3">EU</span></div>
+  <h3>HORIZON-CL2-2026-01-DEMOCRACY-10 – Digital &amp; Media Literacy</h3>
+  <div class="funder">European Commission / REA</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-09-23</span><span class="vol">unconfirmed — see link</span></div>
+  <div class="pills"><span class="pill">health-communication</span><span class="pill">behavioral-science</span></div>
+  <p class="notes">Geöffnet 12 Mai 2026. CPD-Relevanz: digitale Gesundheitskompetenz, Kommunikation. Frist bestätigt 23 Sep 2026.</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/horizon-cl2-2026-01-democracy-10" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="early-childhood,behavioral-science,epidemiology" data-urg="🟡" data-ftype="Foundation" data-text="levante 2026 – learning variability network exchange (stage 2) jacobs foundation stage 1 abgelaufen (10 jun 2026). stage 2 für eingeladene teams: 29 jul–25 sep 2026. direkter treffer für kitas-wg. funding pool: usd 6m.">
+  <div class="card-top"><span class="rank">#14</span><span class="fit">★★★☆☆</span><span class="badge" style="background:#AF52DE">Foundation</span></div>
+  <h3>LEVANTE 2026 – Learning Variability Network Exchange (Stage 2)</h3>
+  <div class="funder">Jacobs Foundation</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-09-25</span><span class="vol">up to USD 1,000,000</span></div>
+  <div class="pills"><span class="pill">early-childhood</span><span class="pill">behavioral-science</span><span class="pill">epidemiology</span></div>
+  <p class="notes">Stage 1 abgelaufen (10 Jun 2026). Stage 2 für eingeladene Teams: 29 Jul–25 Sep 2026. Direkter Treffer für Kitas-WG. Funding pool: USD 6M.</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://jacobsfoundation.org/levante-opens-2026-call-for-proposals/" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="digital-health,translational,implementation" data-urg="🟢" data-ftype="National-DE" data-text="bmftr kmu-innovativ: medizintechnik 2026 bmftr rolling mit fristen 15. apr. und 15. okt. nächste frist: 15. okt. 2026. (diesen lauf nicht neu verifiziert.)">
+  <div class="card-top"><span class="rank">#15</span><span class="fit">★★★☆☆</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>BMFTR KMU-innovativ: Medizintechnik 2026</h3>
+  <div class="funder">BMFTR</div>
+  <div class="meta"><span class="dot" style="background:#34C759"></span><span class="dl">2026-10-15</span><span class="vol">~€1,000,000 per project (€40M total/year)</span></div>
+  <div class="pills"><span class="pill">digital-health</span><span class="pill">translational</span><span class="pill">implementation</span></div>
+  <p class="notes">Rolling mit Fristen 15. Apr. und 15. Okt. Nächste Frist: 15. Okt. 2026. (Diesen Lauf nicht neu verifiziert.)</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/02/2026-02-06-bekanntmachung-medizintechnik.html" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="public-health,primary-care" data-urg="⚪" data-ftype="National-DE" data-text="bmg ögd-strukturstärkung (laufend 2026) bmg direkte relevanz für kommunen &amp; ögd-wg des cpd. (diesen lauf nicht neu verifiziert.)">
+  <div class="card-top"><span class="rank">#16</span><span class="fit">★★★☆☆</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>BMG ÖGD-Strukturstärkung (laufend 2026)</h3>
+  <div class="funder">BMG</div>
+  <div class="meta"><span class="dot" style="background:#8E8E93"></span><span class="dl">rolling</span><span class="vol">unconfirmed — see link</span></div>
+  <div class="pills"><span class="pill">public-health</span><span class="pill">primary-care</span></div>
+  <p class="notes">Direkte Relevanz für Kommunen &amp; ÖGD-WG des CPD. (Diesen Lauf nicht neu verifiziert.)</p>
+  <div class="card-foot"><span class="action">Rolling</span><a class="btn" href="https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen" target="_blank" rel="noopener">Open call →</a></div>
+</div><div class="card" data-topics="digital-health,translational,epidemiology" data-urg="🟡" data-ftype="National-DE" data-text="bmftr e2health – systems engineering mit in-silico-methoden 2026 bmftr neu diese woche. bekanntmachung veröffentlicht 03.07.2026 (bundesanzeiger). skizze max. 12 s. periphere cpd-passung über digitale/rechnergestützte methoden, krankheitsvorhersage u. public-health-anwendung. companion-strang „use cases – versorgungsrelevante anwendung&quot; (dlr-pt) separat beobachten. träger: dlr-pt.">
+  <div class="card-top"><span class="rank">#17</span><span class="fit">★★☆☆☆</span><span class="badge" style="background:#5856D6">National-DE</span></div>
+  <h3>BMFTR e2Health – Systems Engineering mit In-silico-Methoden 2026</h3>
+  <div class="funder">BMFTR</div>
+  <div class="meta"><span class="dot" style="background:#FF9F0A"></span><span class="dl">2026-08-20</span><span class="vol">unconfirmed — see link</span></div>
+  <div class="pills"><span class="pill">digital-health</span><span class="pill">translational</span><span class="pill">epidemiology</span></div>
+  <p class="notes">NEU diese Woche. Bekanntmachung veröffentlicht 03.07.2026 (Bundesanzeiger). Skizze max. 12 S. Periphere CPD-Passung über digitale/rechnergestützte Methoden, Krankheitsvorhersage u. Public-Health-Anwendung. Companion-Strang „Use Cases – versorgungsrelevante Anwendung&quot; (DLR-PT) separat beobachten. Träger: DLR-PT.</p>
+  <div class="card-foot"><span class="action">Monitor</span><a class="btn" href="https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/07/2026-07-03-bekanntmachung-e2health.html" target="_blank" rel="noopener">Open call →</a></div>
+</div>
+<div class="empty" id="empty" style="display:none">Keine Calls entsprechen den Filtern.</div>
+</div>
 </div>
 <footer>
- <b>Diese Woche durchsuchte Quellen (2026-06-29):</b><br>
- EU Funding &amp; Tenders Portal · EU4Health / HaDEA · BMFTR Gesundheitsforschung · BMG Ressortforschung · DFG Ausschreibungen · G-BA Innovationsfonds · EKFS · VolkswagenStiftung · Fritz Thyssen Stiftung · Jacobs Foundation · Wellcome Trust · ERA4Health · EP PerMed · ERDERA · EP BrainHealth · BE READY Partnership · IHI · BW Stiftung · GLOHRA.<br><br>
- CPD Funding Radar · automatisch generiert · Stand 2026-06-29.
+<h4>Diesen Lauf durchsuchte Quellen (2026-07-13)</h4>
+<ul><li>EU Funding &amp; Tenders Portal / Horizon Health (Cluster 1 &amp; 2)</li><li>EU4Health / HERA / HaDEA</li><li>G-BA Innovationsfonds</li><li>BMFTR Gesundheitsforschung</li><li>BMG Ressortforschung</li><li>DFG Ausschreibungen</li><li>ERA4Health</li><li>EP PerMed</li><li>ERDERA</li><li>BE READY Partnership</li><li>EP BrainHealth</li><li>VolkswagenStiftung</li><li>Else Kröner-Fresenius-Stiftung</li><li>Fritz Thyssen Stiftung</li><li>Robert Bosch Stiftung</li><li>Jacobs Foundation</li><li>Wellcome Trust</li><li>Carl-Zeiss-Stiftung</li><li>BW Stiftung</li><li>GLOHRA</li></ul>
+<p style="margin-top:14px">CPD Funding Radar · automatischer Wochenlauf · Datenquelle: cpd_calls_overview.xlsx</p>
 </footer>
 <script>
-const CALLS=[{"rank": 1, "fit": "★★★★★", "topics": "all CPD topics (discipline-independent)", "funder": "European Research Council", "ftype": "EU", "title": "ERC Advanced Grant 2026", "desc": "Bis €2,5 Mio. über 5 Jahre für etablierte PIs (>10 J. Erfahrung post-PhD). Topic-unabhängig; alle CPD-Forschungsbereiche förderfähig. Neues Format 2026: 5-seitiger Part I + 7-seitiger Part II.", "volume": "up to €2,500,000 (5 Jahre)", "deadline": "2026-08-27", "urg": "🟡", "status": "Open", "action": "Prepare now", "lv": "2026-06-22", "notes": "Einreichfrist bestätigt: 27 Aug 2026, 17:00 CET. Budget 2026: €747M, ca. 294 Grants. Neues Format: Part I (5 S.) + Part II (7 S.).", "link": "https://erc.europa.eu/apply-grant/advanced-grant"}, {"rank": 2, "fit": "★★★★★", "topics": "primary-care, implementation, epidemiology, public-health", "funder": "G-BA Innovationsfonds", "ftype": "National-DE", "title": "Versorgungsforschung themenoffener Bereich (einstufig) 2026 — G-BA IF", "desc": "Themenoffene Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren. Veröffentlicht 19.06.2026. Förderung von VsF-Projekten zur Weiterentwicklung der GKV-Versorgung. Einreichungsfrist 20.10.2026, 12:00.", "volume": "unconfirmed per project (€20M VsF-Gesamtbudget 2026)", "deadline": "2026-10-20", "urg": "🟢", "status": "Open", "action": "Prepare now", "lv": "2026-06-29", "notes": "NEU: Watch→Active. Versorgungsforschung 2026 am 19.06.2026 veröffentlicht (Vorjahr: 20 Jun 2025). Sehr hohe CPD-Priorität. Beratung DLR-PT: innovationsfonds-versorgungsforschung@dlr.de, 0228 3821 1020.", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenoffenen-bereich.55"}, {"rank": 3, "fit": "★★★★★", "topics": "primary-care, implementation, epidemiology, public-health", "funder": "G-BA Innovationsfonds", "ftype": "National-DE", "title": "Versorgungsforschung themenspezifischer Bereich (einstufig) 2026 — G-BA IF", "desc": "Themenspezifische Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren mit vorgegebenen Themenschwerpunkten. Veröffentlicht 19.06.2026. Einreichungsfrist 20.10.2026, 12:00.", "volume": "unconfirmed per project (€20M VsF-Gesamtbudget 2026)", "deadline": "2026-10-20", "urg": "🟢", "status": "Open", "action": "Prepare now", "lv": "2026-06-29", "notes": "NEU: Watch→Active. Themenspezifische Schwerpunkte beachten (Themenliste in der Bekanntmachung). Veröffentlicht 19.06.2026.", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenspezifischen-bereich.69"}, {"rank": 4, "fit": "★★★★★", "topics": "primary-care, implementation, prevention, public-health", "funder": "G-BA Innovationsfonds", "ftype": "National-DE", "title": "NVF themenoffen einstufig kurz (laufend 2026) — G-BA IF", "desc": "Rollierende NVF-Förderung für neue Versorgungsformen in der GKV; einstufig, kurz. Einreichung per E-Mail laufend bis 31.12.2026. Gesamtbudget NVF 2026: €80 Mio. (NVF+VsF €100 Mio.).", "volume": "unconfirmed per project (€80M NVF-Budget 2026)", "deadline": "rolling", "urg": "⚪", "status": "Open", "action": "Rolling", "lv": "2026-06-29", "notes": "Höchste strategische Priorität für CPD. Portal-Stand 29 Jun 2026: weiterhin aktiv, Frist 31.12.2026. Einreichung: innovationsfonds-versorgungsformen@dlr.de. Beratung DLR-PT: 0228 3821 1020.", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-neue-versorgungsformen-zum-themenoffenen-bereich-einstufig-kurz-einreichung-laufend-im-jahr-moeglich.66"}, {"rank": 5, "fit": "★★★★★", "topics": "behavioral-science, prevention, epidemiology, implementation, primary-care", "funder": "DFG", "ftype": "National-DE", "title": "DFG Sachbeihilfe (laufend)", "desc": "Rollierende Einzelprojektförderung der DFG für Grundlagen- und angewandte Forschung; kein Thema ausgeschlossen. Einreichung jederzeit über elan-Portal.", "volume": "unconfirmed — see link", "deadline": "rolling", "urg": "⚪", "status": "Open", "action": "Rolling", "lv": "2026-06-08", "notes": "Basisförderinstrument für alle CPD-Forschungsgebiete; bedarfsabhängige Einreichung.", "link": "https://www.dfg.de/de/foerderung/foerdermoeglichkeiten/programme/einzelfoerderung/sachbeihilfe"}, {"rank": 6, "fit": "★★★★☆", "topics": "preparedness, public-health, translational", "funder": "BE READY Partnership / BMFTR", "ftype": "EU", "title": "BE READY JTC 2026 – European Partnership for Pandemic Preparedness", "desc": "Erster transnationaler Call für interdisziplinäre Pandemieforschung (pathogen potential). Vollantrag-Phase für Eingeladene bis 20.08.2026, 13:00 CEST. Skizze closed 13.04.2026.", "volume": "unconfirmed — see link", "deadline": "2026-08-20", "urg": "🟡", "status": "Open (invited only)", "action": "Monitor", "lv": "2026-06-08", "notes": "Relevant für 'Nächste Pandemie'-WG des CPD. Nur für Eingeladene aus Skizzenphase. Budget: ~€16,4M.", "link": "https://beready4pandemics.eu/joint-transnational-calls/"}, {"rank": 7, "fit": "★★★★☆", "topics": "behavioral-science, prevention, implementation, digital-health", "funder": "VolkswagenStiftung", "ftype": "Foundation", "title": "Pioneering Research – Exploring the Unknown Unknown (VW Stiftung 2026)", "desc": "Förderung bahnbrechender, risikoreicher Forschung außerhalb des Mainstreams; bis €1,3 Mio. über 3–5 Jahre. Kurzantrag bis 27.08.2026.", "volume": "up to €1,300,000 (3–5 Jahre)", "deadline": "2026-08-27", "urg": "🟡", "status": "Open", "action": "Monitor", "lv": "2026-06-08", "notes": "Exzellent für innovative CPD-Ideen in Verhaltensänderung, Digitalgesundheit, Implementierungswissenschaft. Online-Q&A: 16.07.2026.", "link": "https://www.volkswagenstiftung.de/en/funding/funding-offer/pioneering-research-exploring-unknown-unknown"}, {"rank": 8, "fit": "★★★★☆", "topics": "behavioral-science, behavioral-medicine, prevention, digital-health", "funder": "Wellcome Trust", "ftype": "Foundation", "title": "Wellcome Prize for Mental Health Science 2026", "desc": "Globaler Preis USD 1 Mio. (Gewinner) + 3x USD 250 k (Finalisten) für neue Interventionen bei Depression/Angst/Psychose. Launch 14 Mai 2026; Einreichfrist 18 Sep 2026.", "volume": "USD 1,000,000 (winner); USD 250,000 (3 finalists)", "deadline": "2026-09-18", "urg": "🟡", "status": "Open", "action": "Monitor", "lv": "2026-06-08", "notes": "Deadline bestätigt: 18 Sep 2026, 23:59 UTC. Passgenauigkeit für verhaltens- und digitalbasierte Prävention psychischer Erkrankungen.", "link": "https://wellcome.org/insights/articles/wellcome-launches-worlds-largest-global-prize-mental-health-science"}, {"rank": 9, "fit": "★★★☆☆", "topics": "behavioral-medicine, prevention", "funder": "EP BrainHealth / BMFTR", "ftype": "EU", "title": "EP BrainHealth 2026 – BMFTR-Richtlinie (neurol./mental./sensor.)", "desc": "Europäische Partnerschaft Hirngesundheit: neurolog., mentale u. sensorische Erkrankungen; Vollantrag nur für Eingeladene (Skizze 10.03.2026).", "volume": "unconfirmed — see link", "deadline": "2026-06-30", "urg": "🔴", "status": "Open (invited only)", "action": "Monitor", "lv": "2026-06-29", "notes": "Vollantragsfrist bestätigt: 30 Jun 2026, 14:00 CEST. Nur Eingeladene aus Mar-2026 Skizzenphase. Frist morgen — nächste Woche zu archivieren.", "link": "https://www.brainhealth-partnership.eu/calls/"}, {"rank": 10, "fit": "★★★☆☆", "topics": "behavioral-science, prevention, epidemiology, public-health", "funder": "Fritz Thyssen Stiftung", "ftype": "Foundation", "title": "Fritz Thyssen Stiftung – Projektförderung Sep 2026", "desc": "Projektförderung für Sozial-, Verhaltens- und Biowissenschaften; nächste Frist: 01.09.2026.", "volume": "unconfirmed — see link", "deadline": "2026-09-01", "urg": "🟡", "status": "Open", "action": "Monitor", "lv": "2026-06-08", "notes": "Gut geeignet für CPD-Projekte in Verhaltensforschung. Frist: 1 Sep 2026. Folge-Frist Feb 2027.", "link": "https://www.fritz-thyssen-stiftung.de/en/funding/types-of-support/support-of-projects/"}, {"rank": 11, "fit": "★★★☆☆", "topics": "digital-health, behavioral-science, epidemiology", "funder": "DFG", "ftype": "National-DE", "title": "DFG SPP 2431 – New Data Spaces for Social Sciences (2. Phase)", "desc": "DFG-SPP 2431 zweite Förderphase: Infrastruktur für neue Datenräume; Registrierung 09.09.2026, Vollantrag 16.09.2026.", "volume": "unconfirmed — see link", "deadline": "2026-09-09", "urg": "🟡", "status": "Open", "action": "Monitor", "lv": "2026-06-08", "notes": "Registrierungsfrist 9 Sep; Vollantragsfrist 16 Sep 2026. CPD-Relevanz für digitale Gesundheitsdaten.", "link": "https://www.dfg.de/en/news/news-topics/announcements-proposals/2026/ifr-26-17"}, {"rank": 12, "fit": "★★★☆☆", "topics": "implementation, primary-care, public-health", "funder": "G-BA Innovationsfonds", "ftype": "National-DE", "title": "Versorgungsforschung – Medizinische Leitlinien (MedLL) 2026 — G-BA IF", "desc": "Förderung zur Entwicklung/Weiterentwicklung medizinischer Leitlinien mit besonderem Versorgungsbedarf; vom BMG festgelegte Schwerpunkte. Veröffentlicht 19.06.2026. Einreichungsfrist 22.09.2026, 12:00.", "volume": "unconfirmed per project (≥€2,5M MedLL-Budget 2026)", "deadline": "2026-09-22", "urg": "🟡", "status": "Open", "action": "Monitor", "lv": "2026-06-29", "notes": "NEU: Watch→Active. Leitlinien-Strang des VsF-Programms. Periphere, aber relevante CPD-Passung (Implementierung/Leitlinien in der Primärversorgung).", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-medizinische-leitlinien-medll.70"}, {"rank": 13, "fit": "★★★☆☆", "topics": "health-communication, behavioral-science", "funder": "European Commission / REA", "ftype": "EU", "title": "HORIZON-CL2-2026-01-DEMOCRACY-10 – Digital & Media Literacy", "desc": "Förderung für Forschung zu digitaler und medialer Kompetenz; CPD-Relevanz über Gesundheitskommunikation. Budget: €12M. Frist 23 Sep 2026.", "volume": "unconfirmed — see link", "deadline": "2026-09-23", "urg": "🟡", "status": "Open", "action": "Monitor", "lv": "2026-06-22", "notes": "Geöffnet 12 Mai 2026. CPD-Relevanz: digitale Gesundheitskompetenz, Kommunikation. Frist bestätigt 23 Sep 2026.", "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/horizon-cl2-2026-01-democracy-10"}, {"rank": 14, "fit": "★★★☆☆", "topics": "early-childhood, behavioral-science, epidemiology", "funder": "Jacobs Foundation", "ftype": "Foundation", "title": "LEVANTE 2026 – Learning Variability Network Exchange (Stage 2)", "desc": "Call für Längsschnittforschung zur Lern-/Entwicklungsvariabilität bei Kindern 3–12 Jahre. Bis zu USD 1 Mio. Stage 1 closed 10 Jun 2026; Stage 2 (Vollantrag, Eingeladene) 29 Jul–25 Sep 2026.", "volume": "up to USD 1,000,000", "deadline": "2026-09-25", "urg": "🟡", "status": "Open (invited only)", "action": "Monitor", "lv": "2026-06-15", "notes": "Stage 1 abgelaufen (10 Jun 2026). Stage 2 für eingeladene Teams: 29 Jul–25 Sep 2026. Direkter Treffer für Kitas-WG. Funding pool: USD 6M.", "link": "https://jacobsfoundation.org/levante-opens-2026-call-for-proposals/"}, {"rank": 15, "fit": "★★★☆☆", "topics": "digital-health, translational, implementation", "funder": "BMFTR", "ftype": "National-DE", "title": "BMFTR KMU-innovativ: Medizintechnik 2026", "desc": "Förderung risikoreicher Verbundprojekte Medizintechnik; Prävention und Nachsorge eingeschlossen. Konsortium KMU + Forschungseinrichtung. Rolling.", "volume": "~€1,000,000 per project (€40M total/year)", "deadline": "2026-10-15", "urg": "🟢", "status": "Open", "action": "Monitor", "lv": "2026-06-08", "notes": "Rolling mit Fristen 15. Apr. und 15. Okt. Nächste Frist: 15. Okt. 2026.", "link": "https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/02/2026-02-06-bekanntmachung-medizintechnik.html"}, {"rank": 16, "fit": "★★★☆☆", "topics": "public-health, primary-care", "funder": "BMG", "ftype": "National-DE", "title": "BMG ÖGD-Strukturstärkung (laufend 2026)", "desc": "Rollierende Förderung zur Stärkung des Öffentlichen Gesundheitsdienstes.", "volume": "unconfirmed — see link", "deadline": "rolling", "urg": "⚪", "status": "Open", "action": "Rolling", "lv": "2026-06-08", "notes": "Direkte Relevanz für Kommunen & ÖGD-WG des CPD.", "link": "https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen"}, {"rank": 17, "fit": "★★☆☆☆", "topics": "epidemiology, translational", "funder": "ERDERA", "ftype": "EU", "title": "ERDERA JTC 2026 – Resolving Unsolved Rare Disease Cases", "desc": "Transnationaler Call für seltene Erkrankungen (Resolving unsolved cases in rare genetic and non-genetic diseases); Vollantrag für Eingeladene bis 08.07.2026.", "volume": "unconfirmed — see link", "deadline": "2026-07-08", "urg": "🔴", "status": "Open (invited only)", "action": "Monitor", "lv": "2026-06-29", "notes": "Periphere CPD-Relevanz. Methodologische Überschneidung in Epidemiologie. Vollantragsfrist bestätigt: 08 Jul 2026.", "link": "https://erdera.org/funding/"}];
-const URGCOL={"\ud83d\udd34": "#FF3B30", "\ud83d\udfe1": "#FF9F0A", "\ud83d\udfe2": "#34C759", "\u26aa": "#8E8E93"};
-function typeClass(t){t=(t||'');if(t.includes('EU'))return'eu';if(t.includes('National'))return'nat';if(t.includes('Found'))return'found';return'other';}
-const topics=new Set();CALLS.forEach(c=>String(c.topics).split(',').forEach(t=>{t=t.trim();if(t&&!t.includes('all CPD')&&!t.includes('discipline'))topics.add(t);}));
-const fT=document.getElementById('fTopic');[...topics].sort().forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;fT.appendChild(o);});
-function render(){
- const t=fT.value,u=document.getElementById('fUrg').value,ty=document.getElementById('fType').value,q=document.getElementById('fSearch').value.toLowerCase();
- const g=document.getElementById('grid');g.innerHTML='';
- CALLS.filter(c=>{
-  if(t&&!String(c.topics).includes(t))return false;
-  if(u&&c.urg!==u)return false;
-  if(ty&&!String(c.ftype).includes(ty))return false;
-  if(q&&!(String(c.title)+c.funder+c.notes+c.topics).toLowerCase().includes(q))return false;
-  return true;}).forEach(c=>{
-  const pills=String(c.topics).split(',').map(x=>x.trim()).filter(x=>x&&!x.includes('all CPD')&&!x.includes('discipline')).map(x=>`<span class="pill">${x}</span>`).join('');
-  const dl=c.deadline==='rolling'?'rollierend':c.deadline;
-  const prep=String(c.action).includes('Prepare')?' prep':'';
-  const d=document.createElement('div');d.className='card';
-  d.innerHTML=`<div class="row"><span class="fit">${c.fit}</span><span class="badge ${typeClass(c.ftype)}">${c.ftype}</span></div>
-   <h3>${c.title}</h3>
-   <div class="row"><span class="dot" style="background:${URGCOL[c.urg]||'#8E8E93'}"></span>${c.urg} ${dl} · ${c.funder}</div>
-   <div class="desc">${c.desc}</div>
-   <div class="vol">💶 ${c.volume}</div>
-   <div class="pills">${pills}</div>
-   <div class="foot"><span class="action${prep}">${c.action}</span><a class="btn" href="${c.link}" target="_blank" rel="noopener">Zum Call →</a></div>`;
-  g.appendChild(d);});
- if(!g.children.length)g.innerHTML='<p style="color:#6e6e73">Keine Treffer.</p>';
+const grid=document.getElementById('grid');
+const cards=[...grid.querySelectorAll('.card')];
+const fTopic=document.getElementById('fTopic'),fUrg=document.getElementById('fUrg'),fType=document.getElementById('fType'),fSearch=document.getElementById('fSearch'),empty=document.getElementById('empty');
+function apply(){
+ const t=fTopic.value,u=fUrg.value,ft=fType.value,s=fSearch.value.toLowerCase().trim();
+ let vis=0;
+ cards.forEach(c=>{
+  let ok=true;
+  if(t&&!c.dataset.topics.split(',').includes(t))ok=false;
+  if(u&&c.dataset.urg!==u)ok=false;
+  if(ft&&c.dataset.ftype!==ft)ok=false;
+  if(s&&!c.dataset.text.includes(s))ok=false;
+  c.style.display=ok?'':'none'; if(ok)vis++;
+ });
+ empty.style.display=vis?'none':'';
 }
-['fTopic','fUrg','fType','fSearch'].forEach(id=>document.getElementById(id).addEventListener('input',render));
-render();
+[fTopic,fUrg,fType].forEach(e=>e.addEventListener('change',apply));
+fSearch.addEventListener('input',apply);
 </script>
 </body></html>
