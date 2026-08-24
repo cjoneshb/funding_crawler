@@ -2,135 +2,286 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CPD Funding Radar</title><style>
 *{box-sizing:border-box}
-body{margin:0;background:#F5F5F7;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1D1D1F;-webkit-font-smoothing:antialiased}
-a{color:#0071E3;text-decoration:none}
-header{position:sticky;top:0;z-index:50;background:rgba(245,245,247,.82);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.07)}
-.hin{max-width:1180px;margin:0 auto;padding:18px 24px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-h1{font-size:22px;letter-spacing:-.02em;margin:0;font-weight:600}
-.upd{font-size:13px;color:#6E6E73}
-main{max-width:1180px;margin:0 auto;padding:24px}
-.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
-.card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.kpi .n{font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1.1}
-.kpi .l{font-size:12.5px;color:#6E6E73;margin-top:5px;text-transform:uppercase;letter-spacing:.05em}
-.kpi.red .n{color:#D0342C}
-.bar{background:#fff;border-radius:18px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:22px;display:flex;flex-direction:column;gap:14px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.row .lab{font-size:12px;color:#6E6E73;text-transform:uppercase;letter-spacing:.05em;min-width:84px}
-button.f{border:1px solid #D2D2D7;background:#fff;border-radius:999px;padding:6px 13px;font-size:13px;cursor:pointer;color:#1D1D1F;font-family:inherit;transition:.15s}
-button.f:hover{border-color:#0071E3}
-button.f.on{background:#0071E3;border-color:#0071E3;color:#fff}
-input[type=search]{flex:1;min-width:200px;border:1px solid #D2D2D7;border-radius:999px;padding:9px 16px;font-size:14px;font-family:inherit;outline:none}
-input[type=search]:focus{border-color:#0071E3;box-shadow:0 0 0 3px rgba(0,113,227,.15)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(345px,1fr));gap:16px}
-.call{background:#fff;border-radius:18px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:11px}
-.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.rk{font-size:11px;color:#86868B;font-weight:600}
-.fit{font-size:13px;color:#F5A623;letter-spacing:1px;white-space:nowrap}
-.ttl{font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.32}
-.badges{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.b{font-size:11px;padding:3px 9px;border-radius:999px;background:#F0F0F3;color:#3A3A3C;font-weight:500}
-.b.eu{background:#E8F0FE;color:#1A56B0}.b.de{background:#FDECEC;color:#B3261E}
-.b.fo{background:#EAF6EC;color:#1E6B33}.b.ot{background:#F0F0F3}
-.b.new{background:#0071E3;color:#fff}
-.dl{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#3A3A3C}
+body{margin:0;background:#F5F5F7;color:#1D1D1F;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:20;background:rgba(245,245,247,.86);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid #D2D2D7;padding:18px 28px}
+header h1{margin:0;font-size:22px;letter-spacing:-.02em}
+header p{margin:4px 0 0;color:#6E6E73;font-size:13px}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 28px 60px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px}
+.stat{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.stat b{display:block;font-size:34px;letter-spacing:-.03em;line-height:1.1}
+.stat span{color:#6E6E73;font-size:13px}
+.filters{background:#fff;border-radius:18px;padding:18px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:22px}
+select,input{font:inherit;font-size:14px;padding:9px 12px;border:1px solid #D2D2D7;border-radius:11px;background:#fff;color:#1D1D1F}
+input{flex:1;min-width:220px}
+select:focus,input:focus{outline:2px solid #0071E3;outline-offset:1px;border-color:#0071E3}
+#reset{border:0;background:#0071E3;color:#fff;border-radius:11px;padding:10px 16px;font:inherit;font-size:14px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:10px}
+.chead{display:flex;justify-content:space-between;align-items:center}
+.rank{color:#6E6E73;font-size:12px;font-weight:600}
+.stars{color:#0071E3;font-size:14px;letter-spacing:1px}
+.card h3{margin:0;font-size:16px;line-height:1.32;letter-spacing:-.01em}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.badge{background:#F5F5F7;border-radius:999px;padding:4px 11px;font-size:12px;color:#1D1D1F}
+.badge.alt{background:#E8F0FE;color:#0071E3}
+.dl{display:flex;align-items:center;gap:8px;font-size:14px}
 .dot{width:9px;height:9px;border-radius:50%;flex:none}
-.dot.urgent{background:#D0342C}.dot.soon{background:#E8A33D}.dot.later{background:#34A853}.dot.rolling{background:#B0B0B5}
-.desc{font-size:13.5px;line-height:1.5;color:#3A3A3C}
-.vol{font-size:13px;color:#1D1D1F;font-weight:500}
-.pills{display:flex;gap:5px;flex-wrap:wrap}
-.pill{font-size:11px;padding:3px 9px;border-radius:999px;background:#F5F5F7;color:#4A4A4F;border:1px solid #E5E5EA}
-.note{font-size:12.5px;color:#6E6E73;line-height:1.5;border-top:1px solid #F0F0F3;padding-top:10px}
-.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:6px}
-.act{font-size:11.5px;padding:4px 10px;border-radius:8px;background:#F5F5F7;color:#3A3A3C;font-weight:500}
-.act.now{background:#FDECEC;color:#B3261E}
-.btn{background:#0071E3;color:#fff;border-radius:999px;padding:7px 15px;font-size:13px;font-weight:500}
-.empty{padding:50px;text-align:center;color:#86868B}
-footer{max-width:1180px;margin:0 auto;padding:10px 24px 60px}
-footer .card{padding:22px}
-footer h2{font-size:15px;margin:0 0 12px;font-weight:600}
-footer ul{margin:0;padding:0;list-style:none;columns:2;column-gap:32px;font-size:12.5px;color:#3A3A3C}
-footer li{margin-bottom:7px;break-inside:avoid;line-height:1.45}
-.sc{display:inline-block;font-size:10.5px;color:#6E6E73;background:#F5F5F7;padding:1px 7px;border-radius:6px;margin-right:5px}
-.sm{color:#86868B}
-.fine{font-size:12px;color:#86868B;margin-top:16px;line-height:1.6}
-@media(max-width:700px){footer ul{columns:1} .grid{grid-template-columns:1fr}}
+.dot.red{background:#FF3B30}.dot.amber{background:#FF9F0A}.dot.green{background:#34C759}.dot.grey{background:#AEAEB2}
+.desc{margin:0;font-size:13px;line-height:1.5;color:#3A3A3C}
+.vol{font-size:13px;color:#6E6E73}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
+.pill{background:#F0F7FF;color:#0071E3;border-radius:999px;padding:3px 9px;font-size:11px}
+.foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px;border-top:1px solid #F0F0F2}
+.action{font-size:12px;color:#6E6E73}
+.btn{background:#0071E3;color:#fff;text-decoration:none;border-radius:999px;padding:8px 15px;font-size:13px}
+.btn:hover{background:#0060c0}
+footer{max-width:1240px;margin:0 auto;padding:0 28px 60px}
+.srcbox{background:#fff;border-radius:18px;padding:22px 26px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.srcbox h2{margin:0 0 12px;font-size:15px}
+.srcbox ul{margin:0;padding-left:18px;columns:2;column-gap:34px}
+.srcbox li{font-size:12.5px;line-height:1.7;break-inside:avoid}
+.srcbox a{color:#0071E3;text-decoration:none}
+.sn{color:#6E6E73}
+.none{background:#fff;border-radius:18px;padding:34px;text-align:center;color:#6E6E73;display:none}
+@media(max-width:700px){.srcbox ul{columns:1}}
 </style></head><body>
-<header><div class="hin"><h1>CPD Funding Radar</h1><span class="upd">Stand 2026-08-17 · 21 aktive Calls</span></div></header>
-<main>
-<section class="sum">
-  <div class="card kpi"><div class="n">21</div><div class="l">Aktive Calls</div></div>
-  <div class="card kpi red"><div class="n">8</div><div class="l">&lt; 28 Tage</div></div>
-  <div class="card kpi"><div class="n">3</div><div class="l">Rollierend</div></div>
-  <div class="card kpi"><div class="n">14</div><div class="l">CPD-Themen abgedeckt</div></div>
+<header><h1>CPD Funding Radar</h1><p>Zuletzt aktualisiert: 2026-08-24 · 23 aktive Calls</p></header>
+<div class="wrap">
+<section class="summary">
+<div class="stat"><b>23</b><span>Aktive Calls</span></div>
+<div class="stat"><b>10</b><span>Dringend (&lt; 28 Tage)</span></div>
+<div class="stat"><b>3</b><span>Rollierend</span></div>
+<div class="stat"><b>13</b><span>Abgedeckte CPD-Themen</span></div>
 </section>
-<section class="bar">
-  <div class="row"><input type="search" id="q" placeholder="Suche in Titel, Förderer, Beschreibung, Notizen …"></div>
-  <div class="row"><span class="lab">Dringlichkeit</span><div id="fu"></div></div>
-  <div class="row"><span class="lab">Förderertyp</span><div id="ft"></div></div>
-  <div class="row"><span class="lab">CPD-Thema</span><div id="fp"></div></div>
+<section class="filters">
+<select id="fTopic"><option value="">Alle CPD-Themen</option><option>all CPD topics (disziplinunabhängig)</option><option>behavioral-medicine</option><option>behavioral-science</option><option>digital-health</option><option>early-childhood</option><option>epidemiology</option><option>health-communication</option><option>health-promotion</option><option>implementation</option><option>prevention</option><option>primary-care</option><option>public-health</option><option>translational</option></select>
+<select id="fUrg"><option value="">Alle Dringlichkeiten</option><option value="🔴">🔴 &lt; 28 Tage</option><option value="🟡">🟡 28–90 Tage</option><option value="🟢">🟢 &gt; 90 Tage</option><option value="⚪">⚪ rollierend</option></select>
+<select id="fType"><option value="">Alle Fördererarten</option><option>EU</option><option>Foundation</option><option>National-DE</option></select>
+<input id="fQ" type="search" placeholder="Freitextsuche (Titel, Förderer, Beschreibung, Tags)…">
+<button id="reset">Zurücksetzen</button>
 </section>
-<div class="grid" id="grid"></div>
-<div class="empty" id="empty" style="display:none">Keine Calls entsprechen den Filtern.</div>
-</main>
-<footer><div class="card">
-<h2>Gesweepte Quellen · 2026-08-17</h2>
-<ul><li><span class='sc'>EU &amp; International</span> EU Funding &amp; Tenders Portal / Horizon Europe Cluster 1 Health <span class='sm'>· 2 neu (Watch: HLTH-2027-01, HLTH-2027-02)</span></li><li><span class='sc'>EU &amp; International</span> Horizon Europe Cluster 2 (DEMOCRACY-10) <span class='sm'>· 1 bestätigt</span></li><li><span class='sc'>EU &amp; International</span> EU4Health / HaDEA <span class='sm'>· 0 neu · 1 Watch aktualisiert</span></li><li><span class='sc'>EU &amp; International</span> European Research Council (ERC) <span class='sm'>· 1 bestätigt</span></li><li><span class='sc'>EU &amp; International</span> Innovative Health Initiative (IHI) <span class='sm'>· 1 bestätigt</span></li><li><span class='sc'>European Research Partnerships</span> BE READY (Pandemic Preparedness) <span class='sm'>· 1 bestätigt</span></li><li><span class='sc'>European Research Partnerships</span> ERA4Health <span class='sm'>· 0 neu · 1 Watch aktualisiert</span></li><li><span class='sc'>European Research Partnerships</span> EP PerMed <span class='sm'>· 1 neu (Watch: JTC 2027)</span></li><li><span class='sc'>European Research Partnerships</span> ERDERA <span class='sm'>· 0 neu</span></li><li><span class='sc'>European Research Partnerships</span> EP BrainHealth <span class='sm'>· 0 neu (kein Folgezyklus angekündigt)</span></li><li><span class='sc'>German Federal Funders</span> BMFTR Gesundheitsforschung / Bekanntmachungen <span class='sm'>· 1 neu (Klin. Studien Patientenversorgung) · 3 bestätigt</span></li><li><span class='sc'>German Federal Funders</span> BMG Ressortforschung <span class='sm'>· 0 neu offen · 1 Zeile archiviert (ÖGD nicht belegbar)</span></li><li><span class='sc'>German Federal Funders</span> DFG Ausschreibungen / Info für die Wissenschaft <span class='sm'>· 2 bestätigt</span></li><li><span class='sc'>German Federal Funders</span> G-BA Innovationsfonds <span class='sm'>· 4 bestätigt · 2 Watch aktualisiert</span></li><li><span class='sc'>German Federal Funders</span> GLOHRA <span class='sm'>· 1 Watch aktualisiert (Öffnung 16.11.2026)</span></li><li><span class='sc'>German Foundations</span> Else Kröner-Fresenius-Stiftung / ForTra <span class='sm'>· 1 neu (ForTra) · 1 abgelehnt (Forschungspreis 2027) · 4 Watch geprüft</span></li><li><span class='sc'>German Foundations</span> VolkswagenStiftung <span class='sm'>· 1 neu (Opus Magnum) · 1 bestätigt · 1 Watch aktualisiert</span></li><li><span class='sc'>German Foundations</span> Fritz Thyssen Stiftung <span class='sm'>· 1 bestätigt</span></li><li><span class='sc'>German Foundations</span> Jacobs Foundation <span class='sm'>· 1 bestätigt</span></li><li><span class='sc'>German Foundations</span> Wellcome Trust <span class='sm'>· 1 bestätigt · 2 abgelaufen (Climate Impacts 08.04., Mental Health Award 14.07.)</span></li><li><span class='sc'>German Foundations</span> Robert Bosch Stiftung <span class='sm'>· 0 neu (keine offene themenspezifische Gesundheitsausschreibung auffindbar)</span></li><li><span class='sc'>German Foundations</span> Carl-Zeiss-Stiftung <span class='sm'>· 0 neu</span></li><li><span class='sc'>Regional (Baden-Württemberg)</span> Präventionsstiftung BW <span class='sm'>· 1 bestätigt (Entscheidungstermin 30.09.2026)</span></li><li><span class='sc'>Regional (Baden-Württemberg)</span> BW Ministerium für Soziales, Arbeit und Gesundheit <span class='sm'>· 0 neu mit CPD-Passung ≥★★ (aktuelle Aufrufe: Gemeinsam engagiert BW V 01.10.2026, Impulse Inklusion 18.09.2026)</span></li><li><span class='sc'>Regional (Baden-Württemberg)</span> BW Stiftung <span class='sm'>· 0 neu</span></li></ul>
-<p class="fine">Alle Quellen in diesem Lauf erreichbar. Die DFG-Übersichtsseite „Informationen für die Wissenschaft“ war für einen Volltextabruf zu groß; die betroffenen Calls wurden stattdessen gezielt einzeln verifiziert. Volumen- und Fristangaben mit dem Vermerk „unconfirmed“ konnten aus der Primärquelle nicht belegt werden — bitte dem Link folgen.</p>
-</div></footer>
+<div class="grid" id="grid"><article class="card" data-topics="all CPD topics (disziplinunabhängig)" data-urg="🔴" data-ft="EU" data-q="erc advanced grant 2026 (erc-2026-adg) european research council bis €2,5 mio. über 5 jahre für etablierte pis (&gt;10 j. erfahrung post-phd). topic-unabhängig; alle cpd-forschungsbereiche förderfähig. neues format 2026: 5-seitiger part i + 7-seitiger part ii. all cpd topics (disziplinunabhängig)">
+  <div class="chead"><span class="rank">#1</span><span class="stars">★★★★★</span></div>
+  <h3>ERC Advanced Grant 2026 (ERC-2026-ADG)</h3>
+  <div class="meta"><span class="badge">European Research Council</span><span class="badge alt">EU</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-08-27</strong></div>
+  <p class="desc">Bis €2,5 Mio. über 5 Jahre für etablierte PIs (&gt;10 J. Erfahrung post-PhD). Topic-unabhängig; alle CPD-Forschungsbereiche förderfähig. Neues Format 2026: 5-seitiger Part I + 7-seitiger Part II.</p>
+  <div class="vol">up to €2,500,000 (5 Jahre)</div>
+  <div class="pills"><span class="pill">all CPD topics (disziplinunabhängig)</span></div>
+  <div class="foot"><span class="action">Prepare now</span><a class="btn" href="https://erc.europa.eu/apply-grant/advanced-grant" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="primary-care, implementation, epidemiology, public-health" data-urg="🟡" data-ft="National-DE" data-q="versorgungsforschung themenoffener bereich (einstufig) 2026 — g-ba if g-ba innovationsfonds themenoffene versorgungsforschungs-förderung des innovationsfonds; einstufiges verfahren. veröffentlicht 19.06.2026. förderung von vsf-projekten zur weiterentwicklung der gkv-versorgung. einreichungsfrist 20.10.2026, 12:00. primary-care, implementation, epidemiology, public-health">
+  <div class="chead"><span class="rank">#2</span><span class="stars">★★★★★</span></div>
+  <h3>Versorgungsforschung themenoffener Bereich (einstufig) 2026 — G-BA IF</h3>
+  <div class="meta"><span class="badge">G-BA Innovationsfonds</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-10-20</strong></div>
+  <p class="desc">Themenoffene Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren. Veröffentlicht 19.06.2026. Förderung von VsF-Projekten zur Weiterentwicklung der GKV-Versorgung. Einreichungsfrist 20.10.2026, 12:00.</p>
+  <div class="vol">unconfirmed per project (€20M VsF-Gesamtbudget 2026)</div>
+  <div class="pills"><span class="pill">primary-care</span><span class="pill">implementation</span><span class="pill">epidemiology</span><span class="pill">public-health</span></div>
+  <div class="foot"><span class="action">Prepare now</span><a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenoffenen-bereich.55" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="primary-care, implementation, epidemiology, public-health" data-urg="🟡" data-ft="National-DE" data-q="versorgungsforschung themenspezifischer bereich (einstufig) 2026 — g-ba if g-ba innovationsfonds themenspezifische versorgungsforschungs-förderung des innovationsfonds; einstufiges verfahren mit vorgegebenen themenschwerpunkten (u.a. bedarfsgerechte steuerung ambulante psychiatrisch-psychotherapeutische versorgung). veröffentlicht 19.06.2026. einreichungsfrist 20.10.2026, 12:00. primary-care, implementation, epidemiology, public-health">
+  <div class="chead"><span class="rank">#3</span><span class="stars">★★★★★</span></div>
+  <h3>Versorgungsforschung themenspezifischer Bereich (einstufig) 2026 — G-BA IF</h3>
+  <div class="meta"><span class="badge">G-BA Innovationsfonds</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-10-20</strong></div>
+  <p class="desc">Themenspezifische Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren mit vorgegebenen Themenschwerpunkten (u.a. bedarfsgerechte Steuerung ambulante psychiatrisch-psychotherapeutische Versorgung). Veröffentlicht 19.06.2026. Einreichungsfrist 20.10.2026, 12:00.</p>
+  <div class="vol">unconfirmed per project (€20M VsF-Gesamtbudget 2026)</div>
+  <div class="pills"><span class="pill">primary-care</span><span class="pill">implementation</span><span class="pill">epidemiology</span><span class="pill">public-health</span></div>
+  <div class="foot"><span class="action">Prepare now</span><a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenspezifischen-bereich.69" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="primary-care, implementation, prevention, public-health" data-urg="⚪" data-ft="National-DE" data-q="nvf themenoffen einstufig kurz (laufend 2026) — g-ba if g-ba innovationsfonds rollierende nvf-förderung für neue versorgungsformen in der gkv; einstufig, kurz. einreichung per e-mail laufend bis 31.12.2026. gesamtbudget nvf 2026: €80 mio. (nvf+vsf €100 mio.). primary-care, implementation, prevention, public-health">
+  <div class="chead"><span class="rank">#4</span><span class="stars">★★★★★</span></div>
+  <h3>NVF themenoffen einstufig kurz (laufend 2026) — G-BA IF</h3>
+  <div class="meta"><span class="badge">G-BA Innovationsfonds</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot grey"></span><strong>laufend / rollierend</strong></div>
+  <p class="desc">Rollierende NVF-Förderung für neue Versorgungsformen in der GKV; einstufig, kurz. Einreichung per E-Mail laufend bis 31.12.2026. Gesamtbudget NVF 2026: €80 Mio. (NVF+VsF €100 Mio.).</p>
+  <div class="vol">unconfirmed per project (€80M NVF-Budget 2026)</div>
+  <div class="pills"><span class="pill">primary-care</span><span class="pill">implementation</span><span class="pill">prevention</span><span class="pill">public-health</span></div>
+  <div class="foot"><span class="action">Rolling</span><a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-neue-versorgungsformen-zum-themenoffenen-bereich-einstufig-kurz-einreichung-laufend-im-jahr-moeglich.66" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="behavioral-science, prevention, epidemiology, implementation, primary-care" data-urg="⚪" data-ft="National-DE" data-q="dfg sachbeihilfe (laufend) dfg rollierende einzelprojektförderung der dfg für grundlagen- und angewandte forschung; kein thema ausgeschlossen. einreichung jederzeit über elan-portal. behavioral-science, prevention, epidemiology, implementation, primary-care">
+  <div class="chead"><span class="rank">#5</span><span class="stars">★★★★★</span></div>
+  <h3>DFG Sachbeihilfe (laufend)</h3>
+  <div class="meta"><span class="badge">DFG</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot grey"></span><strong>laufend / rollierend</strong></div>
+  <p class="desc">Rollierende Einzelprojektförderung der DFG für Grundlagen- und angewandte Forschung; kein Thema ausgeschlossen. Einreichung jederzeit über elan-Portal.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">prevention</span><span class="pill">epidemiology</span><span class="pill">implementation</span><span class="pill">primary-care</span></div>
+  <div class="foot"><span class="action">Rolling</span><a class="btn" href="https://www.dfg.de/de/foerderung/foerdermoeglichkeiten/programme/einzelfoerderung/sachbeihilfe" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="behavioral-science, prevention, implementation, digital-health" data-urg="🔴" data-ft="Foundation" data-q="pioneering research – exploring the unknown unknown (vw stiftung 2026) volkswagenstiftung förderung bahnbrechender, risikoreicher forschung außerhalb des mainstreams; bis €1,3 mio. über 3–5 jahre. kurzantrag bis 27.08.2026, 14:00; vollantrag für ausgewählte anfang 2027. behavioral-science, prevention, implementation, digital-health">
+  <div class="chead"><span class="rank">#6</span><span class="stars">★★★★☆</span></div>
+  <h3>Pioneering Research – Exploring the Unknown Unknown (VW Stiftung 2026)</h3>
+  <div class="meta"><span class="badge">VolkswagenStiftung</span><span class="badge alt">Foundation</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-08-27</strong></div>
+  <p class="desc">Förderung bahnbrechender, risikoreicher Forschung außerhalb des Mainstreams; bis €1,3 Mio. über 3–5 Jahre. Kurzantrag bis 27.08.2026, 14:00; Vollantrag für Ausgewählte Anfang 2027.</p>
+  <div class="vol">up to €1,300,000 (3–5 Jahre)</div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">prevention</span><span class="pill">implementation</span><span class="pill">digital-health</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.volkswagenstiftung.de/en/funding/funding-offer/pioneering-research-exploring-unknown-unknown" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="behavioral-science, behavioral-medicine, prevention, digital-health" data-urg="🔴" data-ft="Foundation" data-q="wellcome prize for mental health science 2026 wellcome trust globaler preis usd 1 mio. (gewinner) + 3x usd 250 k (finalisten) für neue interventionen bei depression/angst/psychose. launch 14 mai 2026; einreichfrist 18 sep 2026. behavioral-science, behavioral-medicine, prevention, digital-health">
+  <div class="chead"><span class="rank">#7</span><span class="stars">★★★★☆</span></div>
+  <h3>Wellcome Prize for Mental Health Science 2026</h3>
+  <div class="meta"><span class="badge">Wellcome Trust</span><span class="badge alt">Foundation</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-09-18</strong></div>
+  <p class="desc">Globaler Preis USD 1 Mio. (Gewinner) + 3x USD 250 k (Finalisten) für neue Interventionen bei Depression/Angst/Psychose. Launch 14 Mai 2026; Einreichfrist 18 Sep 2026.</p>
+  <div class="vol">USD 1,000,000 (winner); USD 250,000 (3 finalists)</div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">behavioral-medicine</span><span class="pill">prevention</span><span class="pill">digital-health</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://wellcome.org/insights/articles/wellcome-launches-worlds-largest-global-prize-mental-health-science" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="behavioral-science, prevention, epidemiology, public-health" data-urg="🔴" data-ft="Foundation" data-q="fritz thyssen stiftung – projektförderung (frist sep 2026) fritz thyssen stiftung projektförderung für geistes-, sozial- und biomedizinwissenschaften; interdisziplinäre projekte ausdrücklich erwünscht. zwei fristen jährlich (1. feb / 1. sep). nächste frist: 01.09.2026 (wintersitzung der gremien im februar). behavioral-science, prevention, epidemiology, public-health">
+  <div class="chead"><span class="rank">#8</span><span class="stars">★★★☆☆</span></div>
+  <h3>Fritz Thyssen Stiftung – Projektförderung (Frist Sep 2026)</h3>
+  <div class="meta"><span class="badge">Fritz Thyssen Stiftung</span><span class="badge alt">Foundation</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-09-01</strong></div>
+  <p class="desc">Projektförderung für Geistes-, Sozial- und Biomedizinwissenschaften; interdisziplinäre Projekte ausdrücklich erwünscht. Zwei Fristen jährlich (1. Feb / 1. Sep). Nächste Frist: 01.09.2026 (Wintersitzung der Gremien im Februar).</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">prevention</span><span class="pill">epidemiology</span><span class="pill">public-health</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.fritz-thyssen-stiftung.de/en/funding/types-of-support/support-of-projects/" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="translational, implementation, behavioral-medicine, public-health" data-urg="🔴" data-ft="National-DE" data-q="bmftr klinische studien postinfektiöse erkrankungen 2026 — nationale dekade bmftr förderung wissenschaftsinitiierter klinischer studien, systematischer reviews und konzeptphasen zu post-akut-infektionssyndromen (pais, u.a. long/post-covid, me/cfs). teil der nationalen dekade gegen postinfektiöse erkrankungen (10 j., €500 mio.). zweistufig; projektskizze bis 02.09.2026. translational, implementation, behavioral-medicine, public-health">
+  <div class="chead"><span class="rank">#9</span><span class="stars">★★★☆☆</span></div>
+  <h3>BMFTR Klinische Studien postinfektiöse Erkrankungen 2026 — Nationale Dekade</h3>
+  <div class="meta"><span class="badge">BMFTR</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-09-02</strong></div>
+  <p class="desc">Förderung wissenschaftsinitiierter klinischer Studien, systematischer Reviews und Konzeptphasen zu Post-Akut-Infektionssyndromen (PAIS, u.a. Long/Post-COVID, ME/CFS). Teil der Nationalen Dekade gegen postinfektiöse Erkrankungen (10 J., €500 Mio.). Zweistufig; Projektskizze bis 02.09.2026.</p>
+  <div class="vol">unconfirmed per project (Dekade gesamt €500M/10 J.)</div>
+  <div class="pills"><span class="pill">translational</span><span class="pill">implementation</span><span class="pill">behavioral-medicine</span><span class="pill">public-health</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.gesundheitsforschung-bmftr.de/de/19701.php" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="translational, implementation, primary-care, public-health" data-urg="🔴" data-ft="National-DE" data-q="bmftr klinische studien mit hoher relevanz für die patientenversorgung 2026 bmftr neu. förderung wissenschaftsinitiierter klinischer studien, systematischer übersichtsarbeiten, konzeptphasen und methodischer begleitforschung zum schließen versorgungsrelevanter evidenzlücken. zweistufig; projektskizze bis 02.09.2026. studien bis 5 j., reviews bis 2 j., konzeptphasen bis 18 monate. translational, implementation, primary-care, public-health">
+  <div class="chead"><span class="rank">#10</span><span class="stars">★★★☆☆</span></div>
+  <h3>BMFTR Klinische Studien mit hoher Relevanz für die Patientenversorgung 2026</h3>
+  <div class="meta"><span class="badge">BMFTR</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-09-02</strong></div>
+  <p class="desc">NEU. Förderung wissenschaftsinitiierter klinischer Studien, systematischer Übersichtsarbeiten, Konzeptphasen und methodischer Begleitforschung zum Schließen versorgungsrelevanter Evidenzlücken. Zweistufig; Projektskizze bis 02.09.2026. Studien bis 5 J., Reviews bis 2 J., Konzeptphasen bis 18 Monate.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">translational</span><span class="pill">implementation</span><span class="pill">primary-care</span><span class="pill">public-health</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.gesundheitsforschung-bmftr.de/de/19250.php" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="digital-health, behavioral-science, epidemiology" data-urg="🔴" data-ft="National-DE" data-q="dfg spp 2431 – new data spaces for the social sciences (2. förderphase) dfg infrastruktur-schwerpunktprogramm; ausschreibung für die zweite förderphase 2027–2030. methodische innovationen an der schnittstelle sozialwissenschaften/informatik zur zukunftssicherung von panel- und surveyforschung. registrierung 09.09.2026, vollantrag 16.09.2026. digital-health, behavioral-science, epidemiology">
+  <div class="chead"><span class="rank">#11</span><span class="stars">★★★☆☆</span></div>
+  <h3>DFG SPP 2431 – New Data Spaces for the Social Sciences (2. Förderphase)</h3>
+  <div class="meta"><span class="badge">DFG</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-09-09</strong></div>
+  <p class="desc">Infrastruktur-Schwerpunktprogramm; Ausschreibung für die zweite Förderphase 2027–2030. Methodische Innovationen an der Schnittstelle Sozialwissenschaften/Informatik zur Zukunftssicherung von Panel- und Surveyforschung. Registrierung 09.09.2026, Vollantrag 16.09.2026.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">digital-health</span><span class="pill">behavioral-science</span><span class="pill">epidemiology</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.dfg.de/en/news/news-topics/announcements-proposals/2026/ifr-26-17" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="implementation, primary-care, public-health" data-urg="🟡" data-ft="National-DE" data-q="versorgungsforschung – medizinische leitlinien (medll) 2026 — g-ba if g-ba innovationsfonds förderung zur entwicklung/weiterentwicklung medizinischer leitlinien mit besonderem versorgungsbedarf; vom bmg festgelegte schwerpunkte. veröffentlicht 19.06.2026. einreichungsfrist 22.09.2026, 12:00. implementation, primary-care, public-health">
+  <div class="chead"><span class="rank">#12</span><span class="stars">★★★☆☆</span></div>
+  <h3>Versorgungsforschung – Medizinische Leitlinien (MedLL) 2026 — G-BA IF</h3>
+  <div class="meta"><span class="badge">G-BA Innovationsfonds</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-09-22</strong></div>
+  <p class="desc">Förderung zur Entwicklung/Weiterentwicklung medizinischer Leitlinien mit besonderem Versorgungsbedarf; vom BMG festgelegte Schwerpunkte. Veröffentlicht 19.06.2026. Einreichungsfrist 22.09.2026, 12:00.</p>
+  <div class="vol">unconfirmed per project (≥€2,5M MedLL-Budget 2026)</div>
+  <div class="pills"><span class="pill">implementation</span><span class="pill">primary-care</span><span class="pill">public-health</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-medizinische-leitlinien-medll.70" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="health-communication, behavioral-science" data-urg="🟡" data-ft="EU" data-q="horizon-cl2-2026-01-democracy-10 – digital &amp; media literacy european commission / rea förderung für forschung zu digitaler und medialer kompetenz; cpd-relevanz über gesundheitskommunikation und fehlinformation. budget: €12m. frist 23 sep 2026. health-communication, behavioral-science">
+  <div class="chead"><span class="rank">#13</span><span class="stars">★★★☆☆</span></div>
+  <h3>HORIZON-CL2-2026-01-DEMOCRACY-10 – Digital &amp; Media Literacy</h3>
+  <div class="meta"><span class="badge">European Commission / REA</span><span class="badge alt">EU</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-09-23</strong></div>
+  <p class="desc">Förderung für Forschung zu digitaler und medialer Kompetenz; CPD-Relevanz über Gesundheitskommunikation und Fehlinformation. Budget: €12M. Frist 23 Sep 2026.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">health-communication</span><span class="pill">behavioral-science</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/horizon-cl2-2026-01-democracy-10" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="early-childhood, behavioral-science, epidemiology" data-urg="🟡" data-ft="Foundation" data-q="levante 2026 – learning variability network exchange (stage 2) jacobs foundation call für längsschnittforschung zur lern-/entwicklungsvariabilität bei kindern 3–12 jahre. grants usd 250k–1 mio., förderpool usd 6 mio. stage 1 closed 10 jun 2026; stage 2 (vollantrag, eingeladene) 29 jul–25 sep 2026. early-childhood, behavioral-science, epidemiology">
+  <div class="chead"><span class="rank">#14</span><span class="stars">★★★☆☆</span></div>
+  <h3>LEVANTE 2026 – Learning Variability Network Exchange (Stage 2)</h3>
+  <div class="meta"><span class="badge">Jacobs Foundation</span><span class="badge alt">Foundation</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-09-25</strong></div>
+  <p class="desc">Call für Längsschnittforschung zur Lern-/Entwicklungsvariabilität bei Kindern 3–12 Jahre. Grants USD 250k–1 Mio., Förderpool USD 6 Mio. Stage 1 closed 10 Jun 2026; Stage 2 (Vollantrag, Eingeladene) 29 Jul–25 Sep 2026.</p>
+  <div class="vol">USD 250,000 – 1,000,000</div>
+  <div class="pills"><span class="pill">early-childhood</span><span class="pill">behavioral-science</span><span class="pill">epidemiology</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://jacobsfoundation.org/levante-opens-2026-call-for-proposals/" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="digital-health, translational, implementation" data-urg="🟡" data-ft="National-DE" data-q="bmftr kmu-innovativ: medizintechnik 2026 bmftr förderung risikoreicher verbundprojekte medizintechnik; prävention und nachsorge eingeschlossen. konsortium kmu + forschungseinrichtung. rollierend mit zwei stichtagen pro jahr. digital-health, translational, implementation">
+  <div class="chead"><span class="rank">#15</span><span class="stars">★★★☆☆</span></div>
+  <h3>BMFTR KMU-innovativ: Medizintechnik 2026</h3>
+  <div class="meta"><span class="badge">BMFTR</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-10-15</strong></div>
+  <p class="desc">Förderung risikoreicher Verbundprojekte Medizintechnik; Prävention und Nachsorge eingeschlossen. Konsortium KMU + Forschungseinrichtung. Rollierend mit zwei Stichtagen pro Jahr.</p>
+  <div class="vol">~€1,000,000 per project (€40M total/year)</div>
+  <div class="pills"><span class="pill">digital-health</span><span class="pill">translational</span><span class="pill">implementation</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/02/2026-02-06-bekanntmachung-medizintechnik.html" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="digital-health, epidemiology, implementation, public-health" data-urg="🟡" data-ft="National-DE" data-q="bmftr secure processing environments (spe) in der gesundheitsforschung 2026 bmftr neu. förderung von pilotprojekten zur entwicklung und erprobung von komponenten und anforderungen für sichere verarbeitungsumgebungen (secure processing environments) in der gesundheitsforschung. ziel ist eine datenschutzkonforme, interoperable infrastruktur für die sekundärnutzung von gesundheitsdaten. digital-health, epidemiology, implementation, public-health">
+  <div class="chead"><span class="rank">#16</span><span class="stars">★★★☆☆</span></div>
+  <h3>BMFTR Secure Processing Environments (SPE) in der Gesundheitsforschung 2026</h3>
+  <div class="meta"><span class="badge">BMFTR</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-10-28</strong></div>
+  <p class="desc">NEU. Förderung von Pilotprojekten zur Entwicklung und Erprobung von Komponenten und Anforderungen für sichere Verarbeitungsumgebungen (Secure Processing Environments) in der Gesundheitsforschung. Ziel ist eine datenschutzkonforme, interoperable Infrastruktur für die Sekundärnutzung von Gesundheitsdaten.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">digital-health</span><span class="pill">epidemiology</span><span class="pill">implementation</span><span class="pill">public-health</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.gesundheitsforschung-bmftr.de/de/19026.php" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="prevention, health-promotion, public-health, primary-care" data-urg="⚪" data-ft="Foundation" data-q="projektförderung gesundheitliche prävention (laufend) — präventionsstiftung bw stiftung für gesundheitliche prävention baden-württemberg rollierende projektförderung: vernetzung und kooperation in der allgemeinen gesundheitsvorsorge sowie verbreitung evaluierter, lebensweltorientierter projekte der gesundheitsförderung, prävention und rehabilitation. anträge jederzeit; entscheidung zweimal jährlich im koordinierungsausschuss. prevention, health-promotion, public-health, primary-care">
+  <div class="chead"><span class="rank">#17</span><span class="stars">★★★☆☆</span></div>
+  <h3>Projektförderung gesundheitliche Prävention (laufend) — Präventionsstiftung BW</h3>
+  <div class="meta"><span class="badge">Stiftung für gesundheitliche Prävention Baden-Württemberg</span><span class="badge alt">Foundation</span></div>
+  <div class="dl"><span class="dot grey"></span><strong>laufend / rollierend</strong></div>
+  <p class="desc">Rollierende Projektförderung: Vernetzung und Kooperation in der allgemeinen Gesundheitsvorsorge sowie Verbreitung evaluierter, lebensweltorientierter Projekte der Gesundheitsförderung, Prävention und Rehabilitation. Anträge jederzeit; Entscheidung zweimal jährlich im Koordinierungsausschuss.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">prevention</span><span class="pill">health-promotion</span><span class="pill">public-health</span><span class="pill">primary-care</span></div>
+  <div class="foot"><span class="action">Rolling</span><a class="btn" href="https://www.praeventionsstiftung-bw.de/foerderung" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="digital-health, translational, primary-care" data-urg="🔴" data-ft="National-DE" data-q="bmftr e2health – use cases für versorgungsrelevante in-silico-anwendungen 2026 bmftr neu. förderung von use cases für die modellhafte und versorgungsrelevante anwendung von in-silico-methoden in der medizin (förderkonzept e2health). fokus auf versorgungsnahe demonstration computergestützter verfahren. digital-health, translational, primary-care">
+  <div class="chead"><span class="rank">#18</span><span class="stars">★★☆☆☆</span></div>
+  <h3>BMFTR e2Health – Use Cases für versorgungsrelevante In-silico-Anwendungen 2026</h3>
+  <div class="meta"><span class="badge">BMFTR</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-08-27</strong></div>
+  <p class="desc">NEU. Förderung von Use Cases für die modellhafte und versorgungsrelevante Anwendung von In-silico-Methoden in der Medizin (Förderkonzept e2Health). Fokus auf versorgungsnahe Demonstration computergestützter Verfahren.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">digital-health</span><span class="pill">translational</span><span class="pill">primary-care</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.gesundheitsforschung-bmftr.de/de/18786.php" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="behavioral-science, public-health, health-communication" data-urg="🔴" data-ft="Foundation" data-q="fritz thyssen stiftung – förderung wissenschaftlicher tagungen (frist aug 2026) fritz thyssen stiftung neu. förderung kleinerer wissenschaftlicher tagungen in den förderbereichen der stiftung, u.a. „medizin und naturwissenschaften“ sowie „staat, wirtschaft und gesellschaft“. vier fristen pro jahr: 28.02., 31.05., 31.08., 30.11. behavioral-science, public-health, health-communication">
+  <div class="chead"><span class="rank">#19</span><span class="stars">★★☆☆☆</span></div>
+  <h3>Fritz Thyssen Stiftung – Förderung wissenschaftlicher Tagungen (Frist Aug 2026)</h3>
+  <div class="meta"><span class="badge">Fritz Thyssen Stiftung</span><span class="badge alt">Foundation</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-08-31</strong></div>
+  <p class="desc">NEU. Förderung kleinerer wissenschaftlicher Tagungen in den Förderbereichen der Stiftung, u.a. „Medizin und Naturwissenschaften“ sowie „Staat, Wirtschaft und Gesellschaft“. Vier Fristen pro Jahr: 28.02., 31.05., 31.08., 30.11.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">public-health</span><span class="pill">health-communication</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.fritz-thyssen-stiftung.de/foerderung/foerderarten/tagungen/" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="translational" data-urg="🔴" data-ft="Foundation" data-q="fortra – förderung regulatorischer beratungen für translationale projekte 2026 else kröner-fresenius-stiftung / fortra neu. die fortra ggmbh der ekfs finanziert professionelle beratungsleistungen zur vorbereitung und durchführung von orientierungsgesprächen und scientific-advice-meetings mit pei/bfarm (pre-ind). bis €100.000 pro projekt. frist 15.09.2026. translational">
+  <div class="chead"><span class="rank">#20</span><span class="stars">★★☆☆☆</span></div>
+  <h3>ForTra – Förderung regulatorischer Beratungen für translationale Projekte 2026</h3>
+  <div class="meta"><span class="badge">Else Kröner-Fresenius-Stiftung / ForTra</span><span class="badge alt">Foundation</span></div>
+  <div class="dl"><span class="dot red"></span><strong>2026-09-15</strong></div>
+  <p class="desc">NEU. Die ForTra gGmbH der EKFS finanziert professionelle Beratungsleistungen zur Vorbereitung und Durchführung von Orientierungsgesprächen und Scientific-Advice-Meetings mit PEI/BfArM (pre-IND). Bis €100.000 pro Projekt. Frist 15.09.2026.</p>
+  <div class="vol">up to €100,000 per project</div>
+  <div class="pills"><span class="pill">translational</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://ekfs.de/aktuelles/ausschreibungen/fortra-foerderung-regulatorischer-beratungen-fuer-translationale-projekte" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="digital-health, translational, implementation" data-urg="🟡" data-ft="National-DE" data-q="bmftr e2health – klinische validierungsstudien von in-silico-methoden 2026 bmftr neu. förderung von forschungsprojekten zu klinischen validierungsstudien von in-silico-methoden im förderkonzept „e2health – in silico-forschung für die medizin der zukunft“. gefördert werden studien, die computergestützte modelle im klinischen kontext prüfen. digital-health, translational, implementation">
+  <div class="chead"><span class="rank">#21</span><span class="stars">★★☆☆☆</span></div>
+  <h3>BMFTR e2Health – Klinische Validierungsstudien von In-silico-Methoden 2026</h3>
+  <div class="meta"><span class="badge">BMFTR</span><span class="badge alt">National-DE</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-09-23</strong></div>
+  <p class="desc">NEU. Förderung von Forschungsprojekten zu klinischen Validierungsstudien von In-silico-Methoden im Förderkonzept „e2Health – In silico-Forschung für die Medizin der Zukunft“. Gefördert werden Studien, die computergestützte Modelle im klinischen Kontext prüfen.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">digital-health</span><span class="pill">translational</span><span class="pill">implementation</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.gesundheitsforschung-bmftr.de/de/19420.php" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="digital-health, translational" data-urg="🟡" data-ft="EU" data-q="ihi call 13 (horizon-ju-ihi-2026-13-two-stage) ihi (innovative health initiative) zweistufiger ihi-call (ria), launch 02.07.2026. drei topics: european healthcare incubator network; ki-foundation-toxikologiemodell zur reduktion von tierversuchen; entschlüsselung der immuno-wissenschaft altersbedingter immunvermittelter erkrankungen. kurzantrag (stufe 1) bis 08.10.2026, 17:00; vollantrag (stufe 2) 21.04.2027. digital-health, translational">
+  <div class="chead"><span class="rank">#22</span><span class="stars">★★☆☆☆</span></div>
+  <h3>IHI Call 13 (HORIZON-JU-IHI-2026-13-two-stage)</h3>
+  <div class="meta"><span class="badge">IHI (Innovative Health Initiative)</span><span class="badge alt">EU</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-10-08</strong></div>
+  <p class="desc">Zweistufiger IHI-Call (RIA), Launch 02.07.2026. Drei Topics: European HealthCare Incubator Network; KI-Foundation-Toxikologiemodell zur Reduktion von Tierversuchen; Entschlüsselung der Immuno-Wissenschaft altersbedingter immunvermittelter Erkrankungen. Kurzantrag (Stufe 1) bis 08.10.2026, 17:00; Vollantrag (Stufe 2) 21.04.2027.</p>
+  <div class="vol">unconfirmed — see link</div>
+  <div class="pills"><span class="pill">digital-health</span><span class="pill">translational</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.ihi.europa.eu/ihi-call-13" target="_blank" rel="noopener">Zum Call →</a></div>
+</article><article class="card" data-topics="behavioral-science, public-health, health-communication" data-urg="🟡" data-ft="Foundation" data-q="opus magnum (vw stiftung, frist nov 2026) volkswagenstiftung neu. freistellung für herausragende professor:innen der geistes- und sozialwissenschaften zur erarbeitung eines größeren wissenschaftlichen werks. finanziert wird eine lehrstuhlvertretung für 6–18 monate plus bis €5.000 sachkosten pro semester. frist 18.11.2026. behavioral-science, public-health, health-communication">
+  <div class="chead"><span class="rank">#23</span><span class="stars">★★☆☆☆</span></div>
+  <h3>Opus Magnum (VW Stiftung, Frist Nov 2026)</h3>
+  <div class="meta"><span class="badge">VolkswagenStiftung</span><span class="badge alt">Foundation</span></div>
+  <div class="dl"><span class="dot amber"></span><strong>2026-11-18</strong></div>
+  <p class="desc">NEU. Freistellung für herausragende Professor:innen der Geistes- und Sozialwissenschaften zur Erarbeitung eines größeren wissenschaftlichen Werks. Finanziert wird eine Lehrstuhlvertretung für 6–18 Monate plus bis €5.000 Sachkosten pro Semester. Frist 18.11.2026.</p>
+  <div class="vol">Vertretungsprofessur 6–18 Monate + bis €5,000 Sachkosten/Semester</div>
+  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">public-health</span><span class="pill">health-communication</span></div>
+  <div class="foot"><span class="action">Monitor</span><a class="btn" href="https://www.volkswagenstiftung.de/en/funding/funding-offer/opus-magnum" target="_blank" rel="noopener">Zum Call →</a></div>
+</article></div>
+<div class="none" id="none">Keine Calls entsprechen den gewählten Filtern.</div>
+</div>
+<footer><div class="srcbox"><h2>In diesem Lauf gesweepte Quellen (2026-08-24)</h2><ul><li><a href="https://ec.europa.eu/info/funding-tenders/opportunities/portal/" target="_blank" rel="noopener">EU Funding &amp; Tenders Portal</a> <span class="sn">0 neu · 2 Watch-Einträge bestätigt</span></li><li><a href="https://health.ec.europa.eu/funding_en" target="_blank" rel="noopener">EU4Health / HERA (health.ec.europa.eu)</a> <span class="sn">0 neu · nur HERA-Beschaffungstender (27.07.)</span></li><li><a href="https://www.gesundheitsforschung-bmftr.de/de/bekanntmachungen-2026-18764.php" target="_blank" rel="noopener">BMFTR Gesundheitsforschung — Bekanntmachungen 2026</a> <span class="sn">3 neu · 2 bestätigt · 1 archiviert</span></li><li><a href="https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen" target="_blank" rel="noopener">BMG Ressortforschung</a> <span class="sn">⚠️ nicht erreichbar (leere Antwort) — manuell prüfen</span></li><li><a href="https://www.dfg.de/de/foerderung/foerdermoeglichkeiten/ausschreibungen" target="_blank" rel="noopener">DFG Ausschreibungen / Informationen für die Wissenschaft</a> <span class="sn">0 neu (1 geprüft, verworfen) · 2 bestätigt</span></li><li><a href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/" target="_blank" rel="noopener">G-BA Innovationsfonds</a> <span class="sn">0 neu · 4 bestätigt · 2 Watch bestätigt</span></li><li><a href="https://ekfs.de/aktuelles/ausschreibungen" target="_blank" rel="noopener">Else Kröner-Fresenius-Stiftung</a> <span class="sn">0 neu (2 offen, 1 verworfen) · 1 bestätigt · 4 Watch bestätigt</span></li><li><a href="https://www.volkswagenstiftung.de/de/foerderung/was-wir-foerdern" target="_blank" rel="noopener">VolkswagenStiftung</a> <span class="sn">0 neu · 2 bestätigt · 1 Watch bestätigt</span></li><li><a href="https://www.fritz-thyssen-stiftung.de/foerderung/foerderarten/" target="_blank" rel="noopener">Fritz Thyssen Stiftung</a> <span class="sn">1 neu · 1 bestätigt</span></li><li><a href="https://jacobsfoundation.org/grant/" target="_blank" rel="noopener">Jacobs Foundation</a> <span class="sn">0 neu · 1 bestätigt (LEVANTE Stage 2)</span></li><li><a href="https://wellcome.org/grant-funding/schemes" target="_blank" rel="noopener">Wellcome Trust</a> <span class="sn">⚠️ Seite leer (JS) — per Suche verifiziert, 0 neu</span></li><li><a href="https://era4health.eu/calls/" target="_blank" rel="noopener">ERA4Health</a> <span class="sn">⚠️ Seite leer (JS) — per Suche verifiziert, kein JTC9</span></li><li><a href="https://www.eppermed.eu/funding-projects/calls/" target="_blank" rel="noopener">EP PerMed</a> <span class="sn">0 neu · kein JTC2027-Pre-Announcement</span></li><li><a href="https://erdera.org/calls/" target="_blank" rel="noopener">ERDERA</a> <span class="sn">0 neu · Watch unverändert</span></li><li><a href="https://www.brainhealth-partnership.eu/calls/" target="_blank" rel="noopener">EP BrainHealth</a> <span class="sn">0 neu · 2026er Zyklus abgeschlossen</span></li><li><a href="https://beready4pandemics.eu/joint-transnational-calls/" target="_blank" rel="noopener">BE READY Partnership</a> <span class="sn">JTC 2026 archiviert · Watch 2027 neu angelegt</span></li><li><a href="https://www.ihi.europa.eu/ihi-call-13" target="_blank" rel="noopener">IHI (Innovative Health Initiative)</a> <span class="sn">0 neu · 1 bestätigt (Call 13)</span></li><li><a href="https://www.bwstiftung.de/de/ausschreibungen" target="_blank" rel="noopener">BW Stiftung</a> <span class="sn">0 neu · Eliteprogramm 2027 noch nicht offen</span></li><li><a href="https://www.praeventionsstiftung-bw.de/foerderung" target="_blank" rel="noopener">Präventionsstiftung Baden-Württemberg</a> <span class="sn">0 neu · rollierend bestätigt</span></li><li><a href="https://www.globalhealth.de/news/view/research-projects/" target="_blank" rel="noopener">GLOHRA</a> <span class="sn">0 neu · Öffnung 2027er Call bestätigt: 16.11.2026</span></li></ul></div></footer>
 <script>
-const DATA = [{"rank": 1, "fit": "★★★★★", "fitv": 5, "topics": ["all CPD topics (disziplinunabhängig)"], "funder": "European Research Council", "ftype": "EU", "title": "ERC Advanced Grant 2026 (ERC-2026-ADG)", "desc": "Bis €2,5 Mio. über 5 Jahre für etablierte PIs (>10 J. Erfahrung post-PhD). Topic-unabhängig; alle CPD-Forschungsbereiche förderfähig. Neues Format 2026: 5-seitiger Part I + 7-seitiger Part II.", "vol": "up to €2,500,000 (5 Jahre)", "deadline": "2026-08-27", "urg": "🔴", "urgc": "urgent", "days": 10, "status": "Open", "action": "Prepare now", "notes": "Frist erneut bestätigt (17.08.): 27 Aug 2026, 17:00 Brüsseler Zeit. Call geöffnet 28.05.2026. Budget 2026: €747 Mio., ca. 294 Grants. 🔴 Nur noch 10 Tage.", "link": "https://erc.europa.eu/apply-grant/advanced-grant"}, {"rank": 2, "fit": "★★★★★", "fitv": 5, "topics": ["primary-care", "implementation", "epidemiology", "public-health"], "funder": "G-BA Innovationsfonds", "ftype": "National-DE", "title": "Versorgungsforschung themenoffener Bereich (einstufig) 2026 — G-BA IF", "desc": "Themenoffene Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren. Veröffentlicht 19.06.2026. Förderung von VsF-Projekten zur Weiterentwicklung der GKV-Versorgung. Einreichungsfrist 20.10.2026, 12:00.", "vol": "unconfirmed per project (€20M VsF-Gesamtbudget 2026)", "deadline": "2026-10-20", "urg": "🟡", "urgc": "soon", "days": 64, "status": "Open", "action": "Prepare now", "notes": "Auf dem Portal am 17.08. als „Aktuell“ bestätigt (Frist 20.10.2026, 12:00). Sehr hohe CPD-Priorität. ⚠️ Neu: Das im Juli 2026 beschlossene GKV-Beitragssatz-Stabilisierungsgesetz senkt das Jahresfördervolumen des Innovationsausschusses ab 2027 dauerhaft auf €100 Mio. — 2026er Runde daher strategisch wichtig. Beratung DLR-PT: innovationsfonds-versorgungsforschung@dlr.de, 0228 3821 1020.", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenoffenen-bereich.55"}, {"rank": 3, "fit": "★★★★★", "fitv": 5, "topics": ["primary-care", "implementation", "epidemiology", "public-health"], "funder": "G-BA Innovationsfonds", "ftype": "National-DE", "title": "Versorgungsforschung themenspezifischer Bereich (einstufig) 2026 — G-BA IF", "desc": "Themenspezifische Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren mit vorgegebenen Themenschwerpunkten (u.a. bedarfsgerechte Steuerung ambulante psychiatrisch-psychotherapeutische Versorgung). Veröffentlicht 19.06.2026. Einreichungsfrist 20.10.2026, 12:00.", "vol": "unconfirmed per project (€20M VsF-Gesamtbudget 2026)", "deadline": "2026-10-20", "urg": "🟡", "urgc": "soon", "days": 64, "status": "Open", "action": "Prepare now", "notes": "Portal-Status am 17.08. bestätigt („Aktuell“, Frist 20.10.2026, 12:00). Themenspezifische Schwerpunkte beachten (Themenliste in der Bekanntmachung). Siehe auch Budgetkürzung ab 2027 (BStabG).", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenspezifischen-bereich.69"}, {"rank": 4, "fit": "★★★★★", "fitv": 5, "topics": ["primary-care", "implementation", "prevention", "public-health"], "funder": "G-BA Innovationsfonds", "ftype": "National-DE", "title": "NVF themenoffen einstufig kurz (laufend 2026) — G-BA IF", "desc": "Rollierende NVF-Förderung für neue Versorgungsformen in der GKV; einstufig, kurz. Einreichung per E-Mail laufend bis 31.12.2026. Gesamtbudget NVF 2026: €80 Mio. (NVF+VsF €100 Mio.).", "vol": "unconfirmed per project (€80M NVF-Budget 2026)", "deadline": "rolling", "urg": "⚪", "urgc": "rolling", "days": null, "status": "Open", "action": "Rolling", "notes": "Höchste strategische Priorität für CPD. Am 17.08. als einzige aktuelle NVF-Bekanntmachung auf dem Portal bestätigt (Frist 31.12.2026, 23:59). Einreichung: innovationsfonds-versorgungsformen@dlr.de. Beratung DLR-PT: 0228 3821 1020.", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-neue-versorgungsformen-zum-themenoffenen-bereich-einstufig-kurz-einreichung-laufend-im-jahr-moeglich.66"}, {"rank": 5, "fit": "★★★★★", "fitv": 5, "topics": ["behavioral-science", "prevention", "epidemiology", "implementation", "primary-care"], "funder": "DFG", "ftype": "National-DE", "title": "DFG Sachbeihilfe (laufend)", "desc": "Rollierende Einzelprojektförderung der DFG für Grundlagen- und angewandte Forschung; kein Thema ausgeschlossen. Einreichung jederzeit über elan-Portal.", "vol": "unconfirmed — see link", "deadline": "rolling", "urg": "⚪", "urgc": "rolling", "days": null, "status": "Open", "action": "Rolling", "notes": "Basisförderinstrument für alle CPD-Forschungsgebiete; bedarfsabhängige Einreichung. Dauerhaft offenes Instrument, kein Fristendatum. DFG-Schwerpunktseite Versorgungs-/Public-Health-Forschung als Einstieg beachten.", "link": "https://www.dfg.de/de/foerderung/foerdermoeglichkeiten/programme/einzelfoerderung/sachbeihilfe"}, {"rank": 6, "fit": "★★★★☆", "fitv": 4, "topics": ["preparedness", "public-health", "translational"], "funder": "BE READY Partnership / BMFTR", "ftype": "EU", "title": "BE READY JTC 2026 – European Partnership for Pandemic Preparedness", "desc": "Erster transnationaler Call der Partnerschaft BE READY: „Advancing knowledge of host and pathogen dynamics to better combat emerging diseases“. Vollantrag-Phase für Eingeladene bis 20.08.2026. Skizze closed 13.04.2026.", "vol": "unconfirmed per DE partner (~€16,4M call / €118M Partnerschaft)", "deadline": "2026-08-20", "urg": "🔴", "urgc": "urgent", "days": 3, "status": "Open (invited only)", "action": "Monitor", "notes": "Frist erneut bestätigt (17.08.): Vollantrag 20 Aug 2026 (nur Eingeladene) — 🔴 3 Tage. Relevant für 'Nächste Pandemie'-WG des CPD. Partnerschaft: 81 Partner aus 27 Ländern, €118 Mio. erste Dreijahresphase.", "link": "https://beready4pandemics.eu/joint-transnational-calls/"}, {"rank": 7, "fit": "★★★★☆", "fitv": 4, "topics": ["behavioral-science", "prevention", "implementation", "digital-health"], "funder": "VolkswagenStiftung", "ftype": "Foundation", "title": "Pioneering Research – Exploring the Unknown Unknown (VW Stiftung 2026)", "desc": "Förderung bahnbrechender, risikoreicher Forschung außerhalb des Mainstreams; bis €1,3 Mio. über 3–5 Jahre. Kurzantrag bis 27.08.2026, 14:00; Vollantrag für Ausgewählte Anfang 2027.", "vol": "up to €1,300,000 (3–5 Jahre)", "deadline": "2026-08-27", "urg": "🔴", "urgc": "urgent", "days": 10, "status": "Open", "action": "Monitor", "notes": "Frist erneut bestätigt (17.08.): 27 Aug 2026, 14:00 — 🔴 10 Tage. Exzellent für innovative CPD-Ideen in Verhaltensänderung, Digitalgesundheit, Implementierungswissenschaft. Fachlich offen.", "link": "https://www.volkswagenstiftung.de/en/funding/funding-offer/pioneering-research-exploring-unknown-unknown"}, {"rank": 8, "fit": "★★★★☆", "fitv": 4, "topics": ["behavioral-science", "behavioral-medicine", "prevention", "digital-health"], "funder": "Wellcome Trust", "ftype": "Foundation", "title": "Wellcome Prize for Mental Health Science 2026", "desc": "Globaler Preis USD 1 Mio. (Gewinner) + 3x USD 250 k (Finalisten) für neue Interventionen bei Depression/Angst/Psychose. Launch 14 Mai 2026; Einreichfrist 18 Sep 2026.", "vol": "USD 1,000,000 (winner); USD 250,000 (3 finalists)", "deadline": "2026-09-18", "urg": "🟡", "urgc": "soon", "days": 32, "status": "Open", "action": "Monitor", "notes": "Deadline bestätigt (17.08.): 18 Sep 2026. Mehrstufiges Verfahren über zwei Jahre: Shortlist April 2027, Finalisten Mai 2027, Gewinner Juni 2027. Passgenau für verhaltens- und digitalbasierte Prävention psychischer Erkrankungen.", "link": "https://wellcome.org/insights/articles/wellcome-launches-worlds-largest-global-prize-mental-health-science"}, {"rank": 9, "fit": "★★★☆☆", "fitv": 3, "topics": ["behavioral-science", "prevention", "epidemiology", "public-health"], "funder": "Fritz Thyssen Stiftung", "ftype": "Foundation", "title": "Fritz Thyssen Stiftung – Projektförderung (Frist Sep 2026)", "desc": "Projektförderung für Geistes-, Sozial- und Biomedizinwissenschaften; interdisziplinäre Projekte ausdrücklich erwünscht. Zwei Fristen jährlich (1. Feb / 1. Sep). Nächste Frist: 01.09.2026 (Wintersitzung der Gremien im Februar).", "vol": "unconfirmed — see link", "deadline": "2026-09-01", "urg": "🔴", "urgc": "urgent", "days": 15, "status": "Open", "action": "Monitor", "notes": "Frist bestätigt (17.08.): 1 Sep 2026, Entscheidung in der Wintersitzung Feb 2027 — 🔴 15 Tage. Förderbereich „Medizin und Naturwissenschaften“ sowie „Staat, Wirtschaft und Gesellschaft“ passen für CPD-Verhaltens- und Präventionsforschung. Folge-Frist 01.02.2027.", "link": "https://www.fritz-thyssen-stiftung.de/en/funding/types-of-support/support-of-projects/"}, {"rank": 10, "fit": "★★★☆☆", "fitv": 3, "topics": ["translational", "implementation", "behavioral-medicine", "public-health"], "funder": "BMFTR", "ftype": "National-DE", "title": "BMFTR Klinische Studien postinfektiöse Erkrankungen 2026 — Nationale Dekade", "desc": "Förderung wissenschaftsinitiierter klinischer Studien, systematischer Reviews und Konzeptphasen zu Post-Akut-Infektionssyndromen (PAIS, u.a. Long/Post-COVID, ME/CFS). Teil der Nationalen Dekade gegen postinfektiöse Erkrankungen (10 J., €500 Mio.). Zweistufig; Projektskizze bis 02.09.2026.", "vol": "unconfirmed per project (Dekade gesamt €500M/10 J.)", "deadline": "2026-09-02", "urg": "🔴", "urgc": "urgent", "days": 16, "status": "Open", "action": "Monitor", "notes": "Skizzenfrist bestätigt (17.08.): 02.09.2026 — 🔴 16 Tage. Bekanntmachung im Bundesanzeiger 01.06.2026. CPD-Passung über Versorgungsrelevanz, Implementierung u. verhaltensmedizinische Aspekte postinfektiöser Erkrankungen. Träger: DLR-PT.", "link": "https://www.gesundheitsforschung-bmftr.de/de/19701.php"}, {"rank": 11, "fit": "★★★☆☆", "fitv": 3, "topics": ["translational", "implementation", "primary-care", "public-health"], "funder": "BMFTR", "ftype": "National-DE", "title": "BMFTR Klinische Studien mit hoher Relevanz für die Patientenversorgung 2026", "desc": "NEU. Förderung wissenschaftsinitiierter klinischer Studien, systematischer Übersichtsarbeiten, Konzeptphasen und methodischer Begleitforschung zum Schließen versorgungsrelevanter Evidenzlücken. Zweistufig; Projektskizze bis 02.09.2026. Studien bis 5 J., Reviews bis 2 J., Konzeptphasen bis 18 Monate.", "vol": "unconfirmed — see link", "deadline": "2026-09-02", "urg": "🔴", "urgc": "urgent", "days": 16, "status": "Open", "action": "Monitor", "notes": "NEU im Sweep 17.08. gefunden (BMFTR-Bekanntmachung, Bundesanzeiger 01.06.2026, gültig ab 29.04.2026). Companion-Bekanntmachung zur postinfektiösen Dekade-Richtlinie. CPD-Passung über versorgungsnahe Evidenzlücken, Implementierung und Methodik (systematische Reviews, Begleitforschung). Träger: DLR-PT. 🔴 16 Tage.", "link": "https://www.gesundheitsforschung-bmftr.de/de/19250.php"}, {"rank": 12, "fit": "★★★☆☆", "fitv": 3, "topics": ["digital-health", "behavioral-science", "epidemiology"], "funder": "DFG", "ftype": "National-DE", "title": "DFG SPP 2431 – New Data Spaces for the Social Sciences (2. Förderphase)", "desc": "Infrastruktur-Schwerpunktprogramm; Ausschreibung für die zweite Förderphase 2027–2030. Methodische Innovationen an der Schnittstelle Sozialwissenschaften/Informatik zur Zukunftssicherung von Panel- und Surveyforschung. Registrierung 09.09.2026, Vollantrag 16.09.2026.", "vol": "unconfirmed — see link", "deadline": "2026-09-09", "urg": "🔴", "urgc": "urgent", "days": 23, "status": "Open", "action": "Monitor", "notes": "Bestätigt (17.08.): Registrierungsfrist 09.09.2026, Antragsfrist 16.09.2026 — 🔴 23 Tage bis Registrierung. Begutachtung Winter 2026/27, Entscheidung März 2027, Projektstart Juli 2027. CPD-Relevanz für digitale Gesundheitsdaten und Surveymethodik.", "link": "https://www.dfg.de/en/news/news-topics/announcements-proposals/2026/ifr-26-17"}, {"rank": 13, "fit": "★★★☆☆", "fitv": 3, "topics": ["implementation", "primary-care", "public-health"], "funder": "G-BA Innovationsfonds", "ftype": "National-DE", "title": "Versorgungsforschung – Medizinische Leitlinien (MedLL) 2026 — G-BA IF", "desc": "Förderung zur Entwicklung/Weiterentwicklung medizinischer Leitlinien mit besonderem Versorgungsbedarf; vom BMG festgelegte Schwerpunkte. Veröffentlicht 19.06.2026. Einreichungsfrist 22.09.2026, 12:00.", "vol": "unconfirmed per project (≥€2,5M MedLL-Budget 2026)", "deadline": "2026-09-22", "urg": "🟡", "urgc": "soon", "days": 36, "status": "Open", "action": "Monitor", "notes": "Portal-Status am 17.08. bestätigt („Aktuell“, Frist 22.09.2026, 12:00). Leitlinien-Strang des VsF-Programms. Periphere, aber relevante CPD-Passung (Implementierung/Leitlinien in der Primärversorgung).", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-medizinische-leitlinien-medll.70"}, {"rank": 14, "fit": "★★★☆☆", "fitv": 3, "topics": ["health-communication", "behavioral-science"], "funder": "European Commission / REA", "ftype": "EU", "title": "HORIZON-CL2-2026-01-DEMOCRACY-10 – Digital & Media Literacy", "desc": "Förderung für Forschung zu digitaler und medialer Kompetenz; CPD-Relevanz über Gesundheitskommunikation und Fehlinformation. Budget: €12M. Frist 23 Sep 2026.", "vol": "unconfirmed — see link", "deadline": "2026-09-23", "urg": "🟡", "urgc": "soon", "days": 37, "status": "Open", "action": "Monitor", "notes": "Geöffnet 12 Mai 2026. CPD-Relevanz: digitale Gesundheitskompetenz, Kommunikation, Fehlinformation. Frist 23 Sep 2026. (In diesem Lauf nicht erneut einzeln verifiziert — Quelle Horizon Cluster 2 im Sweep bestätigt.)", "link": "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/horizon-cl2-2026-01-democracy-10"}, {"rank": 15, "fit": "★★★☆☆", "fitv": 3, "topics": ["early-childhood", "behavioral-science", "epidemiology"], "funder": "Jacobs Foundation", "ftype": "Foundation", "title": "LEVANTE 2026 – Learning Variability Network Exchange (Stage 2)", "desc": "Call für Längsschnittforschung zur Lern-/Entwicklungsvariabilität bei Kindern 3–12 Jahre. Grants USD 250k–1 Mio., Förderpool USD 6 Mio. Stage 1 closed 10 Jun 2026; Stage 2 (Vollantrag, Eingeladene) 29 Jul–25 Sep 2026.", "vol": "USD 250,000 – 1,000,000", "deadline": "2026-09-25", "urg": "🟡", "urgc": "soon", "days": 39, "status": "Open (invited only)", "action": "Monitor", "notes": "Stage 1 abgelaufen (10 Jun 2026). Stage 2 für eingeladene Teams bis 25 Sep 2026; danach Interviews. Direkter Treffer für Kitas-WG. (In diesem Lauf über Jacobs-Sweep bestätigt, Stage-2-Datum nicht neu einzeln belegt.)", "link": "https://jacobsfoundation.org/levante-opens-2026-call-for-proposals/"}, {"rank": 16, "fit": "★★★☆☆", "fitv": 3, "topics": ["digital-health", "translational", "implementation"], "funder": "BMFTR", "ftype": "National-DE", "title": "BMFTR KMU-innovativ: Medizintechnik 2026", "desc": "Förderung risikoreicher Verbundprojekte Medizintechnik; Prävention und Nachsorge eingeschlossen. Konsortium KMU + Forschungseinrichtung. Rollierend mit zwei Stichtagen pro Jahr.", "vol": "~€1,000,000 per project (€40M total/year)", "deadline": "2026-10-15", "urg": "🟡", "urgc": "soon", "days": 59, "status": "Open", "action": "Monitor", "notes": "Rolling mit Fristen 15. Apr. und 15. Okt. Nächste Frist: 15. Okt. 2026. (In diesem Lauf nicht neu verifiziert — vor Antragstellung Bekanntmachungstext prüfen.)", "link": "https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/02/2026-02-06-bekanntmachung-medizintechnik.html"}, {"rank": 17, "fit": "★★★☆☆", "fitv": 3, "topics": ["prevention", "health-promotion", "public-health", "primary-care"], "funder": "Stiftung für gesundheitliche Prävention Baden-Württemberg", "ftype": "Foundation", "title": "Projektförderung gesundheitliche Prävention (laufend) — Präventionsstiftung BW", "desc": "Rollierende Projektförderung: Vernetzung und Kooperation in der allgemeinen Gesundheitsvorsorge sowie Verbreitung evaluierter, lebensweltorientierter Projekte der Gesundheitsförderung, Prävention und Rehabilitation. Anträge jederzeit; Entscheidung zweimal jährlich im Koordinierungsausschuss.", "vol": "unconfirmed — see link", "deadline": "rolling", "urg": "⚪", "urgc": "rolling", "days": null, "status": "Open", "action": "Rolling", "notes": "Am 17.08. bestätigt: Anträge jederzeit; Entscheidungstermine 2026 waren 31.03.2026 und 30.09.2026 — für die Herbstsitzung zeitnah einreichen. Mittel nach §20a SGB V der GKV in BW. Direkte Passung mit Kommunen- & Kitas-WGs. GKV-Leitfaden Prävention u. Stiftungszweck beachten; keine Förderung bereits laufender Projekte.", "link": "https://www.praeventionsstiftung-bw.de/foerderung"}, {"rank": 18, "fit": "★★☆☆☆", "fitv": 2, "topics": ["digital-health", "translational", "epidemiology"], "funder": "BMFTR", "ftype": "National-DE", "title": "BMFTR e2Health – Systems Engineering mit In-silico-Methoden 2026", "desc": "Förderung von Forschungskonsortien für Systems Engineering mit In-silico-Methoden im Konzept „e2Health – In silico-Forschung für die Medizin der Zukunft“. Anwendungsfelder u.a. Krankheitsvorhersage, Public-Health-Forschung, Patientenstratifizierung, virtuelle klinische Studien. Zweistufig; Projektskizze bis 20.08.2026, 12:00 (easy-Online).", "vol": "unconfirmed — see link", "deadline": "2026-08-20", "urg": "🔴", "urgc": "urgent", "days": 3, "status": "Open", "action": "Monitor", "notes": "Skizzenfrist erneut bestätigt (17.08.): 20.08.2026, 12:00 — 🔴 3 Tage. Bekanntmachung Bundesanzeiger 03.07.2026. Skizze max. 12 S. Periphere CPD-Passung über digitale/rechnergestützte Methoden, Krankheitsvorhersage u. Public-Health-Anwendung. Companion-Strang „Use Cases“ (DLR-PT) separat beobachten.", "link": "https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/07/2026-07-03-bekanntmachung-e2health.html"}, {"rank": 19, "fit": "★★☆☆☆", "fitv": 2, "topics": ["translational"], "funder": "Else Kröner-Fresenius-Stiftung / ForTra", "ftype": "Foundation", "title": "ForTra – Förderung regulatorischer Beratungen für translationale Projekte 2026", "desc": "NEU. Die ForTra gGmbH der EKFS finanziert professionelle Beratungsleistungen zur Vorbereitung und Durchführung von Orientierungsgesprächen und Scientific-Advice-Meetings mit PEI/BfArM (pre-IND). Bis €100.000 pro Projekt. Frist 15.09.2026.", "vol": "up to €100,000 per project", "deadline": "2026-09-15", "urg": "🟡", "urgc": "soon", "days": 29, "status": "Open", "action": "Monitor", "notes": "NEU im Sweep 17.08. gefunden (EKFS-Ausschreibungsseite). Antragsberechtigt: Forschende an gemeinnützigen Einrichtungen in DE. Ziel: neuer Wirkstoff oder Medizinprodukt in die klinische Prüfung. Periphere CPD-Passung — relevant nur bei CPD-Projekten mit Produkt-/Interventionsentwicklung Richtung klinischer Studie. 🟡 29 Tage.", "link": "https://ekfs.de/aktuelles/ausschreibungen/fortra-foerderung-regulatorischer-beratungen-fuer-translationale-projekte"}, {"rank": 20, "fit": "★★☆☆☆", "fitv": 2, "topics": ["digital-health", "translational"], "funder": "IHI (Innovative Health Initiative)", "ftype": "EU", "title": "IHI Call 13 (HORIZON-JU-IHI-2026-13-two-stage)", "desc": "Zweistufiger IHI-Call (RIA), Launch 02.07.2026. Drei Topics: European HealthCare Incubator Network; KI-Foundation-Toxikologiemodell zur Reduktion von Tierversuchen; Entschlüsselung der Immuno-Wissenschaft altersbedingter immunvermittelter Erkrankungen. Kurzantrag (Stufe 1) bis 08.10.2026, 17:00; Vollantrag (Stufe 2) 21.04.2027.", "vol": "unconfirmed — see link", "deadline": "2026-10-08", "urg": "🟡", "urgc": "soon", "days": 52, "status": "Open", "action": "Monitor", "notes": "Fristen bestätigt (17.08.): Stufe 1 am 08.10.2026, 17:00 Brüsseler Zeit; Stufe 2 am 21.04.2027, 17:00. Periphere CPD-Passung (digitale/rechnergestützte Methoden, Translation). Public-private Konsortien; Einreichung über EU F&T-Portal.", "link": "https://www.ihi.europa.eu/ihi-call-13"}, {"rank": 21, "fit": "★★☆☆☆", "fitv": 2, "topics": ["behavioral-science", "public-health", "health-communication"], "funder": "VolkswagenStiftung", "ftype": "Foundation", "title": "Opus Magnum (VW Stiftung, Frist Nov 2026)", "desc": "NEU. Freistellung für herausragende Professor:innen der Geistes- und Sozialwissenschaften zur Erarbeitung eines größeren wissenschaftlichen Werks. Finanziert wird eine Lehrstuhlvertretung für 6–18 Monate plus bis €5.000 Sachkosten pro Semester. Frist 18.11.2026.", "vol": "Vertretungsprofessur 6–18 Monate + bis €5,000 Sachkosten/Semester", "deadline": "2026-11-18", "urg": "🟢", "urgc": "later", "days": 93, "status": "Open", "action": "Monitor", "notes": "NEU im Sweep 17.08. gefunden. Voraussetzung: unbefristete Professur an einer deutschen Hochschule. Nicht gefördert: Sammelbände, Editionen, Übersetzungen, Lehr-/Nachschlagewerke. Periphere, aber konkrete CPD-Passung für sozial-/verhaltenswissenschaftliche Monographien (z. B. Präventionstheorie, Gesundheitskommunikation). 🟢 93 Tage.", "link": "https://www.volkswagenstiftung.de/en/funding/funding-offer/opus-magnum"}];
-const NEW = ["BMFTR Klinische Studien mit hoher Relevanz für die Patientenversorgung 2026", "ForTra – Förderung regulatorischer Beratungen für translationale Projekte 2026", "Opus Magnum (VW Stiftung, Frist Nov 2026)"];
-const TOPICS = ["all CPD topics (disziplinunabhängig)", "behavioral-medicine", "behavioral-science", "digital-health", "early-childhood", "epidemiology", "health-communication", "health-promotion", "implementation", "preparedness", "prevention", "primary-care", "public-health", "translational"];
-const FTYPES = ["EU", "Foundation", "National-DE"];
-const URG=[["🔴","< 28 Tage"],["🟡","28–90 Tage"],["🟢","> 90 Tage"],["⚪","rollierend"]];
-let fU=new Set(), fT=new Set(), fP=new Set(), q="";
-function mkbtns(el,items,set){
-  el.innerHTML="";
-  items.forEach(([v,l])=>{
-    const b=document.createElement("button"); b.className="f"; b.textContent=l; b.dataset.v=v;
-    b.onclick=()=>{ set.has(v)?set.delete(v):set.add(v); b.classList.toggle("on"); render(); };
-    el.appendChild(b);
-  });
-}
-mkbtns(document.getElementById("fu"),URG,fU);
-mkbtns(document.getElementById("ft"),FTYPES.map(t=>[t,t]),fT);
-mkbtns(document.getElementById("fp"),TOPICS.map(t=>[t,t]),fP);
-document.getElementById("q").addEventListener("input",e=>{q=e.target.value.toLowerCase();render();});
-function cls(t){return t==="EU"?"eu":(t==="National-DE"?"de":(t==="Foundation"?"fo":"ot"));}
-function dlLabel(r){
-  if(r.deadline==="rolling") return "laufend / rollierend";
-  return r.deadline + " · " + (r.days>=0 ? ("noch "+r.days+" Tage") : "abgelaufen");
-}
-function render(){
-  const out=DATA.filter(r=>{
-    if(fU.size&&!fU.has(r.urg))return false;
-    if(fT.size&&!fT.has(r.ftype))return false;
-    if(fP.size&&!r.topics.some(t=>fP.has(t)))return false;
-    if(q){const h=(r.title+" "+r.funder+" "+r.desc+" "+r.notes+" "+r.topics.join(" ")).toLowerCase();
-      if(!h.includes(q))return false;}
-    return true;
-  });
-  const g=document.getElementById("grid");
-  document.getElementById("empty").style.display=out.length?"none":"block";
-  g.innerHTML=out.map(r=>`
-   <article class="call">
-    <div class="top"><span class="rk">#${r.rank}</span><span class="fit">${r.fit}</span></div>
-    <div class="ttl">${esc(r.title)}</div>
-    <div class="badges">
-      <span class="b ${cls(r.ftype)}">${esc(r.funder)}</span>
-      ${NEW.includes(r.title)?'<span class="b new">NEU</span>':''}
-      <span class="b">${esc(r.status)}</span>
-    </div>
-    <div class="dl"><span class="dot ${r.urgc}"></span>${dlLabel(r)}</div>
-    <div class="vol">${esc(r.vol)}</div>
-    <div class="desc">${esc(r.desc)}</div>
-    <div class="pills">${r.topics.map(t=>`<span class="pill">${esc(t)}</span>`).join("")}</div>
-    <div class="note">${esc(r.notes)}</div>
-    <div class="foot"><span class="act ${r.action==='Prepare now'?'now':''}">${esc(r.action)}</span>
-      <a class="btn" href="${r.link}" target="_blank" rel="noopener">Zum Call</a></div>
-   </article>`).join("");
-}
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);}
-render();
+var cards=[].slice.call(document.querySelectorAll('.card'));
+var t=document.getElementById('fTopic'),u=document.getElementById('fUrg'),f=document.getElementById('fType'),q=document.getElementById('fQ');
+function apply(){var n=0;
+ cards.forEach(function(c){
+  var ok=(!t.value||c.dataset.topics.split(',').map(function(s){return s.trim();}).indexOf(t.value)>-1)
+   &&(!u.value||c.dataset.urg===u.value)&&(!f.value||c.dataset.ft===f.value)
+   &&(!q.value||c.dataset.q.indexOf(q.value.toLowerCase())>-1);
+  c.style.display=ok?'':'none'; if(ok)n++;});
+ document.getElementById('none').style.display=n?'none':'block';}
+[t,u,f].forEach(function(el){el.addEventListener('change',apply);}); q.addEventListener('input',apply);
+document.getElementById('reset').addEventListener('click',function(){t.value=u.value=f.value=q.value='';apply();});
 </script></body></html>
