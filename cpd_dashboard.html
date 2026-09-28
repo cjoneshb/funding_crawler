@@ -1,607 +1,129 @@
-<!DOCTYPE html>
-<html lang="de"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
 <title>CPD Funding Radar</title>
 <style>
-:root{--bg:#F5F5F7;--card:#fff;--ink:#1D1D1F;--mut:#6E6E73;--acc:#0071E3;--line:#E5E5EA}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
- font:15px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-header{position:sticky;top:0;z-index:20;background:rgba(245,245,247,.86);
- backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);padding:18px 28px}
-header h1{margin:0;font-size:21px;letter-spacing:-.02em}
-header p{margin:3px 0 0;color:var(--mut);font-size:13px}
-main{max-width:1180px;margin:0 auto;padding:26px 22px 60px}
-.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:24px}
-.sum div{background:var(--card);border-radius:16px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.sum b{display:block;font-size:30px;letter-spacing:-.03em;line-height:1.1}
-.sum span{color:var(--mut);font-size:12.5px}
-.bar{background:var(--card);border-radius:16px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px;
- align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:22px;position:sticky;top:78px;z-index:10}
-select,input{font:inherit;font-size:13.5px;padding:8px 11px;border:1px solid var(--line);border-radius:10px;
- background:#fff;color:var(--ink);outline:none}
-input{flex:1;min-width:190px}
-input:focus,select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,113,227,.15)}
-#reset{border:0;background:var(--acc);color:#fff;border-radius:10px;padding:9px 15px;font-size:13.5px;cursor:pointer}
-#count{color:var(--mut);font-size:12.5px;margin-left:auto}
-.card{background:var(--card);border-radius:18px;padding:20px 22px;margin-bottom:14px;
- box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:9px}
-.rank{font-size:12px;color:var(--mut);font-weight:600}
-.fit{color:#E8A317;letter-spacing:1px;font-size:13px}
-.badge{background:#EEF4FF;color:#1C4E9C;border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:600}
-.badge.ghost{background:#F2F2F7;color:var(--mut);font-weight:500}
-.act{margin-left:auto;background:#1D1D1F;color:#fff;border-radius:999px;padding:3px 11px;font-size:11.5px}
-h3{margin:0 0 7px;font-size:16.5px;letter-spacing:-.015em;line-height:1.32}
-.desc{margin:0 0 12px;color:var(--mut);font-size:13.5px}
-.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;align-items:center;margin-bottom:11px}
-.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:-1px}
-.vol,.st{color:var(--mut)}
-.pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.pill{background:#F2F2F7;border-radius:6px;padding:3px 9px;font-size:11.5px;color:#48484A}
-details{margin-bottom:13px}
-summary{cursor:pointer;font-size:13px;color:var(--acc);outline:none}
-details p{margin:9px 0 0;font-size:13px;color:#3A3A3C;background:#FAFAFC;border-left:3px solid var(--line);
- padding:11px 14px;border-radius:0 8px 8px 0}
-.btn{display:inline-block;background:var(--acc);color:#fff;text-decoration:none;border-radius:10px;
- padding:9px 16px;font-size:13.5px;font-weight:500}
-.btn:hover{background:#0063C6}
-footer{max-width:1180px;margin:0 auto;padding:0 22px 60px;color:var(--mut);font-size:12.5px}
-footer h2{font-size:14px;color:var(--ink);margin-bottom:8px}
-footer ul{columns:2;column-gap:34px;padding-left:18px}
-footer li{margin-bottom:4px;break-inside:avoid}
-footer a{color:var(--acc);text-decoration:none}
-@media(max-width:700px){footer ul{columns:1}.bar{position:static}}
-</style></head><body>
-<header><h1>CPD Funding Radar</h1><p>Zuletzt aktualisiert: 2026-09-21 · 23 aktive Calls</p></header>
-<main>
-<div class="sum">
-  <div><b>23</b><span>aktive Calls</span></div>
-  <div><b style="color:#D93025">11</b><span>dringend (&lt; 28 Tage)</span></div>
-  <div><b>4</b><span>laufend / rollierend</span></div>
-  <div><b>15</b><span>CPD-Themen abgedeckt</span></div>
-  <div><b>25</b><span>auf der Watch-Liste</span></div>
+  :root {
+    --bg: #F5F5F7; --card: #FFFFFF; --accent: #0071E3; --text: #1D1D1F; --sub: #6E6E73;
+    --red: #FF3B30; --yellow: #FF9500; --green: #34C759; --gray: #A1A1A6;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  header { position:sticky; top:0; z-index:10; background:rgba(245,245,247,0.85); backdrop-filter: blur(12px); border-bottom:1px solid #E2E2E4; padding:18px 32px; display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; }
+  header h1 { margin:0; font-size:22px; font-weight:600; }
+  header .updated { color:var(--sub); font-size:13px; }
+  .container { max-width:1200px; margin:0 auto; padding:24px 32px 64px; }
+  .summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px; }
+  .stat { background:var(--card); border-radius:16px; padding:18px 20px; box-shadow:0 1px 2px rgba(0,0,0,0.04); }
+  .stat .num { font-size:28px; font-weight:700; }
+  .stat .lbl { color:var(--sub); font-size:13px; margin-top:2px; }
+  .filters { background:var(--card); border-radius:16px; padding:16px 20px; margin-bottom:24px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; box-shadow:0 1px 2px rgba(0,0,0,0.04); }
+  .filters select, .filters input { font-size:14px; padding:8px 12px; border-radius:10px; border:1px solid #D2D2D7; background:#FBFBFD; color:var(--text); }
+  .filters input[type=text] { flex:1; min-width:180px; }
+  .filters .count { margin-left:auto; color:var(--sub); font-size:13px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
+  .card { background:var(--card); border-radius:16px; padding:18px 20px; box-shadow:0 1px 2px rgba(0,0,0,0.04); display:flex; flex-direction:column; gap:8px; }
+  .card .top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .card h3 { font-size:15px; font-weight:600; margin:0; line-height:1.35; }
+  .badge { display:inline-block; background:#EEF4FC; color:var(--accent); font-size:11px; font-weight:600; padding:3px 9px; border-radius:8px; white-space:nowrap; }
+  .fit { font-size:13px; letter-spacing:1px; color:#F5A623; }
+  .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; }
+  .dot.urgent { background:var(--red); } .dot.soon { background:var(--yellow); }
+  .dot.later { background:var(--green); } .dot.rolling { background:var(--gray); }
+  .meta { font-size:13px; color:var(--sub); }
+  .desc { font-size:13px; color:#3A3A3C; line-height:1.5; }
+  .pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .pill { font-size:11px; background:#F0F0F2; color:#48484A; padding:3px 8px; border-radius:8px; }
+  .footer-row { display:flex; justify-content:space-between; align-items:center; margin-top:4px; }
+  .action { font-size:11px; font-weight:600; padding:4px 10px; border-radius:8px; background:#FFF0E6; color:#C2410C; }
+  .action.rolling { background:#EEF4FC; color:var(--accent); }
+  .action.monitor { background:#F0F0F2; color:#48484A; }
+  a.link-btn { font-size:13px; font-weight:600; color:#fff; background:var(--accent); text-decoration:none; padding:7px 14px; border-radius:10px; }
+  a.link-btn:hover { background:#0059B3; }
+  footer { max-width:1200px; margin:32px auto; padding:0 32px 48px; color:var(--sub); font-size:12px; }
+  footer h4 { color:var(--text); font-size:13px; margin-bottom:8px; }
+  footer ul { columns:3; -webkit-columns:3; list-style:none; padding:0; margin:0; }
+  footer li { margin-bottom:4px; }
+  @media (max-width:640px) { header { padding:14px 18px; } .container { padding:18px 18px 48px; } footer ul { columns:1; } }
+</style>
+<body>
+<header>
+  <h1>CPD Funding Radar</h1>
+  <div class="updated">Last updated: 2026-09-28</div>
+</header>
+<div class="container">
+  <div class="summary">
+    <div class="stat"><div class="num">24</div><div class="lbl">Active calls</div></div>
+    <div class="stat"><div class="num">9</div><div class="lbl">Urgent (&lt; 28 days)</div></div>
+    <div class="stat"><div class="num">7</div><div class="lbl">Rolling / always open</div></div>
+    <div class="stat"><div class="num">14</div><div class="lbl">CPD topics covered</div></div>
+  </div>
+  <div class="filters">
+    <select id="fTopic"><option value="">All topics</option></select>
+    <select id="fUrgency">
+      <option value="">All urgency</option>
+      <option value="urgent">🔴 Urgent</option>
+      <option value="soon">🟡 Soon</option>
+      <option value="later">🟢 Comfortable</option>
+      <option value="rolling">⚪ Rolling</option>
+    </select>
+    <select id="fFunder"><option value="">All funder types</option></select>
+    <input type="text" id="fSearch" placeholder="Search funder, title, keyword…">
+    <div class="count" id="fCount"></div>
+  </div>
+  <div class="cards" id="cards"></div>
 </div>
-<div class="bar">
-  <select id="fTopic"><option value="">Alle CPD-Themen</option><option value="all CPD topics (disziplinunabhängig)">all CPD topics (disziplinunabhängig)</option><option value="behavioral-medicine">behavioral-medicine</option><option value="behavioral-science">behavioral-science</option><option value="climate-health">climate-health</option><option value="digital-health">digital-health</option><option value="early-childhood">early-childhood</option><option value="epidemiology">epidemiology</option><option value="health-communication">health-communication</option><option value="health-equity">health-equity</option><option value="health-promotion">health-promotion</option><option value="implementation">implementation</option><option value="prevention">prevention</option><option value="primary-care">primary-care</option><option value="public-health">public-health</option><option value="translational">translational</option></select>
-  <select id="fUrg"><option value="">Alle Fristen</option><option value="🔴">🔴 &lt; 28 Tage</option>
-   <option value="🟡">🟡 28–90 Tage</option><option value="🟢">🟢 &gt; 90 Tage</option>
-   <option value="⚪">⚪ rollierend</option></select>
-  <select id="fType"><option value="">Alle Fördererarten</option><option value="EU">EU</option><option value="Foundation">Foundation</option><option value="National-DE">National-DE</option></select>
-  <input id="q" type="search" placeholder="Volltextsuche …">
-  <button id="reset">Zurücksetzen</button><span id="count"></span>
-</div>
-<div id="list">
-<article class="card" data-topics="early-childhood|prevention|health-promotion|behavioral-science|health-communication|health-equity" data-urg="🔴"
-         data-ftype="National-DE"
-         data-search="bmg förderrichtlinie „gesundheitliche auswirkungen von bildschirmmedien auf kinder im alter von 0 bis 6 jahren und möglichkeiten der prävention negativer folgen&quot; (18.08.2026) bmg — bundesministerium für gesundheit ressortforschungs-förderrichtlinie des bmg für versorgungsrelevante vorhaben zum dysregulierten bildschirmmediengebrauch bei 0- bis 6-jährigen: gesundheitliche auswirkungen des kindlichen und des elterlichen medienverhaltens, schutz- und interventionsmaßnahmen in familie, kita und kindertagespflege, motivation und selbstwirksamkeit von eltern, aufklärung von multiplikatoren und fachpersonal sowie integration des themas in u-untersuchungen und schuleingangsuntersuchung. zweistufiges verfahren; projektbeschreibung (max. 15 seiten) bis 29.09.2026, 12:00 über ptoutline.eu. early-childhood, prevention, health-promotion, behavioral-science, health-communication, health-equity">
-  <div class="top">
-    <span class="rank">#1</span>
-    <span class="fit">★★★★★</span>
-    <span class="badge">BMG — Bundesministerium für Gesundheit</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Prepare now</span>
-  </div>
-  <h3>BMG Förderrichtlinie „Gesundheitliche Auswirkungen von Bildschirmmedien auf Kinder im Alter von 0 bis 6 Jahren und Möglichkeiten der Prävention negativer Folgen&quot; (18.08.2026)</h3>
-  <p class="desc">Ressortforschungs-Förderrichtlinie des BMG für versorgungsrelevante Vorhaben zum dysregulierten Bildschirmmediengebrauch bei 0- bis 6-Jährigen: gesundheitliche Auswirkungen des kindlichen und des elterlichen Medienverhaltens, Schutz- und Interventionsmaßnahmen in Familie, Kita und Kindertagespflege, Motivation und Selbstwirksamkeit von Eltern, Aufklärung von Multiplikatoren und Fachpersonal sowie Integration des Themas in U-Untersuchungen und Schuleingangsuntersuchung. Zweistufiges Verfahren; Projektbeschreibung (max. 15 Seiten) bis 29.09.2026, 12:00 über ptoutline.eu.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-09-29</b> · noch 8 Tage</span>
-    <span class="vol">up to €750,000 gesamt (Laufzeit bis 36 Monate)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">early-childhood</span><span class="pill">prevention</span><span class="pill">health-promotion</span><span class="pill">behavioral-science</span><span class="pill">health-communication</span><span class="pill">health-equity</span></div>
-  <details><summary>CPD-Notiz</summary><p>Am 21.09. auf der BMG-Ressortforschungsseite erneut direkt bestätigt: die Richtlinie vom 18.08.2026 steht unverändert in der Liste der Bekanntmachungen 2026. ⚠️ NUR NOCH 8 TAGE — dies ist der dringlichste Posten mit hoher CPD-Passung in diesem Lauf. Direkter Treffer für die Kitas-WG mit Anschluss an Frühe Hilfen, Gesundheitskommunikation, Verhaltensänderung (elterliche Selbstwirksamkeit) und ÖGD (Schuleingangsuntersuchung). ⚠️ Kleines Volumen: insgesamt nur bis €750.000 für die gesamte Richtlinie, Projektstart im 1. Quartal 2027, Eigenanteil ≥10 %, partizipativer Ansatz und Gender-Mainstreaming verpflichtend. Ausgeschlossen sind AMG-/MPG-Studien, DiGA-Evaluation, Grundlagenforschung und Leitlinienentwicklung. Träger: DLR-PT (projekttraeger-bmg@dlr.de). Wenn in dieser Woche keine Skizze aufgesetzt wird, ist der Zyklus verpasst.</p></details>
-  <a class="btn" href="https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="all CPD topics (disziplinunabhängig)|behavioral-science|prevention|implementation|epidemiology" data-urg="🔴"
-         data-ftype="EU"
-         data-search="erc starting grant 2027 (erc-2027-stg) european research council neu. thematisch offener erc-call für nachwuchsgruppenleitungen: bis €1,5 mio. über 5 jahre für ein eigenständiges forschungsprogramm, bewertung allein nach exzellenz von pi und projekt. der call ist am 22.07.2026 im rahmen des erc-arbeitsprogramms 2027 geöffnet worden; einreichungsfrist 14.10.2026. gesamtbudget €594,1 mio. für ca. 373 grants. all cpd topics (disziplinunabhängig), behavioral-science, prevention, implementation, epidemiology">
-  <div class="top">
-    <span class="rank">#2</span>
-    <span class="fit">★★★★★</span>
-    <span class="badge">European Research Council</span>
-    <span class="badge ghost">EU</span>
-    <span class="act">Prepare now</span>
-  </div>
-  <h3>ERC Starting Grant 2027 (ERC-2027-StG)</h3>
-  <p class="desc">NEU. Thematisch offener ERC-Call für Nachwuchsgruppenleitungen: bis €1,5 Mio. über 5 Jahre für ein eigenständiges Forschungsprogramm, Bewertung allein nach Exzellenz von PI und Projekt. Der Call ist am 22.07.2026 im Rahmen des ERC-Arbeitsprogramms 2027 geöffnet worden; Einreichungsfrist 14.10.2026. Gesamtbudget €594,1 Mio. für ca. 373 Grants.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-10-14</b> · noch 23 Tage</span>
-    <span class="vol">up to €1,500,000 (5 Jahre); €594.1M Gesamtbudget, ca. 373 Grants</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">all CPD topics (disziplinunabhängig)</span><span class="pill">behavioral-science</span><span class="pill">prevention</span><span class="pill">implementation</span><span class="pill">epidemiology</span></div>
-  <details><summary>CPD-Notiz</summary><p>Am 21.09. erneut bestätigt: Frist 14.10.2026, Budget €594,1 Mio. für rund 373 Grants, Eignungsfenster 0–10 Jahre nach der Promotion (Verteidigung zwischen 01.01.2017 und 31.12.2026). ⚠️ NEU IN DIESEM LAUF: Das ERC-Arbeitsprogramm 2027 lässt pro Person nur einen Antrag zu, wenn sich die Eignungsfenster von Starting und Consolidator Grant überschneiden — wer für beide Schemata qualifiziert ist, darf unter dem Arbeitsprogramm 2027 entweder einen StG- oder einen CoG-Antrag einreichen, nicht beide. Da der CoG 2027 am 24.09.2026 öffnet und erst am 12.01.2027 schließt, ist das für CPD-Postdocs im Überschneidungsbereich eine echte Entscheidung: drei Wochen StG-Frist gegen knapp vier Monate CoG-Vorlauf. Rücksprache mit Forschungsdekanat und NKS ERC wird dringend empfohlen. Antragsformat: 5-seitige Extended Synopsis (Part I) + ausführlicher Part II. 🔴 23 Tage.</p></details>
-  <a class="btn" href="https://erc.europa.eu/apply-grant/starting-grant" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="primary-care|implementation|epidemiology|public-health" data-urg="🟡"
-         data-ftype="National-DE"
-         data-search="versorgungsforschung themenoffener bereich (einstufig) 2026 — g-ba if g-ba innovationsfonds themenoffene versorgungsforschungs-förderung des innovationsfonds; einstufiges verfahren. veröffentlicht 19.06.2026. förderung von vsf-projekten zur weiterentwicklung der gkv-versorgung. einreichungsfrist 20.10.2026, 12:00. primary-care, implementation, epidemiology, public-health">
-  <div class="top">
-    <span class="rank">#3</span>
-    <span class="fit">★★★★★</span>
-    <span class="badge">G-BA Innovationsfonds</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Prepare now</span>
-  </div>
-  <h3>Versorgungsforschung themenoffener Bereich (einstufig) 2026 — G-BA IF</h3>
-  <p class="desc">Themenoffene Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren. Veröffentlicht 19.06.2026. Förderung von VsF-Projekten zur Weiterentwicklung der GKV-Versorgung. Einreichungsfrist 20.10.2026, 12:00.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#E8A317"></span>
-      <b>2026-10-20</b> · noch 29 Tage</span>
-    <span class="vol">unconfirmed per project (€20M VsF-Gesamtbudget 2026)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">primary-care</span><span class="pill">implementation</span><span class="pill">epidemiology</span><span class="pill">public-health</span></div>
-  <details><summary>CPD-Notiz</summary><p>Am 21.09. direkt auf dem Innovationsfonds-Portal bestätigt: Status „Aktuell“, Frist 20.10.2026, 12:00, unverändert. Sehr hohe CPD-Priorität. ⚠️ Das im Juli 2026 beschlossene GKV-Beitragssatz-Stabilisierungsgesetz senkt das Jahresfördervolumen des Innovationsausschusses ab 2027 dauerhaft auf €100 Mio. — die 2026er Runde ist daher strategisch wichtig. Beratung DLR-PT: innovationsfonds-versorgungsforschung@dlr.de, 0228 3821 1020. Am 21.09. direkt auf dem Innovationsfonds-Portal nachgeprüft: beide VsF-Bekanntmachungen stehen weiterhin unter „Aktuell“, Frist 20.10.2026, 12:00 unverändert. 🟡 29 Tage — die Urgency ist diese Woche von 🔴 zurück auf 🟡 gewechselt, weil sich die Berechnungsbasis verschoben hat; inhaltlich bleibt dies der wichtigste planbare Antrag des Quartals.</p></details>
-  <a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenoffenen-bereich.55" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="primary-care|implementation|epidemiology|public-health" data-urg="🟡"
-         data-ftype="National-DE"
-         data-search="versorgungsforschung themenspezifischer bereich (einstufig) 2026 — g-ba if g-ba innovationsfonds themenspezifische versorgungsforschungs-förderung des innovationsfonds; einstufiges verfahren mit vorgegebenen themenschwerpunkten (u.a. bedarfsgerechte steuerung ambulante psychiatrisch-psychotherapeutische versorgung). veröffentlicht 19.06.2026. einreichungsfrist 20.10.2026, 12:00. primary-care, implementation, epidemiology, public-health">
-  <div class="top">
-    <span class="rank">#4</span>
-    <span class="fit">★★★★★</span>
-    <span class="badge">G-BA Innovationsfonds</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Prepare now</span>
-  </div>
-  <h3>Versorgungsforschung themenspezifischer Bereich (einstufig) 2026 — G-BA IF</h3>
-  <p class="desc">Themenspezifische Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren mit vorgegebenen Themenschwerpunkten (u.a. bedarfsgerechte Steuerung ambulante psychiatrisch-psychotherapeutische Versorgung). Veröffentlicht 19.06.2026. Einreichungsfrist 20.10.2026, 12:00.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#E8A317"></span>
-      <b>2026-10-20</b> · noch 29 Tage</span>
-    <span class="vol">unconfirmed per project (€20M VsF-Gesamtbudget 2026)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">primary-care</span><span class="pill">implementation</span><span class="pill">epidemiology</span><span class="pill">public-health</span></div>
-  <details><summary>CPD-Notiz</summary><p>Portal-Status am 21.09. direkt bestätigt („Aktuell“, Frist 20.10.2026, 12:00). Themenspezifische Schwerpunkte beachten — die Bekanntmachung nennt vier Themenfelder. Siehe auch die Budgetkürzung ab 2027 (BStabG). Am 21.09. direkt auf dem Innovationsfonds-Portal nachgeprüft: beide VsF-Bekanntmachungen stehen weiterhin unter „Aktuell“, Frist 20.10.2026, 12:00 unverändert. 🟡 29 Tage — die Urgency ist diese Woche von 🔴 zurück auf 🟡 gewechselt, weil sich die Berechnungsbasis verschoben hat; inhaltlich bleibt dies der wichtigste planbare Antrag des Quartals.</p></details>
-  <a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenspezifischen-bereich.69" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="primary-care|implementation|prevention|public-health" data-urg="⚪"
-         data-ftype="National-DE"
-         data-search="nvf themenoffen einstufig kurz (laufend 2026) — g-ba if g-ba innovationsfonds rollierende nvf-förderung für neue versorgungsformen in der gkv; einstufig, kurz. einreichung per e-mail laufend bis 31.12.2026, 23:59. gesamtbudget nvf 2026: €80 mio. (nvf+vsf €100 mio.). primary-care, implementation, prevention, public-health">
-  <div class="top">
-    <span class="rank">#5</span>
-    <span class="fit">★★★★★</span>
-    <span class="badge">G-BA Innovationsfonds</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Rolling</span>
-  </div>
-  <h3>NVF themenoffen einstufig kurz (laufend 2026) — G-BA IF</h3>
-  <p class="desc">Rollierende NVF-Förderung für neue Versorgungsformen in der GKV; einstufig, kurz. Einreichung per E-Mail laufend bis 31.12.2026, 23:59. Gesamtbudget NVF 2026: €80 Mio. (NVF+VsF €100 Mio.).</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#8E8E93"></span>
-      <b>rolling</b> · laufend</span>
-    <span class="vol">unconfirmed per project (€80M NVF-Budget 2026)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">primary-care</span><span class="pill">implementation</span><span class="pill">prevention</span><span class="pill">public-health</span></div>
-  <details><summary>CPD-Notiz</summary><p>Höchste strategische Priorität für CPD. Am 21.09. auf dem Portal als einzige aktuelle NVF-Bekanntmachung bestätigt (veröffentlicht 23.01.2026, Frist 31.12.2026, 23:59); alle vier übrigen NVF-Bekanntmachungen der 2026er Runde stehen unverändert auf „In Bewertung“. Einreichung: innovationsfonds-versorgungsformen@dlr.de. Beratung DLR-PT: 0228 3821 1020. ⚠️ Praktischer Hinweis: „laufend“ heißt nicht beliebig — bis Jahresende bleiben rund 3,5 Monate, danach beginnt ein neuer Zyklus unter gekürztem Budget. Portalstand 21.09. unverändert: einzige aktuelle NVF-Bekanntmachung, alle vier übrigen der 2026er Runde weiterhin „In Bewertung“. Bis zur Einreichfrist 31.12.2026 bleiben noch gut 14 Wochen.</p></details>
-  <a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-neue-versorgungsformen-zum-themenoffenen-bereich-einstufig-kurz-einreichung-laufend-im-jahr-moeglich.66" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="behavioral-science|prevention|epidemiology|implementation|primary-care" data-urg="⚪"
-         data-ftype="National-DE"
-         data-search="dfg sachbeihilfe (laufend) dfg rollierende einzelprojektförderung der dfg für grundlagen- und angewandte forschung; kein thema ausgeschlossen. einreichung jederzeit über das elan-portal. behavioral-science, prevention, epidemiology, implementation, primary-care">
-  <div class="top">
-    <span class="rank">#6</span>
-    <span class="fit">★★★★★</span>
-    <span class="badge">DFG</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Rolling</span>
-  </div>
-  <h3>DFG Sachbeihilfe (laufend)</h3>
-  <p class="desc">Rollierende Einzelprojektförderung der DFG für Grundlagen- und angewandte Forschung; kein Thema ausgeschlossen. Einreichung jederzeit über das elan-Portal.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#8E8E93"></span>
-      <b>rolling</b> · laufend</span>
-    <span class="vol">unconfirmed — see link</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">prevention</span><span class="pill">epidemiology</span><span class="pill">implementation</span><span class="pill">primary-care</span></div>
-  <details><summary>CPD-Notiz</summary><p>Am 21.09. bestätigt: dauerhaft offenes Instrument ohne Frist. Die DFG-Liste „Informationen für die Wissenschaft 2026“ wurde in diesem Lauf bis ifw-26-69 (17.09.2026) durchgesehen. Neu seit dem letzten Lauf: ifw-26-66 und -67 (Nachwuchsakademien Hämotherapie und Gefäßchirurgie — ohne CPD-Bezug), ifw-26-68 „Open-Access-Publikationsförderung“ (neues Programm, kein Forschungscall, aber für CPD-Publikationskosten relevant — lohnt eine separate Prüfung durch die Institutsverwaltung) sowie ifw-26-69 „Global Minds in DFG-Verbünden“, das in diesem Lauf als eigene Zeile in die Calls-Liste aufgenommen wurde. Basisförderinstrument für alle CPD-Forschungsgebiete; bedarfsabhängige Einreichung über das elan-Portal.</p></details>
-  <a class="btn" href="https://www.dfg.de/de/foerderung/foerdermoeglichkeiten/programme/einzelfoerderung/sachbeihilfe" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="primary-care|health-communication|early-childhood|health-equity|behavioral-science|implementation" data-urg="🔴"
-         data-ftype="National-DE"
-         data-search="bmg förderrichtlinie „sichere arzneimitteltherapie für kinder und jugendliche durch optimierung des medikationsplans“ (16.09.2026) bmg — bundesministerium für gesundheit neu. ressortforschungs-förderrichtlinie des bmg vom 16.09.2026 für ein forschungsvorhaben zur nutzung des medikationsplans in der arzneimittelversorgung von kindern und jugendlichen. untersucht werden sollen verständlichkeit und praktikabilität für verschiedene altersgruppen und deren eltern, lücken im prozess um ausstellung, aktualisierung und abgabe sowie die rolle soziokultureller faktoren wie sprachbarrieren. zweistufiges verfahren; antragsberechtigt sind (fach-)hochschulen und außeruniversitäre forschungseinrichtungen. primary-care, health-communication, early-childhood, health-equity, behavioral-science, implementation">
-  <div class="top">
-    <span class="rank">#7</span>
-    <span class="fit">★★★★☆</span>
-    <span class="badge">BMG — Bundesministerium für Gesundheit</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Prepare now</span>
-  </div>
-  <h3>BMG Förderrichtlinie „Sichere Arzneimitteltherapie für Kinder und Jugendliche durch Optimierung des Medikationsplans“ (16.09.2026)</h3>
-  <p class="desc">NEU. Ressortforschungs-Förderrichtlinie des BMG vom 16.09.2026 für ein Forschungsvorhaben zur Nutzung des Medikationsplans in der Arzneimittelversorgung von Kindern und Jugendlichen. Untersucht werden sollen Verständlichkeit und Praktikabilität für verschiedene Altersgruppen und deren Eltern, Lücken im Prozess um Ausstellung, Aktualisierung und Abgabe sowie die Rolle soziokultureller Faktoren wie Sprachbarrieren. Zweistufiges Verfahren; antragsberechtigt sind (Fach-)Hochschulen und außeruniversitäre Forschungseinrichtungen.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-10-16</b> · noch 25 Tage</span>
-    <span class="vol">unconfirmed — see link (bis zu 2 Jahre, bis zu 100 % Förderquote, Eigenanteil ≥10 %)</span>
-    <span class="st">Open (pre-prop)</span>
-  </div>
-  <div class="pills"><span class="pill">primary-care</span><span class="pill">health-communication</span><span class="pill">early-childhood</span><span class="pill">health-equity</span><span class="pill">behavioral-science</span><span class="pill">implementation</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ NEUAUFNAHME 21.09. — die wichtigste Neuaufnahme dieses Laufs und die einzige neue Bekanntmachung eines Kernförderers seit dem letzten Sweep. Am 16.09.2026 auf der BMG-Ressortforschungsseite veröffentlicht, Richtlinientext direkt gelesen. Erste Stufe: 15-seitige Projektbeschreibung in deutscher Sprache bis zum 16.10.2026, 12:00 Uhr per E-Mail an projekttraeger-bmg@dlr.de (Ansprechpartner Dr. Alexander Grundmann, 0228 3821-1269). Projektstart voraussichtlich Ende des ersten Quartals 2027, Laufzeit bis zu zwei Jahren. CPD-Passung ★★★★: Versorgungsforschung mit klarem Gesundheitskompetenz- und Kommunikationsfokus, Kinder und Jugendliche als Zielgruppe, Sprachbarrieren und soziokulturelle Faktoren als explizite Fragestellung — das verbindet die Kitas-WG, Gesundheitskommunikation und Health Equity. Verpflichtend sind Partizipation der Zielgruppen und Sorgeberechtigten, Gender-Mainstreaming, Eigenanteil von mindestens 10 % sowie ein Nachhaltigkeitskonzept. ⚠️ Ausdrücklich NICHT gefördert: technische Umsetzung/Programmierung oder Systemintegration des Medikationsplans, AMG-/MPG-Studien, produktbezogene Entwicklung, DiGA-Wirksamkeitsevaluation und Leitlinienentwicklung. 🔴 25 Tage — für eine 15-seitige Skizze machbar, aber die Konsortialabstimmung (Kooperationserklärungen genügen in Stufe 1 formlos) sollte diese Woche beginnen.</p></details>
-  <a class="btn" href="https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="implementation|primary-care|public-health" data-urg="🔴"
-         data-ftype="National-DE"
-         data-search="versorgungsforschung – medizinische leitlinien (medll) 2026 — g-ba if g-ba innovationsfonds förderung zur entwicklung/weiterentwicklung medizinischer leitlinien mit besonderem versorgungsbedarf; schwerpunkte vom bmg festgelegt. veröffentlicht 19.06.2026. einreichungsfrist 22.09.2026, 12:00. implementation, primary-care, public-health">
-  <div class="top">
-    <span class="rank">#8</span>
-    <span class="fit">★★★☆☆</span>
-    <span class="badge">G-BA Innovationsfonds</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>Versorgungsforschung – Medizinische Leitlinien (MedLL) 2026 — G-BA IF</h3>
-  <p class="desc">Förderung zur Entwicklung/Weiterentwicklung medizinischer Leitlinien mit besonderem Versorgungsbedarf; Schwerpunkte vom BMG festgelegt. Veröffentlicht 19.06.2026. Einreichungsfrist 22.09.2026, 12:00.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-09-22</b> · morgen</span>
-    <span class="vol">unconfirmed per project (≥€2,5M MedLL-Budget 2026)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">implementation</span><span class="pill">primary-care</span><span class="pill">public-health</span></div>
-  <details><summary>CPD-Notiz</summary><p>Portal-Status am 21.09. direkt bestätigt („Aktuell“, Frist 22.09.2026, 12:00) — 🔴 MORGEN. Leitlinien-Strang des VsF-Programms, Schwerpunkte vom BMG gesetzt. Periphere, aber relevante CPD-Passung (Implementierung und Leitlinien in der Primärversorgung). Für einen Neuantrag ist die Frist vorbei; die Zeile wird im nächsten Lauf archiviert und als 2027er Zyklus auf die Watch-Liste gesetzt (Muster: Veröffentlichung jeweils Ende Juni, Frist Ende September).</p></details>
-  <a class="btn" href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-medizinische-leitlinien-medll.70" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="health-communication|behavioral-science|health-equity" data-urg="🔴"
-         data-ftype="EU"
-         data-search="horizon-cl2-2026-01-democracy-10 – digital &amp; media literacy european commission / rea förderung für forschung zu digitaler und medialer kompetenz als treiber demokratischer und zivilgesellschaftlicher resilienz — gegen desinformation, fimi und algorithmische polarisierung. cpd-relevanz über gesundheitskommunikation, gesundheitskompetenz und fehlinformation. geöffnet 12.05.2026, frist 23.09.2026, 17:00 brüsseler zeit. health-communication, behavioral-science, health-equity">
-  <div class="top">
-    <span class="rank">#9</span>
-    <span class="fit">★★★☆☆</span>
-    <span class="badge">European Commission / REA</span>
-    <span class="badge ghost">EU</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>HORIZON-CL2-2026-01-DEMOCRACY-10 – Digital &amp; Media Literacy</h3>
-  <p class="desc">Förderung für Forschung zu digitaler und medialer Kompetenz als Treiber demokratischer und zivilgesellschaftlicher Resilienz — gegen Desinformation, FIMI und algorithmische Polarisierung. CPD-Relevanz über Gesundheitskommunikation, Gesundheitskompetenz und Fehlinformation. Geöffnet 12.05.2026, Frist 23.09.2026, 17:00 Brüsseler Zeit.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-09-23</b> · noch 2 Tage</span>
-    <span class="vol">€12M total; ~€3.5–4M per project (3 Projekte)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">health-communication</span><span class="pill">behavioral-science</span><span class="pill">health-equity</span></div>
-  <details><summary>CPD-Notiz</summary><p>Am 21.09. erneut bestätigt: Einreichfenster 12.05.–23.09.2026, 17:00 Brüsseler Zeit; €12 Mio. Gesamtbudget für drei RIA-Projekte. 🔴 2 TAGE — für CPD in diesem Zyklus nur noch als bereits eingebundener Konsortialpartner relevant. Konsortium aus mindestens drei unabhängigen Rechtspersonen aus EU-Mitglieds- oder assoziierten Staaten erforderlich; Multi-Actor-Ansatz verpflichtend. Für die WG Gesundheitskommunikation bleibt der Call vor allem als Vorlauf und Themenindikator für den Cluster-2-Zyklus 2027 interessant.</p></details>
-  <a class="btn" href="https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/opportunities/topic-details/horizon-cl2-2026-01-democracy-10" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="early-childhood|behavioral-science|epidemiology" data-urg="🔴"
-         data-ftype="Foundation"
-         data-search="levante 2026 – learning variability network exchange (stage 2) jacobs foundation call für längsschnittforschung zur lern- und entwicklungsvariabilität bei kindern von 3 bis 12 jahren. grants usd 250k–1 mio., förderpool usd 6 mio. stage 1 closed 10.06.2026; stage 2 (vollantrag, nur eingeladene) 29.07.–25.09.2026, mitternacht mez. early-childhood, behavioral-science, epidemiology">
-  <div class="top">
-    <span class="rank">#10</span>
-    <span class="fit">★★★☆☆</span>
-    <span class="badge">Jacobs Foundation</span>
-    <span class="badge ghost">Foundation</span>
-    <span class="act">Invited only</span>
-  </div>
-  <h3>LEVANTE 2026 – Learning Variability Network Exchange (Stage 2)</h3>
-  <p class="desc">Call für Längsschnittforschung zur Lern- und Entwicklungsvariabilität bei Kindern von 3 bis 12 Jahren. Grants USD 250k–1 Mio., Förderpool USD 6 Mio. Stage 1 closed 10.06.2026; Stage 2 (Vollantrag, nur Eingeladene) 29.07.–25.09.2026, Mitternacht MEZ.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-09-25</b> · noch 4 Tage</span>
-    <span class="vol">USD 250,000 – 1,000,000</span>
-    <span class="st">Open (invited only)</span>
-  </div>
-  <div class="pills"><span class="pill">early-childhood</span><span class="pill">behavioral-science</span><span class="pill">epidemiology</span></div>
-  <details><summary>CPD-Notiz</summary><p>Stage-2-Fenster am 21.09. erneut bestätigt: 29.07.–25.09.2026, Mitternacht MEZ, ausschließlich für in Stage 1 eingeladene Teams. 🔴 4 Tage. Förderpool USD 6 Mio., Einzelgrants USD 250k–1 Mio.; Zielgruppe sind typisch entwickelte Kinder von 3 bis 12 Jahren mit längsschnittlichen und dichten Messansätzen. Nach Fristende folgen externes Review-Panel, LEVANTE Advisory Committee und Interviews. Direkter Treffer für die Kitas-WG — falls CPD in Stage 1 nicht eingeladen wurde, ist in diesem Zyklus nichts mehr möglich; dann den 2027er Call ab Frühjahr beobachten.</p></details>
-  <a class="btn" href="https://jacobsfoundation.org/levante-opens-2026-call-for-proposals/" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="prevention|health-promotion|public-health|primary-care" data-urg="🔴"
-         data-ftype="Foundation"
-         data-search="projektförderung gesundheitliche prävention (laufend) — präventionsstiftung bw stiftung für gesundheitliche prävention baden-württemberg rollierende projektförderung: vernetzung und kooperation in der allgemeinen gesundheitsvorsorge sowie verbreitung evaluierter, lebensweltorientierter projekte der gesundheitsförderung, prävention und rehabilitation. anträge jederzeit; der koordinierungsausschuss entscheidet zweimal jährlich. prevention, health-promotion, public-health, primary-care">
-  <div class="top">
-    <span class="rank">#11</span>
-    <span class="fit">★★★☆☆</span>
-    <span class="badge">Stiftung für gesundheitliche Prävention Baden-Württemberg</span>
-    <span class="badge ghost">Foundation</span>
-    <span class="act">Prepare now</span>
-  </div>
-  <h3>Projektförderung gesundheitliche Prävention (laufend) — Präventionsstiftung BW</h3>
-  <p class="desc">Rollierende Projektförderung: Vernetzung und Kooperation in der allgemeinen Gesundheitsvorsorge sowie Verbreitung evaluierter, lebensweltorientierter Projekte der Gesundheitsförderung, Prävention und Rehabilitation. Anträge jederzeit; der Koordinierungsausschuss entscheidet zweimal jährlich.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-09-30</b> · noch 9 Tage</span>
-    <span class="vol">unconfirmed — see link</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">prevention</span><span class="pill">health-promotion</span><span class="pill">public-health</span><span class="pill">primary-care</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ WICHTIGSTE FELDÄNDERUNG DIESES LAUFS: Das Deadline-Feld wurde von „rolling“ auf den harten Stichtag 30.09.2026 umgestellt und die Urgency damit von ⚪ auf 🔴. Begründung: Anträge sind zwar formal jederzeit möglich, entschieden wird aber ausschließlich in den Sitzungen des Koordinierungsausschusses, und dessen Stichtage 2026 sind der 31.03. und der 30.09. Eine ⚪-Markierung hat den Posten in den letzten Läufen systematisch zu niedrig eingestuft — wer nicht bis zum 30.09. einreicht, wartet bis Frühjahr 2027. Am 21.09. erneut bestätigt: 🔴 NUR NOCH 9 TAGE. Antragstellende werden innerhalb von drei Monaten nach dem Stichtag über die Entscheidung informiert. Mittel nach §20a SGB V der GKV in Baden-Württemberg. Direkte Passung mit den Kommunen- und Kitas-WGs; GKV-Leitfaden Prävention und Stiftungszweck beachten, bereits laufende Projekte werden nicht gefördert.</p></details>
-  <a class="btn" href="https://www.praeventionsstiftung-bw.de/foerderung" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="digital-health|translational|implementation|prevention" data-urg="🔴"
-         data-ftype="National-DE"
-         data-search="bmftr kmu-innovativ: medizintechnik 2026 bmftr förderung risikoreicher verbundprojekte in der medizintechnik; konsortium aus kmu und forschungseinrichtung. themen- und technologieoffen mit vereinfachtem und beschleunigtem antragsverfahren. rollierend mit zwei stichtagen pro jahr (15.04. und 15.10.). nächster stichtag: 15.10.2026. digital-health, translational, implementation, prevention">
-  <div class="top">
-    <span class="rank">#12</span>
-    <span class="fit">★★★☆☆</span>
-    <span class="badge">BMFTR</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>BMFTR KMU-innovativ: Medizintechnik 2026</h3>
-  <p class="desc">Förderung risikoreicher Verbundprojekte in der Medizintechnik; Konsortium aus KMU und Forschungseinrichtung. Themen- und technologieoffen mit vereinfachtem und beschleunigtem Antragsverfahren. Rollierend mit zwei Stichtagen pro Jahr (15.04. und 15.10.). Nächster Stichtag: 15.10.2026.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-10-15</b> · noch 24 Tage</span>
-    <span class="vol">~€1,000,000 per project (€40M total/year)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">digital-health</span><span class="pill">translational</span><span class="pill">implementation</span><span class="pill">prevention</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ AKTUALISIERT (14.09., am 21.09. unverändert): erstmals seit Juli wieder eigenständig verifiziert. Stichtage 15.04. und 15.10. jedes Jahres bestätigt, Gesamtvolumen €40 Mio. pro Jahr, Projektträger VDI Technologiezentrum. Wichtig für die CPD-Einordnung: Neben Diagnostik und Therapie sind Prävention (vorgelagert) und Nachsorge (nachgelagert) ausdrücklich als Themenfelder aufgenommen — das hebt die Passung gegenüber früheren Läufen an. Voraussetzung bleibt ein KMU-Partner als Verbundführer; für CPD nur als Forschungspartner in einem Industriekonsortium realistisch. 🔴 24 Tage — Stichtag 15.10.2026.</p></details>
-  <a class="btn" href="https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/02/2026-02-06-bekanntmachung-medizintechnik.html" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="digital-health|epidemiology|implementation|public-health" data-urg="🟡"
-         data-ftype="National-DE"
-         data-search="bmftr secure processing environments (spe) in der gesundheitsforschung 2026 bmftr förderung von pilotprojekten zur entwicklung und erprobung von komponenten und anforderungen für sichere verarbeitungsumgebungen (secure processing environments) in der gesundheitsforschung. ziel ist eine datenschutzkonforme, interoperable infrastruktur für die sekundärnutzung von gesundheitsdaten. richtlinie vom 11.08.2026, abgabetermin 28.10.2026. digital-health, epidemiology, implementation, public-health">
-  <div class="top">
-    <span class="rank">#13</span>
-    <span class="fit">★★★☆☆</span>
-    <span class="badge">BMFTR</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>BMFTR Secure Processing Environments (SPE) in der Gesundheitsforschung 2026</h3>
-  <p class="desc">Förderung von Pilotprojekten zur Entwicklung und Erprobung von Komponenten und Anforderungen für sichere Verarbeitungsumgebungen (Secure Processing Environments) in der Gesundheitsforschung. Ziel ist eine datenschutzkonforme, interoperable Infrastruktur für die Sekundärnutzung von Gesundheitsdaten. Richtlinie vom 11.08.2026, Abgabetermin 28.10.2026.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#E8A317"></span>
-      <b>2026-10-28</b> · noch 37 Tage</span>
-    <span class="vol">unconfirmed — see link</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">digital-health</span><span class="pill">epidemiology</span><span class="pill">implementation</span><span class="pill">public-health</span></div>
-  <details><summary>CPD-Notiz</summary><p>Am 21.09. auf der BMFTR-Bekanntmachungsseite 2026 direkt nachgeprüft (Richtlinie vom 11.08.2026, Abgabetermin 28.10.2026). Weiterhin die jüngste BMFTR-Gesundheitsbekanntmachung überhaupt — seit dem 11.08. ist keine neue erschienen, auch in dieser Woche nicht. CPD-Passung über digitale Gesundheit / Gesundheitsdaten-Infrastruktur und epidemiologische Sekundärdatennutzung (Kohorten, Routinedaten, Register). Relevant für alle CPD-Vorhaben mit Routinedaten- oder Registerbezug; Konsortialbildung mit IT- und Datenschutzpartnern erforderlich. 🟡 37 Tage — nach wie vor der realistischste BMFTR-Antrag in diesem Quartal.</p></details>
-  <a class="btn" href="https://www.gesundheitsforschung-bmftr.de/de/19026.php" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="behavioral-science|prevention|epidemiology|public-health" data-urg="🟢"
-         data-ftype="Foundation"
-         data-search="fritz thyssen stiftung – projektförderung (nächste frist 01.02.2027) fritz thyssen stiftung projektförderung für geistes-, sozial- und biomedizinwissenschaften; interdisziplinäre projekte ausdrücklich erwünscht. zwei fristen jährlich: 1. februar (sommersitzung der gremien im juni) und 1. september (wintersitzung im februar). die frist 01.09.2026 ist abgelaufen; nächster stichtag 01.02.2027. behavioral-science, prevention, epidemiology, public-health">
-  <div class="top">
-    <span class="rank">#14</span>
-    <span class="fit">★★★☆☆</span>
-    <span class="badge">Fritz Thyssen Stiftung</span>
-    <span class="badge ghost">Foundation</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>Fritz Thyssen Stiftung – Projektförderung (nächste Frist 01.02.2027)</h3>
-  <p class="desc">Projektförderung für Geistes-, Sozial- und Biomedizinwissenschaften; interdisziplinäre Projekte ausdrücklich erwünscht. Zwei Fristen jährlich: 1. Februar (Sommersitzung der Gremien im Juni) und 1. September (Wintersitzung im Februar). Die Frist 01.09.2026 ist abgelaufen; nächster Stichtag 01.02.2027.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#1E8E3E"></span>
-      <b>2027-02-01</b> · noch 133 Tage</span>
-    <span class="vol">unconfirmed — see link</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">prevention</span><span class="pill">epidemiology</span><span class="pill">public-health</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ ZYKLUSWECHSEL (14.09.): Die Frist 01.09.2026 ist verstrichen. Da es sich um ein wiederkehrendes Instrument handelt, wurde die Zeile nicht archiviert, sondern auf den nächsten Stichtag 01.02.2027 fortgeschrieben (Entscheidung in der Sommersitzung im Juni 2027). Fristenraster am 14.09. bestätigt. Hinweis zur Abweichung von der Standardregel: Das Programm ist dauerhaft geöffnet und Anträge auf die Februar-Frist können ab sofort eingereicht werden — der Status bleibt deshalb „Open&quot; und nicht „Expected&quot;. 🟢 133 Tage: das ist der komfortabelste Vorlauf im gesamten Radar und damit ein guter Kandidat für ein sorgfältig vorbereitetes CPD-Vorhaben. Passende Förderbereiche: „Medizin und Naturwissenschaften&quot; sowie „Staat, Wirtschaft und Gesellschaft&quot;. Am 21.09. unverändert bestätigt.</p></details>
-  <a class="btn" href="https://www.fritz-thyssen-stiftung.de/en/funding/types-of-support/support-of-projects/" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="behavioral-science|behavioral-medicine|prevention|epidemiology|implementation" data-urg="⚪"
-         data-ftype="Foundation"
-         data-search="ekfs erst- und zweitantragstellung (ganzjährig) else kröner-fresenius-stiftung neu erfasst. ganzjährig offene projektförderung der ekfs für den einstieg in die wissenschaftliche selbstständigkeit. antragsberechtigt sind promovierte ärztinnen und ärzte sowie in der medizinischen forschung tätige lebenswissenschaftlerinnen und -wissenschaftler an universitätskliniken, universitäten oder außeruniversitären forschungseinrichtungen in deutschland, die das 36. lebensjahr noch nicht vollendet haben (anrechnung von familienzeiten möglich). beantragt werden personal- und sachmittel für das projekt; mittel für die eigene stelle sind ausgeschlossen. anträge sind jederzeit über das online-portal möglich. behavioral-science, behavioral-medicine, prevention, epidemiology, implementation">
-  <div class="top">
-    <span class="rank">#15</span>
-    <span class="fit">★★★☆☆</span>
-    <span class="badge">Else Kröner-Fresenius-Stiftung</span>
-    <span class="badge ghost">Foundation</span>
-    <span class="act">Rolling</span>
-  </div>
-  <h3>EKFS Erst- und Zweitantragstellung (ganzjährig)</h3>
-  <p class="desc">NEU erfasst. Ganzjährig offene Projektförderung der EKFS für den Einstieg in die wissenschaftliche Selbstständigkeit. Antragsberechtigt sind promovierte Ärztinnen und Ärzte sowie in der medizinischen Forschung tätige Lebenswissenschaftlerinnen und -wissenschaftler an Universitätskliniken, Universitäten oder außeruniversitären Forschungseinrichtungen in Deutschland, die das 36. Lebensjahr noch nicht vollendet haben (Anrechnung von Familienzeiten möglich). Beantragt werden Personal- und Sachmittel für das Projekt; Mittel für die eigene Stelle sind ausgeschlossen. Anträge sind jederzeit über das Online-Portal möglich.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#8E8E93"></span>
-      <b>rolling</b> · laufend</span>
-    <span class="vol">unconfirmed — see link (Personal- und Sachmittel, ohne eigene Stelle)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">behavioral-medicine</span><span class="pill">prevention</span><span class="pill">epidemiology</span><span class="pill">implementation</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ NEUAUFNAHME 21.09. — methodischer Befund dieses Laufs: In den bisherigen Läufen wurde ausschließlich die EKFS-Seite „Ausschreibungen“ geprüft, die derzeit null Ergebnisse zeigt, weshalb mehrere Läufe hintereinander notiert haben, ForTra sei „die einzige offene EKFS-Ausschreibung überhaupt“. Der am 21.09. zusätzlich ausgewertete Ausschreibungskalender zeigt jedoch fünf dauerhaft („ganzjährig“) geöffnete Förderlinien, die in der Ausschreibungsliste gar nicht erscheinen. Diese hier ist die für CPD relevanteste. Voraussetzungen: mindestens drei Originalpublikationen, davon mindestens zwei als Erstautor:in. ⚠️ Ausschlusskriterium beachten: Wer als Projektleitung bereits mehr als eine begutachtete Projektförderung (DFG, BMFTR, Krebshilfe, EU) eingeworben hat oder schon einen geförderten EKFS-Erstantrag hält, ist nicht antragsberechtigt; intramurale Mittel, externe Förderungen bis €100.000 und reine Personenstipendien sind unschädlich. Thematisch offen innerhalb der Medizin, daher für verhaltens- und präventionsbezogene CPD-Projekte gut nutzbar. Ausschreibungstext Stand 11.05.2026, Hinweise Stand 25.06.2026. Ansprechpartnerin: Anne Asschenfeldt, a.asschenfeldt@ekfs.de.</p></details>
-  <a class="btn" href="https://ekfs.de/wissenschaftliche-foerderung/foerderlinien/erst-und-zweitantragstellung" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="digital-health|translational|implementation" data-urg="🔴"
-         data-ftype="National-DE"
-         data-search="bmftr e2health – klinische validierungsstudien von in-silico-methoden 2026 bmftr förderung von forschungsprojekten zu klinischen validierungsstudien von in-silico-methoden im förderkonzept „e2health – in silico-forschung für die medizin der zukunft“. gefördert werden studien, die computergestützte modelle im klinischen kontext prüfen. richtlinie vom 07.08.2026, abgabetermin 23.09.2026, 12:00. digital-health, translational, implementation">
-  <div class="top">
-    <span class="rank">#16</span>
-    <span class="fit">★★☆☆☆</span>
-    <span class="badge">BMFTR</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>BMFTR e2Health – Klinische Validierungsstudien von In-silico-Methoden 2026</h3>
-  <p class="desc">Förderung von Forschungsprojekten zu klinischen Validierungsstudien von In-silico-Methoden im Förderkonzept „e2Health – In silico-Forschung für die Medizin der Zukunft“. Gefördert werden Studien, die computergestützte Modelle im klinischen Kontext prüfen. Richtlinie vom 07.08.2026, Abgabetermin 23.09.2026, 12:00.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-09-23</b> · noch 2 Tage</span>
-    <span class="vol">unconfirmed — see link</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">digital-health</span><span class="pill">translational</span><span class="pill">implementation</span></div>
-  <details><summary>CPD-Notiz</summary><p>Am 21.09. auf der BMFTR-Bekanntmachungsseite direkt bestätigt (Richtlinie vom 07.08.2026, Abgabetermin 23.09.2026, 12:00) — 🔴 2 Tage. Periphere CPD-Passung über die methodische Stärke digitaler Verfahren und Evidenzgenerierung; der Schwerpunkt liegt klar auf In-silico-Medizin. Nur bei bereits bestehender Modellierungs-Kooperation relevant. Die beiden parallelen e2Health-Stränge „Use Cases“ (27.08.2026) und „Systems Engineering“ (20.08.2026) sind abgelaufen und archiviert.</p></details>
-  <a class="btn" href="https://www.gesundheitsforschung-bmftr.de/de/19420.php" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="behavioral-science|health-communication|implementation|translational" data-urg="🔴"
-         data-ftype="Foundation"
-         data-search="next – „dual use“ von ideen und konzepten aus den geistes- und sozialwissenschaften volkswagenstiftung neu. förderlinie für den transfer geistes- und sozialwissenschaftlicher ideen und konzepte in weitere anwendungsfelder („dual use“ im sinne von zweitverwertung, nicht im sicherheitspolitischen sinne). projektteams aus zwei bis drei promovierten forschenden in deutschland; internationale kooperationen möglich. frist 06.10.2026. behavioral-science, health-communication, implementation, translational">
-  <div class="top">
-    <span class="rank">#17</span>
-    <span class="fit">★★☆☆☆</span>
-    <span class="badge">VolkswagenStiftung</span>
-    <span class="badge ghost">Foundation</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>NEXT – „Dual Use“ von Ideen und Konzepten aus den Geistes- und Sozialwissenschaften</h3>
-  <p class="desc">NEU. Förderlinie für den Transfer geistes- und sozialwissenschaftlicher Ideen und Konzepte in weitere Anwendungsfelder („Dual Use“ im Sinne von Zweitverwertung, nicht im sicherheitspolitischen Sinne). Projektteams aus zwei bis drei promovierten Forschenden in Deutschland; internationale Kooperationen möglich. Frist 06.10.2026.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-10-06</b> · noch 15 Tage</span>
-    <span class="vol">up to €650,000 (bis zu 2 Jahre)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">health-communication</span><span class="pill">implementation</span><span class="pill">translational</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ AKTUALISIERT (21.09.): Volumen und Link korrigiert. Die Stiftung nennt jetzt eindeutig „bis zu €650.000 über eine Laufzeit von bis zu zwei Jahren“; die bisherige Angabe „€450.000/€650.000 je nach Teamgröße“ war nicht belegt. Der Link zeigt nun direkt auf die Programmseite statt auf das Gesamtportfolio. Antragsfrist 06.10.2026 bestätigt — 🔴 15 Tage. Beide Online-Sprechstunden (11.08. deutsch, 08.09. englisch) sind gelaufen. Periphere, aber reale CPD-Passung: Verhaltenswissenschaftliche und gesundheitskommunikative Konzepte aus der CPD-Arbeit in neue Anwendungskontexte zu übertragen und deren politisch-ideologische Zweitverwertung zu untersuchen ist genau das Format, das hier gesucht wird. Voraussetzung sind Teams promovierter Forschender an deutschen Hochschulen und Forschungseinrichtungen; internationale Kooperationen sind möglich.</p></details>
-  <a class="btn" href="https://www.volkswagenstiftung.de/en/funding/funding-offer/next-dual-use-ideas-and-concepts-humanities-and-social-sciences" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="digital-health|translational" data-urg="🔴"
-         data-ftype="EU"
-         data-search="ihi call 13 (horizon-ju-ihi-2026-13-two-stage) ihi (innovative health initiative) zweistufiger ihi-call (ria), launch 02.07.2026. drei topics: european healthcare incubator network; ki-foundation-toxikologiemodell zur reduktion von tierversuchen; entschlüsselung der immuno-wissenschaft altersbedingter immunvermittelter erkrankungen. kurzantrag (stufe 1) bis 08.10.2026, 17:00; vollantrag (stufe 2) 21.04.2027. digital-health, translational">
-  <div class="top">
-    <span class="rank">#18</span>
-    <span class="fit">★★☆☆☆</span>
-    <span class="badge">IHI (Innovative Health Initiative)</span>
-    <span class="badge ghost">EU</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>IHI Call 13 (HORIZON-JU-IHI-2026-13-two-stage)</h3>
-  <p class="desc">Zweistufiger IHI-Call (RIA), Launch 02.07.2026. Drei Topics: European HealthCare Incubator Network; KI-Foundation-Toxikologiemodell zur Reduktion von Tierversuchen; Entschlüsselung der Immuno-Wissenschaft altersbedingter immunvermittelter Erkrankungen. Kurzantrag (Stufe 1) bis 08.10.2026, 17:00; Vollantrag (Stufe 2) 21.04.2027.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#D93025"></span>
-      <b>2026-10-08</b> · noch 17 Tage</span>
-    <span class="vol">unconfirmed — see link</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">digital-health</span><span class="pill">translational</span></div>
-  <details><summary>CPD-Notiz</summary><p>Fristen am 21.09. erneut bestätigt: Stufe 1 (Kurzantrag, max. 20 Seiten) am 08.10.2026, Stufe 2 (Vollantrag, nur nach Einladung) am 21.04.2027 — 🔴 17 Tage. Antragsberechtigt sind Universitäten, Forschungs- und Versorgungseinrichtungen, öffentliche Stellen, KMU, Großunternehmen und Patientenorganisationen in internationalen Konsortien. Periphere CPD-Passung: Von den drei Topics kommt am ehesten das European HealthCare Incubator Network in Frage, die beiden übrigen (KI-Toxikologiemodell zur Reduktion von Tierversuchen, Immuno-Science altersassoziierter immunvermittelter Erkrankungen) liegen außerhalb des CPD-Profils. Einreichung über das EU-F&amp;T-Portal.</p></details>
-  <a class="btn" href="https://www.ihi.europa.eu/ihi-call-13" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="behavioral-science|behavioral-medicine|epidemiology|climate-health" data-urg="🟡"
-         data-ftype="Foundation"
-         data-search="wellcome discovery awards („always open“ ab 23.09.2026 / standortgrenze de 28.10.2026) wellcome trust wellcomes hauptinstrument für etablierte forschende und teams: ambitionierte, kreative forschung mit potenzial für einen paradigmenwechsel, laufzeit bis 8 jahre, im mittel rund £3,5 mio. die aktuelle runde schließt am 22.09.2026; ab 23.09.2026 wird das schema auf „always open&quot; umgestellt und anträge sind jederzeit möglich. behavioral-science, behavioral-medicine, epidemiology, climate-health">
-  <div class="top">
-    <span class="rank">#19</span>
-    <span class="fit">★★☆☆☆</span>
-    <span class="badge">Wellcome Trust</span>
-    <span class="badge ghost">Foundation</span>
-    <span class="act">Prepare now</span>
-  </div>
-  <h3>Wellcome Discovery Awards („always open“ ab 23.09.2026 / Standortgrenze DE 28.10.2026)</h3>
-  <p class="desc">Wellcomes Hauptinstrument für etablierte Forschende und Teams: ambitionierte, kreative Forschung mit Potenzial für einen Paradigmenwechsel, Laufzeit bis 8 Jahre, im Mittel rund £3,5 Mio. Die aktuelle Runde schließt am 22.09.2026; ab 23.09.2026 wird das Schema auf „always open&quot; umgestellt und Anträge sind jederzeit möglich.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#E8A317"></span>
-      <b>2026-10-28</b> · noch 37 Tage</span>
-    <span class="vol">~£3,500,000 im Mittel (bis 8 Jahre)</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">behavioral-medicine</span><span class="pill">epidemiology</span><span class="pill">climate-health</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ FELDÄNDERUNG (21.09.): Deadline von 22.09.2026 auf 28.10.2026 umgestellt. Begründung: Die terminierte Runde endet zwar am 22.09.2026, 15:00 BST, aber das Schema wird ab dem 23.09.2026 auf „always open“ ohne Fristen umgestellt — in dieser Woche am 21.09. auf der Wellcome-Schemenseite erneut verifiziert. Für CPD ist deshalb nicht der 22.09., sondern die Standortgrenze das bindende Datum: „From 29 October 2026, we will only accept applications from lead applicants based at eligible administering organisations in the UK and low- and middle-income countries in Africa, South Asia and South-East Asia.“ Deutschland gehört zu keiner dieser Gruppen. Praktische Folge: Ein CPD-geführter Discovery-Antrag ist bis einschließlich 28.10.2026 möglich — ab dem 23.09. rollierend und damit ohne Fristdruck innerhalb dieses Fensters. 🟡 37 Tage. Danach kommt für CPD allenfalls eine Rolle als Co-Applicant unter britischer oder LMIC-Federführung in Frage; die Co-Applicant-Regeln sollten vor jeder Planung direkt mit Wellcome geklärt werden. Im Mittel rund £3,5 Mio. über bis zu acht Jahre; Anträge werden weiterhin in terminierten Shortlisting- und Interview-Sitzungen bewertet, der Zeitplan ist auf der Schemenseite veröffentlicht.</p></details>
-  <a class="btn" href="https://wellcome.org/research-funding/schemes/wellcome-discovery-awards" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="behavioral-science|public-health|health-communication" data-urg="🟡"
-         data-ftype="Foundation"
-         data-search="opus magnum (vw stiftung, frist 18.11.2026) volkswagenstiftung freistellung für herausragende professor:innen der geistes- und sozialwissenschaften zur erarbeitung eines größeren wissenschaftlichen werks. finanziert wird eine lehrstuhlvertretung für 6–18 monate plus bis €5.000 sachkosten pro semester. frist 18.11.2026. behavioral-science, public-health, health-communication">
-  <div class="top">
-    <span class="rank">#20</span>
-    <span class="fit">★★☆☆☆</span>
-    <span class="badge">VolkswagenStiftung</span>
-    <span class="badge ghost">Foundation</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>Opus Magnum (VW Stiftung, Frist 18.11.2026)</h3>
-  <p class="desc">Freistellung für herausragende Professor:innen der Geistes- und Sozialwissenschaften zur Erarbeitung eines größeren wissenschaftlichen Werks. Finanziert wird eine Lehrstuhlvertretung für 6–18 Monate plus bis €5.000 Sachkosten pro Semester. Frist 18.11.2026.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#E8A317"></span>
-      <b>2026-11-18</b> · noch 58 Tage</span>
-    <span class="vol">Vertretungsprofessur 6–18 Monate + bis €5,000 Sachkosten/Semester</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">public-health</span><span class="pill">health-communication</span></div>
-  <details><summary>CPD-Notiz</summary><p>Am 21.09. im VW-Förderportfolio erneut bestätigt: Frist 18.11.2026 — 🟡 58 Tage. Online-Q&amp;As auf Deutsch am 03.09. (gelaufen) und am 26.10.2026 (Anmeldung erforderlich). Voraussetzung ist eine unbefristete Professur an einer deutschen Hochschule. Nicht gefördert werden Sammelbände, Editionen, Übersetzungen sowie Lehr- und Nachschlagewerke. Periphere, aber konkrete CPD-Passung für sozial- und verhaltenswissenschaftliche Monographien, etwa zu Präventionstheorie oder Gesundheitskommunikation.</p></details>
-  <a class="btn" href="https://www.volkswagenstiftung.de/en/funding/funding-offer/opus-magnum" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="behavioral-science|public-health|health-communication" data-urg="🟡"
-         data-ftype="Foundation"
-         data-search="fritz thyssen stiftung – förderung wissenschaftlicher tagungen (nächste frist 30.11.2026) fritz thyssen stiftung förderung kleinerer wissenschaftlicher tagungen in den förderbereichen der stiftung, u.a. „medizin und naturwissenschaften“ sowie „staat, wirtschaft und gesellschaft“. vier fristen pro jahr: 28.02., 31.05., 31.08., 30.11. die frist 31.08.2026 ist abgelaufen; nächster stichtag 30.11.2026. behavioral-science, public-health, health-communication">
-  <div class="top">
-    <span class="rank">#21</span>
-    <span class="fit">★★☆☆☆</span>
-    <span class="badge">Fritz Thyssen Stiftung</span>
-    <span class="badge ghost">Foundation</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>Fritz Thyssen Stiftung – Förderung wissenschaftlicher Tagungen (nächste Frist 30.11.2026)</h3>
-  <p class="desc">Förderung kleinerer wissenschaftlicher Tagungen in den Förderbereichen der Stiftung, u.a. „Medizin und Naturwissenschaften“ sowie „Staat, Wirtschaft und Gesellschaft“. Vier Fristen pro Jahr: 28.02., 31.05., 31.08., 30.11. Die Frist 31.08.2026 ist abgelaufen; nächster Stichtag 30.11.2026.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#E8A317"></span>
-      <b>2026-11-30</b> · noch 70 Tage</span>
-    <span class="vol">unconfirmed — see link</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">behavioral-science</span><span class="pill">public-health</span><span class="pill">health-communication</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ ZYKLUSWECHSEL (14.09.): Die Frist 31.08.2026 ist verstrichen; die Zeile wurde als wiederkehrendes Instrument auf den 30.11.2026 fortgeschrieben statt archiviert. Fristenraster am 14.09. bestätigt (28.02. / 31.05. / 31.08. / 30.11.). Wie bei der Thyssen-Projektförderung bleibt der Status „Open&quot;, weil ab sofort auf die November-Frist eingereicht werden kann. 🟡 70 Tage. Kleines, aber praktisches Instrument für CPD-Workshops und Symposien, etwa WG-Tagungen zu Prävention, Hitze/Klima oder ÖGD. Entscheidung 8–10 Wochen nach Fristablauf. Antragsberechtigt sind Hochschulen und gemeinnützige Forschungseinrichtungen. Am 21.09. unverändert bestätigt.</p></details>
-  <a class="btn" href="https://www.fritz-thyssen-stiftung.de/foerderung/foerderarten/tagungen/" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="all CPD topics (disziplinunabhängig)|implementation|epidemiology" data-urg="🟡"
-         data-ftype="National-DE"
-         data-search="dfg „global minds in dfg-verbünden“ — 2. ausschreibungsrunde (ifw-26-69) dfg (mit bmftr-programm 1000-köpfe-plus) neu. zweite runde der dfg-förderinitiative im rahmen des bmftr-programms 1000-köpfe-plus. dfg-geförderte verbünde können hoch qualifizierte, seit mindestens drei jahren im ausland tätige wissenschaftler:innen gewinnen. zwei module: „professur“ (bis €3,5 mio., berufung auf eine langzeit-professur) und „mercator fellow global“ (bis €650.000, 15–36 monate präsenz im verbund). förderdauer fünf jahre, förderbeginn 2028. neu in dieser runde: neben exzellenzclustern und sonderforschungsbereichen sind nun auch forschungsimpulse und graduiertenkollegs antragsberechtigt. all cpd topics (disziplinunabhängig), implementation, epidemiology">
-  <div class="top">
-    <span class="rank">#22</span>
-    <span class="fit">★★☆☆☆</span>
-    <span class="badge">DFG (mit BMFTR-Programm 1000-Köpfe-Plus)</span>
-    <span class="badge ghost">National-DE</span>
-    <span class="act">Monitor</span>
-  </div>
-  <h3>DFG „Global Minds in DFG-Verbünden“ — 2. Ausschreibungsrunde (ifw-26-69)</h3>
-  <p class="desc">NEU. Zweite Runde der DFG-Förderinitiative im Rahmen des BMFTR-Programms 1000-Köpfe-Plus. DFG-geförderte Verbünde können hoch qualifizierte, seit mindestens drei Jahren im Ausland tätige Wissenschaftler:innen gewinnen. Zwei Module: „Professur“ (bis €3,5 Mio., Berufung auf eine Langzeit-Professur) und „Mercator Fellow Global“ (bis €650.000, 15–36 Monate Präsenz im Verbund). Förderdauer fünf Jahre, Förderbeginn 2028. Neu in dieser Runde: neben Exzellenzclustern und Sonderforschungsbereichen sind nun auch Forschungsimpulse und Graduiertenkollegs antragsberechtigt.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#E8A317"></span>
-      <b>2026-12-08</b> · noch 78 Tage</span>
-    <span class="vol">up to €3,500,000 (Modul Professur) / up to €650,000 (Modul Mercator Fellow Global)</span>
-    <span class="st">Open (pre-prop)</span>
-  </div>
-  <div class="pills"><span class="pill">all CPD topics (disziplinunabhängig)</span><span class="pill">implementation</span><span class="pill">epidemiology</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ NEUAUFNAHME 21.09. — am 17.09.2026 als ifw-26-69 veröffentlicht und damit neu seit dem letzten Sweep. ⚠️ Zugangsvoraussetzung genau prüfen, sie bestimmt den ★★-Score: Antragsberechtigt sind ausschließlich laufende DFG-Verbünde (EXC, FIP, GRK, SFB/TRR), der Antrag wird von der/den antragstellenden Hochschule(n) gemeinsam mit der Kandidatin oder dem Kandidaten gestellt, maximal ein Antrag pro Verbund. Für CPD ist die Linie daher nur über eine Beteiligung an einem bestehenden DFG-Verbund zugänglich — thematisch ist sie vollständig offen und im Erfolgsfall außerordentlich wertvoll. Zwei Fristen: Die Absichtserklärung der Verbundsprecherin bzw. des Verbundsprechers ist bis zum 08.12.2026, 12:00 Uhr über das elan-Portal ZWINGEND erforderlich (ohne sie ist keine Antragstellung möglich); der Antrag selbst ist in englischer Sprache bis zum 27.01.2027, 12:00 Uhr einzureichen. Das Deadline-Feld führt bewusst die Absichtserklärung, weil sie die faktische Zugangshürde ist. 🟡 78 Tage. Empfehlung: In den kommenden Wochen klären, in welchen Heidelberg-Mannheimer DFG-Verbünden CPD vertreten ist und ob dort Interesse an einer Rekrutierung aus dem Ausland besteht.</p></details>
-  <a class="btn" href="https://www.dfg.de/de/aktuelles/neuigkeiten-themen/info-wissenschaft/2026/ifw-26-69" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article>
-<article class="card" data-topics="translational|implementation|digital-health" data-urg="⚪"
-         data-ftype="Foundation"
-         data-search="ekfs/fortra — translatorische projekte (ganzjährig) else kröner-fresenius-stiftung / fortra neu erfasst; tritt an die stelle der zum 15.09.2026 abgelaufenen fortra-ausschreibung für regulatorische beratungen. die fortra ggmbh für forschungstransfer der ekfs fördert ganzjährig translatorische projekte, deren überführung in die klinik im rahmen einer first-in-human-studie zeitnah bevorsteht. vertragspartner der fortra ist das deutsche forschungsinstitut, an dem die antragstellenden beschäftigt sind. translational, implementation, digital-health">
-  <div class="top">
-    <span class="rank">#23</span>
-    <span class="fit">★★☆☆☆</span>
-    <span class="badge">Else Kröner-Fresenius-Stiftung / ForTra</span>
-    <span class="badge ghost">Foundation</span>
-    <span class="act">Rolling</span>
-  </div>
-  <h3>EKFS/ForTra — Translatorische Projekte (ganzjährig)</h3>
-  <p class="desc">NEU erfasst; tritt an die Stelle der zum 15.09.2026 abgelaufenen ForTra-Ausschreibung für regulatorische Beratungen. Die ForTra gGmbH für Forschungstransfer der EKFS fördert ganzjährig translatorische Projekte, deren Überführung in die Klinik im Rahmen einer First-in-human-Studie zeitnah bevorsteht. Vertragspartner der ForTra ist das deutsche Forschungsinstitut, an dem die Antragstellenden beschäftigt sind.</p>
-  <div class="meta">
-    <span class="dl"><span class="dot" style="background:#8E8E93"></span>
-      <b>rolling</b> · laufend</span>
-    <span class="vol">unconfirmed — see link</span>
-    <span class="st">Open</span>
-  </div>
-  <div class="pills"><span class="pill">translational</span><span class="pill">implementation</span><span class="pill">digital-health</span></div>
-  <details><summary>CPD-Notiz</summary><p>⚠️ NEUAUFNAHME 21.09. als Nachfolge der archivierten ForTra-Beratungsausschreibung. Am 21.09. im EKFS-Ausschreibungskalender als ganzjährig geöffnete Förderlinie bestätigt. Periphere CPD-Passung — relevant nur bei CPD-Vorhaben mit Produkt- oder Interventionsentwicklung, die konkret auf eine erste Anwendung am Menschen zusteuern; für verhaltens- oder kommunikationsbasierte Interventionen ohne Arzneimittel- oder Medizinproduktcharakter ist die Linie in der Regel nicht einschlägig. Die Zeile steht im Radar, damit die ForTra-Schiene nach dem Auslaufen der terminierten Ausschreibung nicht verloren geht. Ansprechpartner: Prof. Dr. Martin Zörnig, m.zoernig@ekfs.de.</p></details>
-  <a class="btn" href="https://ekfs.de/wissenschaftliche-foerderung/foerderlinien/translatorische-projekte" target="_blank" rel="noopener">Zur Ausschreibung →</a>
-</article></div>
-</main>
 <footer>
-<h2>In diesem Lauf gesweepte Quellen (2026-09-21)</h2>
-<ul><li><a href="https://ec.europa.eu/info/funding-tenders/opportunities/portal/" target="_blank" rel="noopener">EU Funding &amp; Tenders Portal</a> — 1 bestätigt (DEMOCRACY-10)</li><li><a href="https://hadea.ec.europa.eu/programmes/eu4health_en" target="_blank" rel="noopener">EU4Health / HaDEA / HERA</a> — 0 neu — WP 2027 weiterhin unveröffentlicht</li><li><a href="https://erc.europa.eu/apply-grant/calls-proposals" target="_blank" rel="noopener">European Research Council (ERC)</a> — 2 bestätigt (StG 2027 aktiv, CoG 2027 öffnet 24.09.)</li><li><a href="https://www.ihi.europa.eu/ihi-call-13" target="_blank" rel="noopener">IHI — Innovative Health Initiative</a> — 1 bestätigt (Call 13)</li><li><a href="https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen" target="_blank" rel="noopener">BMG Ressortforschung</a> — <b>1 NEU</b> (Medikationsplan Kinder, 16.09.) + 1 bestätigt</li><li><a href="https://www.gesundheitsforschung-bmftr.de/de/bekanntmachungen-2026-18764.php" target="_blank" rel="noopener">BMFTR Gesundheitsforschung</a> — 2 bestätigt (SPE, e2Health) — 0 neu seit 11.08.</li><li><a href="https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/02/2026-02-06-bekanntmachung-medizintechnik.html" target="_blank" rel="noopener">BMFTR KMU-innovativ Medizintechnik</a> — 1 bestätigt</li><li><a href="https://www.dfg.de/de/aktuelles/neuigkeiten-themen/info-wissenschaft/2026" target="_blank" rel="noopener">DFG Informationen für die Wissenschaft</a> — <b>1 NEU</b> (Global Minds, ifw-26-69) + 1 bestätigt; bis ifw-26-69 durchgesehen</li><li><a href="https://innovationsfonds.g-ba.de/foerderbekanntmachungen/" target="_blank" rel="noopener">Innovationsfonds</a> — 4 bestätigt (VsF ×3, NVF ×1) — 0 neu</li><li><a href="https://ekfs.de/aktuelles/ausschreibungskalender" target="_blank" rel="noopener">Else Kröner-Fresenius-Stiftung</a> — <b>2 NEU</b> (ganzjährige Förderlinien) + 1 archiviert</li><li><a href="https://www.volkswagenstiftung.de/de/foerderung/was-wir-foerdern" target="_blank" rel="noopener">VolkswagenStiftung</a> — 2 bestätigt (NEXT, Opus Magnum) — Volumen NEXT korrigiert</li><li><a href="https://www.fritz-thyssen-stiftung.de/foerderung/foerderarten/" target="_blank" rel="noopener">Fritz Thyssen Stiftung</a> — 2 bestätigt</li><li><a href="https://jacobsfoundation.org/grant/" target="_blank" rel="noopener">Jacobs Foundation</a> — 1 bestätigt (LEVANTE Stage 2)</li><li><a href="https://wellcome.org/grant-funding/schemes" target="_blank" rel="noopener">Wellcome Trust</a> — 1 bestätigt + 1 archiviert; Schemenumstellung dokumentiert</li><li><a href="https://www.carl-zeiss-stiftung.de/foerderung/uebersicht-foerdermoeglichkeiten" target="_blank" rel="noopener">Carl-Zeiss-Stiftung</a> — 0 CPD-relevant — Watch-Zeile entstaled</li><li><a href="https://bewerbung.bosch-stiftung.de/" target="_blank" rel="noopener">Robert Bosch Stiftung</a> — <b>Bewerbungsportal nicht auslesbar</b> — manuell prüfen</li><li><a href="https://era4health.eu/calls/index.php" target="_blank" rel="noopener">ERA4Health</a> — 0 neu — kein JTC9-Pre-Announcement</li><li><a href="https://www.eppermed.eu/funding-projects/calls/" target="_blank" rel="noopener">EP PerMed</a> — 0 neu — kein JTC2027</li><li><a href="https://erdera.org/funding/" target="_blank" rel="noopener">ERDERA</a> — 0 neu — Watch-Zeile entstaled</li><li><a href="https://www.brainhealth-partnership.eu/calls/" target="_blank" rel="noopener">EP BrainHealth</a> — 0 neu (2026er Runde in Begutachtung)</li><li><a href="https://beready4pandemics.eu/joint-transnational-calls/" target="_blank" rel="noopener">BE READY (Pandemievorsorge)</a> — 0 neu — kein JTC-2027-Pre-Announcement</li><li><a href="https://deutschezentren.de/en/dzg-innovation-fund-dzgif/" target="_blank" rel="noopener">DZG Innovation Fund (DZGIF)</a> — 0 neu — Volumen belegt, Watch-Zeile entstaled</li><li><a href="https://www.bwstiftung.de/de/programme" target="_blank" rel="noopener">BW Stiftung</a> — 0 neu — Eliteprogramm 2027 öffnet Jan 2027</li><li><a href="https://www.praeventionsstiftung-bw.de/foerderung" target="_blank" rel="noopener">Präventionsstiftung Baden-Württemberg</a> — 1 bestätigt — Stichtag 30.09. verifiziert</li><li><a href="https://www.globalhealth.de/foerderung" target="_blank" rel="noopener">GLOHRA</a> — 0 neu — 2027er Call öffnet 16.11.2026</li></ul>
-<p style="margin-top:14px">CPD Funding Radar · automatisch erzeugt am 2026-09-21 · Quelle: cpd_calls_overview.xlsx</p>
+  <h4>Sources swept this run · 2026-09-28</h4>
+  <ul><li>EU Funding &amp; Tenders Portal</li><li>EU4Health / HERA</li><li>IHI</li><li>ERC</li><li>Horizon Europe Cluster 2 (Democracy)</li><li>EIC</li><li>Erasmus+ / COST</li><li>BMBF/BMFTR Bekanntmachungen</li><li>BMG Ressortforschung</li><li>DFG Ausschreibungen (ifw)</li><li>G-BA Innovationsfonds</li><li>Förderdatenbank des Bundes</li><li>Else Kröner-Fresenius-Stiftung</li><li>VolkswagenStiftung</li><li>Fritz Thyssen Stiftung</li><li>Jacobs Foundation</li><li>Wellcome Trust</li><li>Robert Bosch Stiftung</li><li>Carl-Zeiss-Stiftung</li><li>Hertie-Stiftung</li><li>Stiftung Mercator</li><li>Klaus Tschira Stiftung</li><li>BW MWK</li><li>BW Sozialministerium</li><li>Baden-Württemberg Stiftung</li><li>Präventionsstiftung BW</li><li>Health + Life Sciences Alliance HD-MA</li><li>ERA4Health</li><li>EP PerMed</li><li>ERDERA</li><li>EP BrainHealth</li><li>GLOHRA</li><li>DZPG</li><li>DZKJ</li><li>DZHK</li><li>DZIF</li><li>24 Watch-list items re-verified</li></ul>
 </footer>
 <script>
-var cards=[].slice.call(document.querySelectorAll('.card'));
-var ft=document.getElementById('fTopic'),fu=document.getElementById('fUrg'),
-    fy=document.getElementById('fType'),q=document.getElementById('q'),c=document.getElementById('count');
-function apply(){
-  var t=ft.value,u=fu.value,y=fy.value,s=q.value.trim().toLowerCase(),n=0;
-  cards.forEach(function(el){
-    var ok=(!t||el.dataset.topics.split('|').indexOf(t)>-1)&&(!u||el.dataset.urg===u)&&
-           (!y||el.dataset.ftype===y)&&(!s||el.dataset.search.indexOf(s)>-1);
-    el.style.display=ok?'':'none'; if(ok)n++;
+const DATA = [{"rank": 1, "fit": "★★★★★", "topics": ["early-childhood", "prevention", "health-promotion", "behavioral-science", "health-communication", "health-equity"], "funder": "BMG — Bundesministerium für Gesundheit", "funderType": "National-DE", "title": "BMG Förderrichtlinie „Gesundheitliche Auswirkungen von Bildschirmmedien auf Kinder im Alter von 0 bis 6 Jahren und Möglichkeiten der Prävention negativer Folgen\" (18.08.2026)", "desc": "Ressortforschungs-Förderrichtlinie des BMG für versorgungsrelevante Vorhaben zum dysregulierten Bildschirmmediengebrauch bei 0- bis 6-Jährigen: gesundheitliche Auswirkungen des kindlichen und des elterlichen Medienverhaltens, Schutz- und Interventionsmaßnahmen in Familie, Kita und Kindertagespflege, Motivation und Selbstwirksamkeit von Eltern, Aufklärung von Multiplikatoren und Fachpersonal sowie Integration des Themas in U-Untersuchungen und Schuleingangsuntersuchung. Zweistufiges Verfahren; Projektbeschreibung (max. 15 Seiten) bis 29.09.2026, 12:00 über ptoutline.eu.", "volume": "up to €750,000 gesamt (Laufzeit bis 36 Monate)", "deadline": "2026-09-29", "urgency": "🔴", "status": "Open", "action": "Prepare now", "link": "https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen", "notes": "Am 21.09. auf der BMG-Ressortforschungsseite erneut direkt bestätigt: die Richtlinie vom 18.08.2026 steht unverändert in der Liste der Bekanntmachungen 2026. ⚠️ NUR NOCH 8 TAGE — dies ist der dringlichste Posten mit hoher CPD-Passung in diesem Lauf. Direkter Treffer für die Kitas-WG mit Anschluss an Frühe Hilfen, Gesundheitskommunikation, Verhaltensänderung (elterliche Selbstwirksamkeit) und ÖGD ("}, {"rank": 2, "fit": "★★★★★", "topics": ["all CPD topics (disziplinunabhängig)", "behavioral-science", "prevention", "implementation", "epidemiology"], "funder": "European Research Council", "funderType": "EU", "title": "ERC Starting Grant 2027 (ERC-2027-StG)", "desc": "NEU. Thematisch offener ERC-Call für Nachwuchsgruppenleitungen: bis €1,5 Mio. über 5 Jahre für ein eigenständiges Forschungsprogramm, Bewertung allein nach Exzellenz von PI und Projekt. Der Call ist am 22.07.2026 im Rahmen des ERC-Arbeitsprogramms 2027 geöffnet worden; Einreichungsfrist 14.10.2026. Gesamtbudget €594,1 Mio. für ca. 373 Grants.", "volume": "up to €1,500,000 (5 Jahre); €594.1M Gesamtbudget, ca. 373 Grants", "deadline": "2026-10-14", "urgency": "🔴", "status": "Open", "action": "Prepare now", "link": "https://erc.europa.eu/apply-grant/starting-grant", "notes": "Am 21.09. erneut bestätigt: Frist 14.10.2026, Budget €594,1 Mio. für rund 373 Grants, Eignungsfenster 0–10 Jahre nach der Promotion (Verteidigung zwischen 01.01.2017 und 31.12.2026). ⚠️ NEU IN DIESEM LAUF: Das ERC-Arbeitsprogramm 2027 lässt pro Person nur einen Antrag zu, wenn sich die Eignungsfenster von Starting und Consolidator Grant überschneiden — wer für beide Schemata qualifiziert ist, darf"}, {"rank": 3, "fit": "★★★★★", "topics": ["primary-care", "implementation", "epidemiology", "public-health"], "funder": "G-BA Innovationsfonds", "funderType": "National-DE", "title": "Versorgungsforschung themenoffener Bereich (einstufig) 2026 — G-BA IF", "desc": "Themenoffene Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren. Veröffentlicht 19.06.2026. Förderung von VsF-Projekten zur Weiterentwicklung der GKV-Versorgung. Einreichungsfrist 20.10.2026, 12:00.", "volume": "unconfirmed per project (€20M VsF-Gesamtbudget 2026)", "deadline": "2026-10-20", "urgency": "🔴", "status": "Open", "action": "Prepare now", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenoffenen-bereich.55", "notes": "Am 21.09. direkt auf dem Innovationsfonds-Portal bestätigt: Status „Aktuell“, Frist 20.10.2026, 12:00, unverändert. Sehr hohe CPD-Priorität. ⚠️ Das im Juli 2026 beschlossene GKV-Beitragssatz-Stabilisierungsgesetz senkt das Jahresfördervolumen des Innovationsausschusses ab 2027 dauerhaft auf €100 Mio. — die 2026er Runde ist daher strategisch wichtig. Beratung DLR-PT: innovationsfonds-versorgungsfor"}, {"rank": 4, "fit": "★★★★★", "topics": ["primary-care", "implementation", "epidemiology", "public-health"], "funder": "G-BA Innovationsfonds", "funderType": "National-DE", "title": "Versorgungsforschung themenspezifischer Bereich (einstufig) 2026 — G-BA IF", "desc": "Themenspezifische Versorgungsforschungs-Förderung des Innovationsfonds; einstufiges Verfahren mit vorgegebenen Themenschwerpunkten (u.a. bedarfsgerechte Steuerung ambulante psychiatrisch-psychotherapeutische Versorgung). Veröffentlicht 19.06.2026. Einreichungsfrist 20.10.2026, 12:00.", "volume": "unconfirmed per project (€20M VsF-Gesamtbudget 2026)", "deadline": "2026-10-20", "urgency": "🔴", "status": "Open", "action": "Prepare now", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-versorgungsforschung-zum-themenspezifischen-bereich.69", "notes": "Portal-Status am 21.09. direkt bestätigt („Aktuell“, Frist 20.10.2026, 12:00). Themenspezifische Schwerpunkte beachten — die Bekanntmachung nennt vier Themenfelder. Siehe auch die Budgetkürzung ab 2027 (BStabG). Am 21.09. direkt auf dem Innovationsfonds-Portal nachgeprüft: beide VsF-Bekanntmachungen stehen weiterhin unter „Aktuell“, Frist 20.10.2026, 12:00 unverändert. 🟡 29 Tage — die Urgency ist "}, {"rank": 5, "fit": "★★★★★", "topics": ["all CPD topics (disziplinunabhängig)", "behavioral-science", "prevention", "implementation", "epidemiology"], "funder": "European Research Council", "funderType": "EU", "title": "ERC Consolidator Grant 2027 (ERC-2027-CoG)", "desc": "Thematisch offener ERC-Call für Forschende, die eine eigene Arbeitsgruppe aufbauen oder gerade aufgebaut haben (7–12 Jahre nach Promotion). Teil des ERC-Arbeitsprogramms 2027. Am 24.09.2026 wie angekündigt geöffnet.", "volume": "up to €2,000,000 (5 Jahre); €618M Gesamtbudget, ca. 296 Grants", "deadline": "2027-01-12", "urgency": "🟢", "status": "Open", "action": "Prepare now", "link": "https://erc.europa.eu/apply-grant/consolidator-grant", "notes": "⚠️ VON WATCH IN CALLS ÜBERFÜHRT (28.09.) — der Call ist wie erwartet am 24.09.2026 geöffnet. Am 28.09. über erc.europa.eu, das offizielle ERC-Arbeitsprogramm 2027 (Kommissionsbeschluss C(2026)4907) sowie UKRO unabhängig bestätigt: Frist 12.01.2027, Budget €618 Mio. für ca. 296 Grants, Fördersumme bis €2 Mio. über 5 Jahre (zzgl. bis €1 Mio. bzw. bis €2 Mio. Umzugs-Top-up bei Rückkehr aus Drittstaat"}, {"rank": 6, "fit": "★★★★★", "topics": ["primary-care", "implementation", "prevention", "public-health"], "funder": "G-BA Innovationsfonds", "funderType": "National-DE", "title": "NVF themenoffen einstufig kurz (laufend 2026) — G-BA IF", "desc": "Rollierende NVF-Förderung für neue Versorgungsformen in der GKV; einstufig, kurz. Einreichung per E-Mail laufend bis 31.12.2026, 23:59. Gesamtbudget NVF 2026: €80 Mio. (NVF+VsF €100 Mio.).", "volume": "unconfirmed per project (€80M NVF-Budget 2026)", "deadline": "rolling", "urgency": "⚪", "status": "Open", "action": "Rolling", "link": "https://innovationsfonds.g-ba.de/foerderbekanntmachungen/foerderbekanntmachung-neue-versorgungsformen-zum-themenoffenen-bereich-einstufig-kurz-einreichung-laufend-im-jahr-moeglich.66", "notes": "Höchste strategische Priorität für CPD. Am 21.09. auf dem Portal als einzige aktuelle NVF-Bekanntmachung bestätigt (veröffentlicht 23.01.2026, Frist 31.12.2026, 23:59); alle vier übrigen NVF-Bekanntmachungen der 2026er Runde stehen unverändert auf „In Bewertung“. Einreichung: innovationsfonds-versorgungsformen@dlr.de. Beratung DLR-PT: 0228 3821 1020. ⚠️ Praktischer Hinweis: „laufend“ heißt nicht b"}, {"rank": 7, "fit": "★★★★★", "topics": ["behavioral-science", "prevention", "epidemiology", "implementation", "primary-care"], "funder": "DFG", "funderType": "National-DE", "title": "DFG Sachbeihilfe (laufend)", "desc": "Rollierende Einzelprojektförderung der DFG für Grundlagen- und angewandte Forschung; kein Thema ausgeschlossen. Einreichung jederzeit über das elan-Portal.", "volume": "unconfirmed — see link", "deadline": "rolling", "urgency": "⚪", "status": "Open", "action": "Rolling", "link": "https://www.dfg.de/de/foerderung/foerdermoeglichkeiten/programme/einzelfoerderung/sachbeihilfe", "notes": "Am 21.09. bestätigt: dauerhaft offenes Instrument ohne Frist. Die DFG-Liste „Informationen für die Wissenschaft 2026“ wurde in diesem Lauf bis ifw-26-69 (17.09.2026) durchgesehen. Neu seit dem letzten Lauf: ifw-26-66 und -67 (Nachwuchsakademien Hämotherapie und Gefäßchirurgie — ohne CPD-Bezug), ifw-26-68 „Open-Access-Publikationsförderung“ (neues Programm, kein Forschungscall, aber für CPD-Publika"}, {"rank": 8, "fit": "★★★★☆", "topics": ["primary-care", "health-communication", "early-childhood", "health-equity", "behavioral-science", "implementation"], "funder": "BMG — Bundesministerium für Gesundheit", "funderType": "National-DE", "title": "BMG Förderrichtlinie „Sichere Arzneimitteltherapie für Kinder und Jugendliche durch Optimierung des Medikationsplans“ (16.09.2026)", "desc": "NEU. Ressortforschungs-Förderrichtlinie des BMG vom 16.09.2026 für ein Forschungsvorhaben zur Nutzung des Medikationsplans in der Arzneimittelversorgung von Kindern und Jugendlichen. Untersucht werden sollen Verständlichkeit und Praktikabilität für verschiedene Altersgruppen und deren Eltern, Lücken im Prozess um Ausstellung, Aktualisierung und Abgabe sowie die Rolle soziokultureller Faktoren wie Sprachbarrieren. Zweistufiges Verfahren; antragsberechtigt sind (Fach-)Hochschulen und außeruniversitäre Forschungseinrichtungen.", "volume": "unconfirmed — see link (bis zu 2 Jahre, bis zu 100 % Förderquote, Eigenanteil ≥10 %)", "deadline": "2026-10-16", "urgency": "🔴", "status": "Open (pre-prop)", "action": "Prepare now", "link": "https://www.bundesgesundheitsministerium.de/ministerium/ressortforschung/ausschreibungen-und-bekanntmachungen", "notes": "⚠️ NEUAUFNAHME 21.09. — die wichtigste Neuaufnahme dieses Laufs und die einzige neue Bekanntmachung eines Kernförderers seit dem letzten Sweep. Am 16.09.2026 auf der BMG-Ressortforschungsseite veröffentlicht, Richtlinientext direkt gelesen. Erste Stufe: 15-seitige Projektbeschreibung in deutscher Sprache bis zum 16.10.2026, 12:00 Uhr per E-Mail an projekttraeger-bmg@dlr.de (Ansprechpartner Dr. Ale"}, {"rank": 9, "fit": "★★★☆☆", "topics": ["prevention", "health-promotion", "public-health", "primary-care"], "funder": "Stiftung für gesundheitliche Prävention Baden-Württemberg", "funderType": "Foundation", "title": "Projektförderung gesundheitliche Prävention (laufend) — Präventionsstiftung BW", "desc": "Rollierende Projektförderung: Vernetzung und Kooperation in der allgemeinen Gesundheitsvorsorge sowie Verbreitung evaluierter, lebensweltorientierter Projekte der Gesundheitsförderung, Prävention und Rehabilitation. Anträge jederzeit; der Koordinierungsausschuss entscheidet zweimal jährlich.", "volume": "unconfirmed — see link", "deadline": "2026-09-30", "urgency": "🔴", "status": "Open", "action": "Prepare now", "link": "https://www.praeventionsstiftung-bw.de/foerderung", "notes": "⚠️ WICHTIGSTE FELDÄNDERUNG DIESES LAUFS: Das Deadline-Feld wurde von „rolling“ auf den harten Stichtag 30.09.2026 umgestellt und die Urgency damit von ⚪ auf 🔴. Begründung: Anträge sind zwar formal jederzeit möglich, entschieden wird aber ausschließlich in den Sitzungen des Koordinierungsausschusses, und dessen Stichtage 2026 sind der 31.03. und der 30.09. Eine ⚪-Markierung hat den Posten in den le"}, {"rank": 10, "fit": "★★★☆☆", "topics": ["digital-health", "translational", "implementation", "prevention"], "funder": "BMFTR", "funderType": "National-DE", "title": "BMFTR KMU-innovativ: Medizintechnik 2026", "desc": "Förderung risikoreicher Verbundprojekte in der Medizintechnik; Konsortium aus KMU und Forschungseinrichtung. Themen- und technologieoffen mit vereinfachtem und beschleunigtem Antragsverfahren. Rollierend mit zwei Stichtagen pro Jahr (15.04. und 15.10.). Nächster Stichtag: 15.10.2026.", "volume": "~€1,000,000 per project (€40M total/year)", "deadline": "2026-10-15", "urgency": "🔴", "status": "Open", "action": "Monitor", "link": "https://www.bmftr.bund.de/SharedDocs/Bekanntmachungen/DE/2026/02/2026-02-06-bekanntmachung-medizintechnik.html", "notes": "⚠️ AKTUALISIERT (14.09., am 21.09. unverändert): erstmals seit Juli wieder eigenständig verifiziert. Stichtage 15.04. und 15.10. jedes Jahres bestätigt, Gesamtvolumen €40 Mio. pro Jahr, Projektträger VDI Technologiezentrum. Wichtig für die CPD-Einordnung: Neben Diagnostik und Therapie sind Prävention (vorgelagert) und Nachsorge (nachgelagert) ausdrücklich als Themenfelder aufgenommen — das hebt di"}, {"rank": 11, "fit": "★★★☆☆", "topics": ["digital-health", "epidemiology", "implementation", "public-health"], "funder": "BMFTR", "funderType": "National-DE", "title": "BMFTR Secure Processing Environments (SPE) in der Gesundheitsforschung 2026", "desc": "Förderung von Pilotprojekten zur Entwicklung und Erprobung von Komponenten und Anforderungen für sichere Verarbeitungsumgebungen (Secure Processing Environments) in der Gesundheitsforschung. Ziel ist eine datenschutzkonforme, interoperable Infrastruktur für die Sekundärnutzung von Gesundheitsdaten. Richtlinie vom 11.08.2026, Abgabetermin 28.10.2026.", "volume": "unconfirmed — see link", "deadline": "2026-10-28", "urgency": "🟡", "status": "Open", "action": "Monitor", "link": "https://www.gesundheitsforschung-bmftr.de/de/19026.php", "notes": "Am 21.09. auf der BMFTR-Bekanntmachungsseite 2026 direkt nachgeprüft (Richtlinie vom 11.08.2026, Abgabetermin 28.10.2026). Weiterhin die jüngste BMFTR-Gesundheitsbekanntmachung überhaupt — seit dem 11.08. ist keine neue erschienen, auch in dieser Woche nicht. CPD-Passung über digitale Gesundheit / Gesundheitsdaten-Infrastruktur und epidemiologische Sekundärdatennutzung (Kohorten, Routinedaten, Reg"}, {"rank": 12, "fit": "★★★☆☆", "topics": ["behavioral-science", "prevention", "epidemiology", "public-health"], "funder": "Fritz Thyssen Stiftung", "funderType": "Foundation", "title": "Fritz Thyssen Stiftung – Projektförderung (nächste Frist 01.02.2027)", "desc": "Projektförderung für Geistes-, Sozial- und Biomedizinwissenschaften; interdisziplinäre Projekte ausdrücklich erwünscht. Zwei Fristen jährlich: 1. Februar (Sommersitzung der Gremien im Juni) und 1. September (Wintersitzung im Februar). Die Frist 01.09.2026 ist abgelaufen; nächster Stichtag 01.02.2027.", "volume": "unconfirmed — see link", "deadline": "2027-02-01", "urgency": "🟢", "status": "Open", "action": "Monitor", "link": "https://www.fritz-thyssen-stiftung.de/en/funding/types-of-support/support-of-projects/", "notes": "⚠️ ZYKLUSWECHSEL (14.09.): Die Frist 01.09.2026 ist verstrichen. Da es sich um ein wiederkehrendes Instrument handelt, wurde die Zeile nicht archiviert, sondern auf den nächsten Stichtag 01.02.2027 fortgeschrieben (Entscheidung in der Sommersitzung im Juni 2027). Fristenraster am 14.09. bestätigt. Hinweis zur Abweichung von der Standardregel: Das Programm ist dauerhaft geöffnet und Anträge auf die"}, {"rank": 13, "fit": "★★★☆☆", "topics": ["behavioral-science", "prevention", "implementation"], "funder": "VolkswagenStiftung", "funderType": "Foundation", "title": "Momentum – Förderung für Erstberufene 2027", "desc": "Förderung für Erstberufene 3–5 Jahre nach der ersten unbefristeten Lebenszeitprofessur an einer deutschen Hochschule (alle Fachgebiete). Zweiphasig: Phase 1 bis €850.000 (4 Jahre), Phase 2 bis €200.000. Als offener Call bestätigt.", "volume": "up to €850,000 Phase 1 + up to €200,000 Phase 2 (6 Jahre)", "deadline": "2027-04-06", "urgency": "🟢", "status": "Open", "action": "Monitor", "link": "https://www.volkswagenstiftung.de/en/funding/funding-offer/momentum-funding-recently-tenured-professors", "notes": "⚠️ VON WATCH IN CALLS ÜBERFÜHRT (28.09.) — am 28.09. auf der VW-Stiftungsseite als offener Call bestätigt (Kurzantragsfrist 06.04.2027, 12:00; Stichtag für Erstberufungs-Fenster 04.04.2028, 12:00). Fachlich offen, gut geeignet für kürzlich berufene CPD-Professor:innen in Verhaltenswissenschaft, Prävention oder Implementierungsforschung. ⚠️ Zulassungsklausel beachten: Das Programm schließt bestimmt"}, {"rank": 14, "fit": "★★★☆☆", "topics": ["behavioral-science", "behavioral-medicine", "prevention", "epidemiology", "implementation"], "funder": "Else Kröner-Fresenius-Stiftung", "funderType": "Foundation", "title": "EKFS Erst- und Zweitantragstellung (ganzjährig)", "desc": "NEU erfasst. Ganzjährig offene Projektförderung der EKFS für den Einstieg in die wissenschaftliche Selbstständigkeit. Antragsberechtigt sind promovierte Ärztinnen und Ärzte sowie in der medizinischen Forschung tätige Lebenswissenschaftlerinnen und -wissenschaftler an Universitätskliniken, Universitäten oder außeruniversitären Forschungseinrichtungen in Deutschland, die das 36. Lebensjahr noch nicht vollendet haben (Anrechnung von Familienzeiten möglich). Beantragt werden Personal- und Sachmittel für das Projekt; Mittel für die eigene Stelle sind ausgeschlossen. Anträge sind jederzeit über das Online-Portal möglich.", "volume": "unconfirmed — see link (Personal- und Sachmittel, ohne eigene Stelle)", "deadline": "rolling", "urgency": "⚪", "status": "Open", "action": "Rolling", "link": "https://ekfs.de/wissenschaftliche-foerderung/foerderlinien/erst-und-zweitantragstellung", "notes": "⚠️ NEUAUFNAHME 21.09. — methodischer Befund dieses Laufs: In den bisherigen Läufen wurde ausschließlich die EKFS-Seite „Ausschreibungen“ geprüft, die derzeit null Ergebnisse zeigt, weshalb mehrere Läufe hintereinander notiert haben, ForTra sei „die einzige offene EKFS-Ausschreibung überhaupt“. Der am 21.09. zusätzlich ausgewertete Ausschreibungskalender zeigt jedoch fünf dauerhaft („ganzjährig“) g"}, {"rank": 15, "fit": "★★★☆☆", "topics": ["translational", "epidemiology"], "funder": "Else Kröner-Fresenius-Stiftung", "funderType": "Foundation", "title": "EKFS Schlüsselprojekte (ganzjährig)", "desc": "Ganzjährig offene EKFS-Förderlinie für international ausgewiesene Forschende mit herausragender Erfolgsbilanz. Gefördert werden hochriskante Projekte mit dem Potenzial für praxisverändernde Entdeckungen (neue Diagnostik/Therapie, leitlinienändernde Studien, hypothesenwidersprechende Befunde). Zweistufiges Verfahren: Skizze, dann Vollantrag.", "volume": "unconfirmed — see link", "deadline": "rolling", "urgency": "⚪", "status": "Open", "action": "Rolling", "link": "https://ekfs.de/en/scientific-funding/funding-lines/key-projects", "notes": "⚠️ NEUAUFNAHME 28.09. — methodischer Nachtrag aus diesem Lauf: Der EKFS-Ausschreibungskalender führt fünf ganzjährig offene Förderlinien statt der bisher zwei erfassten (Erst-/Zweitantragstellung, ForTra Translatorische Projekte). Schlüsselprojekte ist die für CPD zweitrelevanteste der drei neu ergänzten Linien: hoher Anspruch (internationale Sichtbarkeit erforderlich), aber thematisch offen und f"}, {"rank": 16, "fit": "★★☆☆☆", "topics": ["behavioral-science", "health-communication", "implementation", "translational"], "funder": "VolkswagenStiftung", "funderType": "Foundation", "title": "NEXT – „Dual Use“ von Ideen und Konzepten aus den Geistes- und Sozialwissenschaften", "desc": "NEU. Förderlinie für den Transfer geistes- und sozialwissenschaftlicher Ideen und Konzepte in weitere Anwendungsfelder („Dual Use“ im Sinne von Zweitverwertung, nicht im sicherheitspolitischen Sinne). Projektteams aus zwei bis drei promovierten Forschenden in Deutschland; internationale Kooperationen möglich. Frist 06.10.2026.", "volume": "up to €650,000 (bis zu 2 Jahre)", "deadline": "2026-10-06", "urgency": "🔴", "status": "Open", "action": "Monitor", "link": "https://www.volkswagenstiftung.de/en/funding/funding-offer/next-dual-use-ideas-and-concepts-humanities-and-social-sciences", "notes": "⚠️ AKTUALISIERT (21.09.): Volumen und Link korrigiert. Die Stiftung nennt jetzt eindeutig „bis zu €650.000 über eine Laufzeit von bis zu zwei Jahren“; die bisherige Angabe „€450.000/€650.000 je nach Teamgröße“ war nicht belegt. Der Link zeigt nun direkt auf die Programmseite statt auf das Gesamtportfolio. Antragsfrist 06.10.2026 bestätigt — 🔴 15 Tage. Beide Online-Sprechstunden (11.08. deutsch, 08"}, {"rank": 17, "fit": "★★☆☆☆", "topics": ["digital-health", "translational"], "funder": "IHI (Innovative Health Initiative)", "funderType": "EU", "title": "IHI Call 13 (HORIZON-JU-IHI-2026-13-two-stage)", "desc": "Zweistufiger IHI-Call (RIA), Launch 02.07.2026. Drei Topics: European HealthCare Incubator Network; KI-Foundation-Toxikologiemodell zur Reduktion von Tierversuchen; Entschlüsselung der Immuno-Wissenschaft altersbedingter immunvermittelter Erkrankungen. Kurzantrag (Stufe 1) bis 08.10.2026, 17:00; Vollantrag (Stufe 2) 21.04.2027.", "volume": "~€84,800,000 total (max. €53.2M IHI JU + ~€31.6M Industriebeitrag)", "deadline": "2026-10-08", "urgency": "🔴", "status": "Open", "action": "Monitor", "link": "https://www.ihi.europa.eu/ihi-call-13", "notes": "Fristen am 21.09. erneut bestätigt: Stufe 1 (Kurzantrag, max. 20 Seiten) am 08.10.2026, Stufe 2 (Vollantrag, nur nach Einladung) am 21.04.2027 — 🔴 17 Tage. Antragsberechtigt sind Universitäten, Forschungs- und Versorgungseinrichtungen, öffentliche Stellen, KMU, Großunternehmen und Patientenorganisationen in internationalen Konsortien. Periphere CPD-Passung: Von den drei Topics kommt am ehesten das"}, {"rank": 18, "fit": "★★☆☆☆", "topics": ["behavioral-science", "behavioral-medicine", "epidemiology", "climate-health"], "funder": "Wellcome Trust", "funderType": "Foundation", "title": "Wellcome Discovery Awards („always open“ ab 23.09.2026 / Standortgrenze DE 28.10.2026)", "desc": "Wellcomes Hauptinstrument für etablierte Forschende und Teams: ambitionierte, kreative Forschung mit Potenzial für einen Paradigmenwechsel, Laufzeit bis 8 Jahre, im Mittel rund £3,5 Mio. Die aktuelle Runde schließt am 22.09.2026; ab 23.09.2026 wird das Schema auf „always open\" umgestellt und Anträge sind jederzeit möglich.", "volume": "~£3,500,000 im Mittel (bis 8 Jahre)", "deadline": "2026-10-28", "urgency": "🟡", "status": "Open", "action": "Monitor", "link": "https://wellcome.org/research-funding/schemes/wellcome-discovery-awards", "notes": "⚠️ FELDÄNDERUNG (21.09.): Deadline von 22.09.2026 auf 28.10.2026 umgestellt. Begründung: Die terminierte Runde endet zwar am 22.09.2026, 15:00 BST, aber das Schema wird ab dem 23.09.2026 auf „always open“ ohne Fristen umgestellt — in dieser Woche am 21.09. auf der Wellcome-Schemenseite erneut verifiziert. Für CPD ist deshalb nicht der 22.09., sondern die Standortgrenze das bindende Datum: „From 29"}, {"rank": 19, "fit": "★★☆☆☆", "topics": ["behavioral-science", "public-health", "health-communication"], "funder": "VolkswagenStiftung", "funderType": "Foundation", "title": "Opus Magnum (VW Stiftung, Frist 18.11.2026)", "desc": "Freistellung für herausragende Professor:innen der Geistes- und Sozialwissenschaften zur Erarbeitung eines größeren wissenschaftlichen Werks. Finanziert wird eine Lehrstuhlvertretung für 6–18 Monate plus bis €5.000 Sachkosten pro Semester. Frist 18.11.2026.", "volume": "Vertretungsprofessur 6–18 Monate + bis €5,000 Sachkosten/Semester", "deadline": "2026-11-18", "urgency": "🟡", "status": "Open", "action": "Monitor", "link": "https://www.volkswagenstiftung.de/en/funding/funding-offer/opus-magnum", "notes": "Am 21.09. im VW-Förderportfolio erneut bestätigt: Frist 18.11.2026 — 🟡 58 Tage. Online-Q&As auf Deutsch am 03.09. (gelaufen) und am 26.10.2026 (Anmeldung erforderlich). Voraussetzung ist eine unbefristete Professur an einer deutschen Hochschule. Nicht gefördert werden Sammelbände, Editionen, Übersetzungen sowie Lehr- und Nachschlagewerke. Periphere, aber konkrete CPD-Passung für sozial- und verhal"}, {"rank": 20, "fit": "★★☆☆☆", "topics": ["behavioral-science", "public-health", "health-communication"], "funder": "Fritz Thyssen Stiftung", "funderType": "Foundation", "title": "Fritz Thyssen Stiftung – Förderung wissenschaftlicher Tagungen (nächste Frist 30.11.2026)", "desc": "Förderung kleinerer wissenschaftlicher Tagungen in den Förderbereichen der Stiftung, u.a. „Medizin und Naturwissenschaften“ sowie „Staat, Wirtschaft und Gesellschaft“. Vier Fristen pro Jahr: 28.02., 31.05., 31.08., 30.11. Die Frist 31.08.2026 ist abgelaufen; nächster Stichtag 30.11.2026.", "volume": "unconfirmed — see link", "deadline": "2026-11-30", "urgency": "🟡", "status": "Open", "action": "Monitor", "link": "https://www.fritz-thyssen-stiftung.de/foerderung/foerderarten/tagungen/", "notes": "⚠️ ZYKLUSWECHSEL (14.09.): Die Frist 31.08.2026 ist verstrichen; die Zeile wurde als wiederkehrendes Instrument auf den 30.11.2026 fortgeschrieben statt archiviert. Fristenraster am 14.09. bestätigt (28.02. / 31.05. / 31.08. / 30.11.). Wie bei der Thyssen-Projektförderung bleibt der Status „Open\", weil ab sofort auf die November-Frist eingereicht werden kann. 🟡 70 Tage. Kleines, aber praktisches I"}, {"rank": 21, "fit": "★★☆☆☆", "topics": ["all CPD topics (disziplinunabhängig)", "implementation", "epidemiology"], "funder": "DFG (mit BMFTR-Programm 1000-Köpfe-Plus)", "funderType": "National-DE", "title": "DFG „Global Minds in DFG-Verbünden“ — 2. Ausschreibungsrunde (ifw-26-69)", "desc": "NEU. Zweite Runde der DFG-Förderinitiative im Rahmen des BMFTR-Programms 1000-Köpfe-Plus. DFG-geförderte Verbünde können hoch qualifizierte, seit mindestens drei Jahren im Ausland tätige Wissenschaftler:innen gewinnen. Zwei Module: „Professur“ (bis €3,5 Mio., Berufung auf eine Langzeit-Professur) und „Mercator Fellow Global“ (bis €650.000, 15–36 Monate Präsenz im Verbund). Förderdauer fünf Jahre, Förderbeginn 2028. Neu in dieser Runde: neben Exzellenzclustern und Sonderforschungsbereichen sind nun auch Forschungsimpulse und Graduiertenkollegs antragsberechtigt.", "volume": "up to €3,500,000 (Modul Professur) / up to €650,000 (Modul Mercator Fellow Global)", "deadline": "2026-12-08", "urgency": "🟡", "status": "Open (pre-prop)", "action": "Monitor", "link": "https://www.dfg.de/de/aktuelles/neuigkeiten-themen/info-wissenschaft/2026/ifw-26-69", "notes": "⚠️ NEUAUFNAHME 21.09. — am 17.09.2026 als ifw-26-69 veröffentlicht und damit neu seit dem letzten Sweep. ⚠️ Zugangsvoraussetzung genau prüfen, sie bestimmt den ★★-Score: Antragsberechtigt sind ausschließlich laufende DFG-Verbünde (EXC, FIP, GRK, SFB/TRR), der Antrag wird von der/den antragstellenden Hochschule(n) gemeinsam mit der Kandidatin oder dem Kandidaten gestellt, maximal ein Antrag pro Ver"}, {"rank": 22, "fit": "★★☆☆☆", "topics": ["translational", "implementation", "digital-health"], "funder": "Else Kröner-Fresenius-Stiftung / ForTra", "funderType": "Foundation", "title": "EKFS/ForTra — Translatorische Projekte (ganzjährig)", "desc": "NEU erfasst; tritt an die Stelle der zum 15.09.2026 abgelaufenen ForTra-Ausschreibung für regulatorische Beratungen. Die ForTra gGmbH für Forschungstransfer der EKFS fördert ganzjährig translatorische Projekte, deren Überführung in die Klinik im Rahmen einer First-in-human-Studie zeitnah bevorsteht. Vertragspartner der ForTra ist das deutsche Forschungsinstitut, an dem die Antragstellenden beschäftigt sind.", "volume": "unconfirmed — see link", "deadline": "rolling", "urgency": "⚪", "status": "Open", "action": "Rolling", "link": "https://ekfs.de/wissenschaftliche-foerderung/foerderlinien/translatorische-projekte", "notes": "⚠️ NEUAUFNAHME 21.09. als Nachfolge der archivierten ForTra-Beratungsausschreibung. Am 21.09. im EKFS-Ausschreibungskalender als ganzjährig geöffnete Förderlinie bestätigt. Periphere CPD-Passung — relevant nur bei CPD-Vorhaben mit Produkt- oder Interventionsentwicklung, die konkret auf eine erste Anwendung am Menschen zusteuern; für verhaltens- oder kommunikationsbasierte Interventionen ohne Arzne"}, {"rank": 23, "fit": "★★☆☆☆", "topics": ["health-communication"], "funder": "Else Kröner-Fresenius-Stiftung", "funderType": "Foundation", "title": "Else Kröner Symposien (ganzjährig)", "desc": "Ganzjährig offene EKFS-Förderlinie zur Finanzierung wissenschaftlicher Symposien an deutschen Hochschulen mit Clinician-Scientist- bzw. Medical-Scientist-Ausbildungsprogrammen. Die Hochschule übernimmt die Organisation vor Ort.", "volume": "unconfirmed — see link", "deadline": "rolling", "urgency": "⚪", "status": "Open", "action": "Rolling", "link": "https://ekfs.de/en/scientific-funding/funding-lines/else-kroener-symposiums", "notes": "⚠️ NEUAUFNAHME 28.09. im Zuge der Nachprüfung des vollständigen EKFS-Ausschreibungskalenders (siehe Notiz bei Schlüsselprojekte). Eher ein Vernetzungs-/Dissemination-Instrument als eine Forschungsförderung im engeren Sinne; peripher, aber mit geringem Aufwand nutzbar, sofern CPD ein Clinician-Scientist- oder Medical-Scientist-Ausbildungsformat betreibt oder anstrebt."}, {"rank": 24, "fit": "★★☆☆☆", "topics": ["public-health", "health-equity"], "funder": "Else Kröner-Fresenius-Stiftung", "funderType": "Foundation", "title": "EKFS Reguläre Förderlinie humanitärer Bereich (ganzjährig)", "desc": "Ganzjährig offene Förderlinie des humanitären Bereichs der EKFS für öffentlich-rechtliche Gesundheitseinrichtungen (u.a. Universitätskliniken) und gemeinnützige medizinische Organisationen in Deutschland oder im europäischen Ausland.", "volume": "unconfirmed — see link", "deadline": "rolling", "urgency": "⚪", "status": "Open", "action": "Rolling", "link": "https://ekfs.de/en/humanitarian-funding/funding-lines/regular-line-of-funding", "notes": "⚠️ NEUAUFNAHME 28.09. im Zuge der Nachprüfung des vollständigen EKFS-Ausschreibungskalenders (siehe Notiz bei Schlüsselprojekte). Nur relevant, wenn CPD über eine Klinik- oder NGO-Partnerschaft einen humanitätsmedizinischen Zugang wählt; peripher zum Kernforschungsauftrag von CPD."}];
+const TOPICS = ["behavioral-medicine", "behavioral-science", "climate-health", "digital-health", "early-childhood", "epidemiology", "health-communication", "health-equity", "health-promotion", "implementation", "prevention", "primary-care", "public-health", "translational"];
+const FUNDER_TYPES = ["EU", "Foundation", "National-DE"];
+const urgencyLabel = {urgent:"🔴 urgent", soon:"🟡 upcoming", later:"🟢 comfortable", rolling:"⚪ rolling"};
+
+const fTopic = document.getElementById('fTopic');
+TOPICS.forEach(t => { const o=document.createElement('option'); o.value=t; o.textContent=t; fTopic.appendChild(o); });
+const fFunder = document.getElementById('fFunder');
+FUNDER_TYPES.forEach(t => { const o=document.createElement('option'); o.value=t; o.textContent=t; fFunder.appendChild(o); });
+
+const urgencyClass = {"\uD83D\uDD34":"urgent","\uD83D\uDFE1":"soon","\uD83D\uDFE2":"later","\u26AA":"rolling"};
+
+function render() {
+  const topic = fTopic.value, urg = document.getElementById('fUrgency').value,
+        funder = fFunder.value, q = document.getElementById('fSearch').value.toLowerCase();
+  const container = document.getElementById('cards');
+  container.innerHTML = '';
+  let shown = 0;
+  DATA.forEach(c => {
+    const uc = urgencyClass[c.urgency] || 'rolling';
+    if (topic && !c.topics.includes(topic)) return;
+    if (urg && uc !== urg) return;
+    if (funder && c.funderType !== funder) return;
+    if (q && !(c.title.toLowerCase().includes(q) || c.funder.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q))) return;
+    shown++;
+    const div = document.createElement('div');
+    div.className = 'card';
+    const actionClass = c.action === 'Rolling' ? 'rolling' : (c.action === 'Monitor' ? 'monitor' : '');
+    div.innerHTML = `
+      <div class="top">
+        <h3>${c.title}</h3>
+        <span class="badge">${c.funderType}</span>
+      </div>
+      <div class="meta">${c.funder}</div>
+      <div class="fit">${c.fit}</div>
+      <div class="desc">${c.desc}</div>
+      <div class="meta"><span class="dot ${uc}"></span>${c.deadline} &nbsp;·&nbsp; ${c.volume}</div>
+      <div class="pills">${c.topics.map(t => `<span class="pill">${t}</span>`).join('')}</div>
+      <div class="footer-row">
+        <span class="action ${actionClass}">${c.action}</span>
+        <a class="link-btn" href="${c.link}" target="_blank" rel="noopener">View call →</a>
+      </div>`;
+    container.appendChild(div);
   });
-  c.textContent=n+' von 23 Calls';
+  document.getElementById('fCount').textContent = shown + ' of ' + DATA.length + ' calls';
 }
-[ft,fu,fy].forEach(function(el){el.addEventListener('change',apply)});
-q.addEventListener('input',apply);
-document.getElementById('reset').addEventListener('click',function(){
-  ft.value='';fu.value='';fy.value='';q.value='';apply();
-});
-apply();
+[fTopic, document.getElementById('fUrgency'), fFunder, document.getElementById('fSearch')]
+  .forEach(el => el.addEventListener('input', render));
+render();
 </script>
-</body></html>
+</body>
